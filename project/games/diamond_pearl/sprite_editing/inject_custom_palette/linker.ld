@@ -4,7 +4,7 @@ MEMORY {
 
 SECTIONS {
     .text : {
-        _start = 0x023AA900;
+        _start = 0x023AA980;
         KEEP(*(.text.main))
         KEEP(*(.text.main_thumb))
         *(.text.startup)

@@ -6,7 +6,11 @@ enable_language(ASM)
 set(OUT_DIR ${CMAKE_CURRENT_SOURCE_DIR}/out)
 
 set(GAMES_DIR ${CMAKE_CURRENT_SOURCE_DIR}/games)
-set(GAME_NAMES diamond_pearl platinum heartgold_soulsilver)
+set(GAME_NAMES 
+    #diamond_pearl 
+    #platinum 
+    heartgold_soulsilver
+    )
 
 add_custom_target(make_output_dirs ALL)
 
