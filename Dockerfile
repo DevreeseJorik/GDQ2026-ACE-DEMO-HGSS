@@ -6,7 +6,7 @@ LABEL description="docker image for hosting a GTS server injecting remote code i
 
 RUN DEBIAN_FRONTEND=noninteractive apt-get update -y &&  \
     DEBIAN_FRONTEND=noninteractive apt-get upgrade -y &&  \
-    DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -y build-essential git libpng-dev gdebi-core python3 python3-pip cmake automake libnewlib-arm-none-eabi libnewlib-dev libstdc++-arm-none-eabi-dev libstdc++-arm-none-eabi-newlib gcc-arm-none-eabi mono-devel && \
+    DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -y build-essential git libpng-dev gdebi-core python3 python3-pip cmake automake libnewlib-arm-none-eabi libnewlib-dev libstdc++-arm-none-eabi-dev libstdc++-arm-none-eabi-newlib gcc-arm-none-eabi mono-devel bsdmainutils && \
     DEBIAN_FRONTEND=noninteractive apt-get update -y
 
 ADD build /tmp
