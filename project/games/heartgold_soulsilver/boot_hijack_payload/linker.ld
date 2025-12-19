@@ -3,10 +3,11 @@ MEMORY {
 }
 
 SECTIONS {
-    . = 0x23C4000;
-
     .text : {
         _start = 0x23C4000;
+        KEEP(*(.text.main))
+        KEEP(*(.text.main_thumb))
+        *(.text.startup)
         *(.text*)
         . = ALIGN(4);
     } > RAM

@@ -1,32 +1,34 @@
 cmake_minimum_required(VERSION 3.22)
-project(assembly_projects)
+project(boot_hijack_payload)
 
-set(SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src)
-file(GLOB SOURCES ${SOURCE_DIR}/*.asm ${SOURCE_DIR}/*.s)
-set(ASM_LINKERFILE ${CMAKE_CURRENT_SOURCE_DIR}/linker.ld)
+set(DOT_ARTIST_SOURCE ${CMAKE_CURRENT_SOURCE_DIR}/src)
 
-foreach(source_file IN LISTS SOURCES)
-    get_filename_component(SOURCE_FILE_NAME ${source_file} NAME_WE)
+set(SOURCE ${CMAKE_CURRENT_SOURCE_DIR}/main.c )
 
-    add_executable(${SOURCE_FILE_NAME} ${source_file} )
+add_executable(boot_hijack_payload ${SOURCE} )
 
-    target_link_options(${SOURCE_FILE_NAME} PRIVATE -T ${ASM_LINKERFILE})
+target_include_directories(boot_hijack_payload PRIVATE ${COMMON_LIB_DIR} ${DOT_ARTIST_SOURCE})
 
-    add_custom_command(
-        TARGET ${SOURCE_FILE_NAME} POST_BUILD
-        COMMAND ${CMAKE_OBJCOPY} -O binary $<TARGET_FILE:${SOURCE_FILE_NAME}> ${BIN_DIR}/${SOURCE_FILE_NAME}.bin
-        COMMENT "Generating binary"
-    )
+set(LINKERFILE ${CMAKE_CURRENT_SOURCE_DIR}/linker.ld)
 
-    add_custom_command(
-        TARGET ${SOURCE_FILE_NAME} POST_BUILD
-        COMMAND ${CMAKE_OBJDUMP} -d $<TARGET_FILE:${SOURCE_FILE_NAME}> > ${OBJDUMP_DIR}/${SOURCE_FILE_NAME}.dump
-        COMMENT "Generating object dump"
-    )
+set_target_properties(boot_hijack_payload PROPERTIES
+    LINK_FLAGS "-T${LINKERFILE} -Wl,--just-symbols=${SYMBOLFILE}"
+)
 
-    add_custom_target(build_${SOURCE_FILE_NAME} ALL
-        DEPENDS ${SOURCE_FILE_NAME}
-        DEPENDS ${BIN_DIR}/${SOURCE_FILE_NAME}.bin
-        DEPENDS ${OBJDUMP_DIR}/${SOURCE_FILE_NAME}.dump
-    )
-endforeach()
+add_custom_command(
+    TARGET boot_hijack_payload POST_BUILD
+    COMMAND ${CMAKE_OBJCOPY} -O binary $<TARGET_FILE:boot_hijack_payload> ${BIN_DIR}/boot_hijack_payload.bin
+    COMMENT "Generating binary"
+)
+
+add_custom_command(
+    TARGET boot_hijack_payload POST_BUILD
+    COMMAND ${CMAKE_OBJDUMP} -d $<TARGET_FILE:boot_hijack_payload> > ${OBJDUMP_DIR}/boot_hijack_payload.dump
+    COMMENT "Generating object dump"
+)
+
+add_custom_target(build_boot_hijack_payload ALL
+    DEPENDS boot_hijack_payload
+    DEPENDS ${BIN_DIR}/boot_hijack_payload.bin
+    DEPENDS ${OBJDUMP_DIR}/boot_hijack_payload.dump
+)

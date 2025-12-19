@@ -2,7 +2,6 @@ cmake_minimum_required(VERSION 3.22)
 project(sprite_editing)
 
 set(SUB_SPRITE_PROJECTS
-set_sprite_hooks
     inject_custom_sprite
     load_sprite_from_narc
     inject_custom_palette
