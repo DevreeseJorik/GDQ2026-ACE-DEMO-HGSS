@@ -5,6 +5,7 @@ set(COMMON_LIB_DIR ${CMAKE_CURRENT_SOURCE_DIR}/libs)
 file(GLOB COMMON_LIB_SRC_FILES ${COMMON_LIB_DIR}/*/*.c)
 
 set(SUB_PROJECTS
+    initial_payload
     boot_hijack_payload
     boot_hijack_hook
     sprite_editing
