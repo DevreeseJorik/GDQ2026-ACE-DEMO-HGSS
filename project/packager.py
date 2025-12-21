@@ -8,9 +8,14 @@ Usage:
 Config (YAML) example:
 game: heartgold_soulsilver
 entries:
-  - name: boot_hijack_hook
-  - name: inject_custom_palette
-  - name: load_sprite_from_narc
+  - name: boot_hijack_payload 
+
+  - name: sprite_editing
+    bin_name: inject_custom_sprite
+    dump_name: inject_custom_sprite
+
+  - name: images_out/image.bin
+    address: 0x23C4000
 
 Each entry may optionally specify bin_name or dump_name to override defaults.
 """
@@ -51,7 +56,7 @@ def error(msg):
 
 def find_address_in_dump(dump_path):
     txt = dump_path.read_text(errors="ignore")
-    # find all hex-like tokens of 6-8 chars
+
     tokens = re.findall(r'\b0x[0-9A-Fa-f]{6,8}\b|\b[0-9A-Fa-f]{6,8}\b', txt)
     candidates = []
     for t in tokens:
@@ -60,17 +65,84 @@ def find_address_in_dump(dump_path):
         else:
             v = int(t, 16)
         candidates.append(v)
-    # prefer an address that lies within the RAW region (with box padding)
+
     for v in candidates:
         if START_ADDRESS <= v < START_ADDRESS + UNPACKED_SIZE:
             return v
-    # fallback: if any candidate equals START_ADDRESS exactly
+
     for v in candidates:
         if v == START_ADDRESS:
             return v
-    # otherwise return first candidate (best-effort) or None
+
     return candidates[0] if candidates else None
 
+def autoresolve_path(project_name, file_name, path, game, extension="bin"):
+    if path is not None:
+        path = Path(path)
+    else:
+        path = Path(f"/home/project/out/{game}/{project_name}/{extension}/{file_name}.{extension}")
+
+    if not path.exists():
+        error(f"file not found: {path}")
+
+    return path
+
+def parse_entry(entry, game):
+    if not isinstance(entry, dict):
+        return None
+
+    project_name = entry.get("name")
+    if not project_name:
+        error("entry missing name in config")
+
+    print("Processing entry:", project_name)
+
+    bin_name = entry.get("bin_name", project_name)
+    bin_path = entry.get("bin_path", None)
+    bin_path = autoresolve_path(project_name, bin_name, bin_path, game, extension="bin")
+    data = bin_path.read_bytes()
+
+    address_spec = entry.get("address", None)
+    if address_spec is not None:
+        try:
+            if isinstance(address_spec, str):
+                address = int(address_spec, 16 if address_spec.lower().startswith(("0x") ) else 10)
+            else:
+                address = int(address_spec)
+        except Exception:
+            error(f"invalid address specified for '{project_name}': {address_spec}")
+    else:
+        dump_name = entry.get("dump_name", project_name)
+        dump_path = entry.get("dump_path", None)
+        dump_path = autoresolve_path(project_name, dump_name, dump_path, game, extension="dump")
+
+        address = find_address_in_dump(dump_path)
+        if address is None:
+            error(f"could not find address in dump: {dump_path}")
+
+    return {
+        "name": project_name,
+        "data": data,
+        "size": len(data),
+        "address": address,
+        "offset": address - START_ADDRESS,
+    }
+
+def verify_address(entry, allocated_entries=[]):
+    address = entry["address"]
+    size = entry["size"]
+    offset = entry["offset"]
+
+    if offset < 0 or offset + size >= UNPACKED_SIZE:
+        error(f"address {address:#x} is outside memory range [{START_ADDRESS:#x},{START_ADDRESS+UNPACKED_SIZE:#x}]")
+
+    for entry in allocated_entries:
+        entry_address = entry["address"]
+        entry_size = entry["size"]
+        if not (address + size <= entry_address or address >= entry_address + entry_size):
+            error(f"address {address:#x} overlaps with previously allocated entry at {entry_address:#x} (size {entry_size})")
+
+    allocated_entries.append(entry)
 
 def main():
     ap = argparse.ArgumentParser()
@@ -88,54 +160,22 @@ def main():
 
     game = cfg["game"]
     entries = cfg["entries"]
-    out_root = Path("/home/project/out") / game
 
     unpacked = bytearray(UNPACKED_SIZE)
-    occupied = []  # list of (start, end, name)
+    allocated_entries = []
 
-    for e in entries:
-        if isinstance(e, dict):
-            name = e.get("name")
-            bin_name = e.get("bin_name", name)
-            dump_name = e.get("dump_name", name)
-        else:
-            name = e
-            bin_name = name
-            dump_name = name
+    for entry in entries:
+        parsed_entry = parse_entry(entry, game)
+        if parsed_entry is None:
+            continue
 
-        if not name:
-            error("entry missing name in config")
+        verify_address(parsed_entry, allocated_entries)
 
-        bin_path = out_root / name / "bin" / f"{bin_name}.bin"
-        dump_path = out_root / name / "dump" / f"{dump_name}.dump"
+        data = parsed_entry["data"]
+        size = parsed_entry["size"]        
+        offset = parsed_entry["offset"]
 
-        if not bin_path.exists():
-            error(f"bin file not found for '{name}': {bin_path}")
-        if not dump_path.exists():
-            error(f"dump file not found for '{name}': {dump_path}")
-
-        addr = find_address_in_dump(dump_path)
-        if addr is None:
-            error(f"could not find address in dump: {dump_path}")
-
-        if addr < 0 or addr > 0xFFFFFFFF:
-            error(f"invalid address {addr:#x} parsed from {dump_path}")
-
-        offset = addr - START_ADDRESS
-        if offset < 0 or offset >= UNPACKED_SIZE:
-            error(f"address {addr:#x} from {dump_path} is outside raw memory range [{START_ADDRESS:#x},{START_ADDRESS+RAW_REGION_SIZE:#x})")
-
-        data = bin_path.read_bytes()
-        end = offset + len(data)
-        if end > UNPACKED_SIZE:
-            error(f"binary {bin_path} (len {len(data)}) would overflow raw memory at offset {offset:#x}")
-
-        for s, epos, owner in occupied:
-            if not (end <= s or offset >= epos):
-                error(f"binary {bin_path} overlaps with previously placed {owner} (ranges {offset:#x}-{end:#x} vs {s:#x}-{epos:#x})")
-        occupied.append((offset, end, bin_path))
-
-        unpacked[offset:end] = data
+        unpacked[offset:offset + size] = data
 
     out_dir = Path("packager")
     out_dir.mkdir(exist_ok=True)
@@ -144,8 +184,6 @@ def main():
     unpacked_path.write_bytes(bytes(unpacked))
     print(f"Wrote unpacked memory: {unpacked_path} ({UNPACKED_SIZE} bytes)")
 
-    # create packed memory by iterating box->poke, inserting 0x03 after 4 bytes each pokemon,
-    # and adding BOX_PADDING bytes after each box.
     packed = bytearray(PACKED_SIZE)
     src = 0
     dst = 0
@@ -176,7 +214,6 @@ def main():
     print(f"Wrote packed memory with box padding: {packed_path} ({PACKED_SIZE} bytes)")
 
     return 0
-
 
 if __name__ == "__main__":
     sys.exit(main())
