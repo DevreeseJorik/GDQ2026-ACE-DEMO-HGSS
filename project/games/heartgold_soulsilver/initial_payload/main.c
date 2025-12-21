@@ -34,6 +34,6 @@ main(void) {
       "add r1, r1, #0xFE\n"
       "str r1, [r0, #0x8]\n"); // advance command pointer to past arbitrary code
   unpack_box_data((u8 *)0x23C4000);
-  write_u32_16bit_alligned((u16 *)0x01ff81d4, 0x2f89eb0f);
+  write_u32((u32 *)0x01ff81d4, 0xeb0f2f89);
   __asm__ volatile("pop {r0-r7, pc}\n");
 }

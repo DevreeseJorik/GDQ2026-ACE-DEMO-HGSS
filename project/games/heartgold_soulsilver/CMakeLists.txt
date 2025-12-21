@@ -8,6 +8,10 @@ set(SUB_PROJECTS
     initial_payload
     boot_hijack_payload
     boot_hijack_hook
+    cardi_hijack_payload
+    cardi_hijack_hook
+    uncompressor_hijack_payload
+    uncompressor_hijack_hook
     sprite_editing
     sprite_narc_hook
     sprite_inject_hook
