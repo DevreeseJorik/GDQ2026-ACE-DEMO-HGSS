@@ -47,6 +47,10 @@ class ImageConverter:
 
     def save_converted_image(self, output_path):
         """Saves the converted pixel data to a binary file, including the actual 16-bit colors."""
+        dirpath = os.path.dirname(output_path)
+        if dirpath:
+            os.makedirs(dirpath, exist_ok=True)
+
         with open(output_path, 'wb') as f:
             f.write(self.converted_image)
             for color in self.color_map:
