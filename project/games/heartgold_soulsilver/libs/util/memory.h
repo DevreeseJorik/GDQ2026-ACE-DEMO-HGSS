@@ -27,13 +27,13 @@ static inline void write_u32_16bit_alligned(u16 *address, u32 value) {
 
 static inline u16 read_u16_unaligned(u16 *addr) {
   u16 value;
-  memcp(addr, &value, sizeof(u16));
+  memcp(&value, addr, sizeof(u16));
   return value;
 }
 
 static inline u32 read_u32_unaligned(u32 *addr) {
   u32 value;
-  memcp(addr, &value, sizeof(u32));
+  memcp(&value, addr, sizeof(u32));
   return value;
 }
 
@@ -43,11 +43,11 @@ static inline u16 read_u16(u16 *address) { return *address; }
 static inline u32 read_u32(u32 *address) { return *address; }
 
 static inline void write_u16_unaligned(u16 *addr, u16 value) {
-  memcp(&value, addr, sizeof(u16));
+  memcp(addr, &value, sizeof(u16));
 }
 
 static inline void write_u32_unaligned(u32 *addr, u32 value) {
-  memcp(&value, addr, sizeof(u32));
+  memcp(addr, &value, sizeof(u32));
 }
 
 #endif // _MEMORY_H
