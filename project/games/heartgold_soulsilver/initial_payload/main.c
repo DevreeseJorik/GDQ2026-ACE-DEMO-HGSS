@@ -1,21 +1,27 @@
 #include "util/memory.h"
 
-void recombine_box_data_chunks(u8 *destAddress) {
+void unpack_box_data(u8 *destAddress) {
   static u32 *baseAddress = (u32 *)0x021D2228;
   static u16 boxDataOffset = 0xF710;
 
   static u8 pokeCount = 30;
   static u8 boxCount = 18;
   static u8 pokeDataSize = 0x88;
+  static u8 boxPaddingSize = 0x10;
 
   u32 *basePointer = (u32 *)(*baseAddress);
-  u32 *boxDataAddress = (u32 *)(basePointer + boxDataOffset / sizeof(u32));
+  u8 *boxDataAddress = (u8 *)(basePointer) + boxDataOffset;
 
-  for (int i = 0; i < pokeCount * boxCount; i++) {
-    u8 *boxDataEntryAddress = (u8 *)boxDataAddress + (i * pokeDataSize);
-    memcp(destAddress, boxDataEntryAddress, 0x4);
-    memcp(destAddress + 0x4, boxDataEntryAddress + 0x5, pokeDataSize - 0x5);
-    destAddress += (pokeDataSize - 0x1);
+  u8 *srcAddress = boxDataAddress;
+  for (u32 box = 0; box < boxCount; box++) {
+    for (u32 poke = 0; poke < pokeCount; poke++) {
+      u8 pokeEntry = box * pokeCount + poke;
+      memcp(destAddress, srcAddress, 0x4);
+      memcp(destAddress + 0x4, srcAddress + 0x5, pokeDataSize - 0x5);
+      srcAddress += pokeDataSize;
+      destAddress += (pokeDataSize - 0x1);
+    }
+    srcAddress += boxPaddingSize;
   }
 }
 
@@ -25,9 +31,9 @@ main(void) {
   __asm__ volatile(
       "push {r0-r7, lr}\n"
       "ldr r1, [r0, #0x8]\n"
-      "add r1, r1, #0x70\n"
+      "add r1, r1, #0xFE\n"
       "str r1, [r0, #0x8]\n"); // advance command pointer to past arbitrary code
-  recombine_box_data_chunks((u8 *)0x23C4000);
+  unpack_box_data((u8 *)0x23C4000);
   write_u32_16bit_alligned((u16 *)0x01ff81d4, 0x2f89eb0f);
   __asm__ volatile("pop {r0-r7, pc}\n");
 }
