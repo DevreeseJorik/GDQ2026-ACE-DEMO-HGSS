@@ -1,0 +1,15 @@
+game: heartgold_soulsilver
+entries:
+  - name: boot_hijack_payload
+
+  - name: sprite_editing
+    bin_name: inject_custom_palette
+    dump_name: inject_custom_palette
+
+  - name: sprite_editing
+    bin_name: inject_custom_sprite
+    dump_name: inject_custom_sprite
+
+  - name: sprite_editing
+    bin_name: load_sprite_from_narc
+    dump_name: load_sprite_from_narc
