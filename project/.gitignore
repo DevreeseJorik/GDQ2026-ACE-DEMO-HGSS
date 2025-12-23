@@ -1,2 +1,4 @@
 build/*
 out/*
+packager/*
+images_out/*
