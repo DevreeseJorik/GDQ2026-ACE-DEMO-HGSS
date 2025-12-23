@@ -20,6 +20,8 @@ typedef struct {
 } PALETTE;
 
 typedef struct {
+  u16 archive_id;
+  u16 sprite_id;
   PIXEL_BUFFER pixelBuffer;
   PALETTE palette;
 } CUSTOM_POKEMON;
@@ -131,8 +133,13 @@ typedef struct {
   SPRITE_DATA *spriteData;
 } SPRITE_INFO;
 
-#define SPRITE_INFO_ADDRESS (SPRITE_INFO *)0x23C8000
-#define CUSTOM_POKEMON_BUFFERS (CUSTOM_POKEMON *)0x23C8800
+#define CUSTOM_POKEMON_COUNT 12
+typedef struct {
+  SPRITE_INFO spriteInfo;
+  CUSTOM_POKEMON customPokemon[CUSTOM_POKEMON_COUNT];
+} CUSTOM_POKEMON_MANAGER;
+
+static CUSTOM_POKEMON_MANAGER *manager = (CUSTOM_POKEMON_MANAGER *)0x23C8000;
 
 #define MAX_SPRITE_ID 4 * 492
 
@@ -152,38 +159,50 @@ static inline void set_sprite_hooks() {
   write_u32((u32 *)0x0200999c, 0xfc30f3bb);
 }
 
-static inline CUSTOM_POKEMON *getCustomPokemon(SPRITE_INFO *spriteInfo) {
-  return CUSTOM_POKEMON_BUFFERS;
+BOOL inline isValidPointer(void *ptr) {
+  return ((u32)ptr >= 0x02000000 && (u32)ptr < 0x023E0000);
+}
 
-  // Once sprite data expansion is possible:
-  // SPRITE_ARCHIVE_INFO* archiveInfo =
-  // &spriteInfo->spriteData->archive_info[1];
-  // if (archiveInfo->archive_id > MAX_SPRITE_ID) {
-  // 	return CUSTOM_POKEMON_BUFFERS; // + (archiveInfo->archive_id -
-  // MAX_SPRITE_ID) * sizeof(CUSTOM_POKEMON);
-  // }
-  // return NULL;
+static inline CUSTOM_POKEMON *getCustomPokemon() {
+  SPRITE_INFO *spriteInfo = &manager->spriteInfo;
+  if (!isValidPointer(spriteInfo->spriteData))
+    return NULL;
+
+  SPRITE_ARCHIVE_INFO *archiveInfo = &spriteInfo->spriteData->archive_info[1];
+
+  for (int i = 0; i < 1; i++) {
+    CUSTOM_POKEMON *customPokemon = &manager->customPokemon[i];
+    // if (customPokemon->archive_id == archiveInfo->archive_id)
+    //  &&
+    //      customPokemon->sprite_id == archiveInfo->sprite_id) {
+    return customPokemon;
+    // }
+  }
+
+  return NULL;
 }
 
 static inline void loadSpriteFromNarc() {
   WITH_CURRENT_REGSTATE(tryLoadSpriteFromNarc, 2);
 
   register BOOL success asm("r0");
-  register SPRITE_DATA *spriteData asm("r5");
+  register SPRITE_DATA *spriteData asm("r6");
 
-  SPRITE_INFO *spriteInfo = SPRITE_INFO_ADDRESS;
+  SPRITE_INFO *spriteInfo = &manager->spriteInfo;
   spriteInfo->loadSprite = success;
   spriteInfo->spriteData = spriteData;
 }
 
 static inline void loadOrInjectSprite() {
   register PIXEL_BUFFER *pixelBuffer asm("r0");
+  register uint32_t gameId asm("r1");
 
-  CUSTOM_POKEMON *customPokemon = getCustomPokemon(SPRITE_INFO_ADDRESS);
+  CUSTOM_POKEMON *customPokemon = getCustomPokemon();
   if (customPokemon != NULL) {
     memcp(pixelBuffer, &customPokemon->pixelBuffer, sizeof(PIXEL_BUFFER));
   } else {
-    decodeSprite((void *)pixelBuffer);
+    decodeSprite((void *)pixelBuffer, gameId);
+    // memcp(pixelBuffer, &customPokemon->pixelBuffer, sizeof(PIXEL_BUFFER));
   }
 }
 

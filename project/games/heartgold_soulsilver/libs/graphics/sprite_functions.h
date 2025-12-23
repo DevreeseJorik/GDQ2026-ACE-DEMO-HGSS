@@ -10,9 +10,9 @@ static inline BOOL tryLoadSpriteFromNarc(void *dest, NarcSpriteData *src) {
   return fp_tryLoadSpriteFromNarc(dest, src);
 }
 
-#define fp_decodeSprite fp_thumb(0x02008a74, void, (void *))
-static inline void decodeSprite(void *spriteBuffer) {
-  fp_decodeSprite(spriteBuffer);
+#define fp_decodeSprite fp_thumb(0x02009d28, void, (void *, uint32_t))
+static inline void decodeSprite(void *spriteBuffer, uint32_t gameId) {
+  fp_decodeSprite(spriteBuffer, gameId);
 }
 
 #define fp_tryLoadPaletteFromNarc                                              \
