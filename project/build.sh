@@ -6,8 +6,10 @@ make
 
 cd ..
 
-python3 ../assets/image_converter.py -input_path=images_in -output_path=images_out
+image_converter.py -i=assets -o=/home/project/output/images/bins
 
-python3 packager.py 
-./dump.sh packager/packed.bin > packager/packed_dump.txt
-./dump.sh packager/unpacked.bin > packager/unpacked_dump.txt
+mkdir /home/project/output/packages
+packager.py -i=/home/project/output/payloads -o=/home/project/output/packages/bins/
+
+qhexdump /home/project/output/packages/bins/packed.bin > /home/project/output/packages/bins/packed_dump.txt
+qhexdump /home/project/output/packages/bins/unpacked.bin > /home/project/output/packages/bins/unpacked_dump.txt

@@ -6,8 +6,8 @@ local giftDataPointer = basePointer + giftDataOffset
 local boxDataPointer = basePointer + boxDataOffset
 
 local config = {
-    giftDataFile = "out/heartgold_soulsilver/initial_payload/bin/initial_payload.bin",
-    boxDataFile = "packager/packed.bin"
+    giftDataFile = "output/payloads/bins/initial_payload.bin",
+    boxDataFile = "output/packages/bins/packed.bin"
 }
 
 local function writeBinToMemory(filePath, memoryAddress)

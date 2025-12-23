@@ -1,23 +1,16 @@
-game: heartgold_soulsilver
 entries:
-  - name: boot_hijack_payload
+  - name: reboot
 
-  - name: uncompressor_hijack_payload
+  - name: uncompressor
 
-  - name: cardi_hijack_payload
+  - name: cardi_readcard
 
-  - name: sprite_editing
-    bin_name: inject_custom_palette
-    dump_name: inject_custom_palette
+  - name: palette_load
 
-  - name: sprite_editing
-    bin_name: inject_custom_sprite
-    dump_name: inject_custom_sprite
+  - name: sprite_load
 
-  - name: sprite_editing
-    bin_name: load_sprite_from_narc
-    dump_name: load_sprite_from_narc
+  - name: narc_sprite_load
 
   - name: beta_arceus_image
-    bin_path: images_out/beta_arceus.bin
+    bin_path: output/images/bins/beta_arceus.bin
     address: 0x23C8800

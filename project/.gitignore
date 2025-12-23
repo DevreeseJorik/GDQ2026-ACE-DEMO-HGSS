@@ -1,4 +1,4 @@
 build/*
-out/*
-packager/*
+output/*
 images_out/*
+packager/bins/*
