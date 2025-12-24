@@ -11,6 +11,19 @@ entries:
 
   - name: _sub_PokepicManager_BufferCharData_1
 
+  - name: arceus_sprite_details
+    bytes: [ 0x72, 0x0, 0x61, 0x0 ]
+    address: 0x23C8000
+  
   - name: beta_arceus_image
     bin_path: output/images/bins/beta_arceus.bin
-    address: 0x23C8800
+    address: auto
+
+  - name: fearow_sprite_details
+    bytes: [0x4, 0x0, 0x86, 0x0]
+    address: auto
+
+  - name: fearow_image
+    bin_path: output/images/bins/test.bin
+    address: auto
+    
