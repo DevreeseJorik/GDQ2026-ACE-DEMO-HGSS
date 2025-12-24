@@ -1,10 +1,10 @@
 #ifndef _POKESPRITE_H
 #define _POKESPRITE_H
 
-#include "util/functions.h"
-#include "util/macros.h"
-#include "util/memory.h"
-#include "util/types.h"
+#include "libs/util/functions.h"
+#include "libs/util/macros.h"
+#include "libs/util/memory.h"
+#include "libs/util/types.h"
 
 #include "sprite_functions.h"
 
