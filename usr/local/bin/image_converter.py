@@ -58,6 +58,8 @@ class ImageConverter:
             for color in self.color_map:
                 color_16bit = self.rgba_to_rgba5(color)
                 f.write(struct.pack('H', color_16bit))
+            for _ in range(len(self.color_map), 16):
+                f.write(struct.pack('H', 0))
 
     def print_palette(self):
         """Prints out all the unique colors sorted by frequency."""
