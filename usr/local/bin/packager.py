@@ -14,6 +14,10 @@ entries:
     bin_path: path/to/file.bin
     address: 0x23C8800
 
+  - name: raw_bytes
+    bytes: [0x00, 0x10]
+    address: 0x2358000
+
 Each entry may optionally specify bin_name or dump_name to override defaults.
 """
 import argparse
@@ -84,7 +88,7 @@ def autoresolve_path(path, name=None, root_path=None, _type="bin"):
 
     return path
 
-def parse_entry(entry, root_path):
+def parse_entry(entry, root_path, previous_parsed_entry=None):
     if not isinstance(entry, dict):
         return None
 
@@ -94,19 +98,35 @@ def parse_entry(entry, root_path):
 
     print("Processing entry:", project_name)
 
-    bin_path = entry.get("bin_path", None)
-    bin_path = autoresolve_path(bin_path, project_name, root_path, _type="bin")
-    data = bin_path.read_bytes()
+    data = entry.get("bytes", None) 
+    if data is not None:
+        if not isinstance(data, list): 
+            error(f"'bytes' for '{project_name}' must be a list but is {type(data)}")
+
+        try: 
+            data = bytes(int(x) for x in data) 
+        except Exception: 
+            error(f"invalid byte value in 'bytes' for '{project_name}': {data}") 
+    else: 
+        bin_path = entry.get("bin_path", None)
+        bin_path = autoresolve_path(bin_path, project_name, root_path, _type="bin")
+        data = bin_path.read_bytes()
 
     address_spec = entry.get("address", None)
     if address_spec is not None:
-        try:
-            if isinstance(address_spec, str):
-                address = int(address_spec, 16 if address_spec.lower().startswith(("0x") ) else 10)
-            else:
-                address = int(address_spec)
-        except Exception:
-            error(f"invalid address specified for '{project_name}': {address_spec}")
+        if address_spec == "auto":
+            if not previous_parsed_entry:
+                error(f"Could not resolve address for {project_name}, there was no previous entry.")
+
+            address = previous_parsed_entry.get("address", 0) + previous_parsed_entry.get("size", 0)
+        else:
+            try:
+                if isinstance(address_spec, str):
+                    address = int(address_spec, 16 if address_spec.lower().startswith(("0x") ) else 10)
+                else:
+                    address = int(address_spec)
+            except Exception:
+                error(f"invalid address specified for '{project_name}': {address_spec}")
     else:
         dump_path = entry.get("dump_path", None)
         dump_path = autoresolve_path(dump_path, project_name, root_path, _type="dump")
@@ -163,18 +183,21 @@ def main():
     unpacked = bytearray(UNPACKED_SIZE)
     allocated_entries = []
 
+    previous_parsed_entry = None
     for entry in entries:
-        parsed_entry = parse_entry(entry, args.input_path)
+        parsed_entry = parse_entry(entry, args.input_path, previous_parsed_entry)
         if parsed_entry is None:
             continue
 
         verify_address(parsed_entry, allocated_entries)
-
+        
         data = parsed_entry["data"]
         size = parsed_entry["size"]
         offset = parsed_entry["offset"]
 
         unpacked[offset:offset + size] = data
+
+        previous_parsed_entry = parsed_entry
 
     packed = bytearray(PACKED_SIZE)
     src = 0
