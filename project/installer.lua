@@ -4,10 +4,12 @@ local boxDataOffset = 0xF710
 local basePointer = mainmemory.read_u32_le(0x021D2228 - 0x2000000)
 local giftDataPointer = basePointer + giftDataOffset
 local boxDataPointer = basePointer + boxDataOffset
+local partyDataPointer = basePointer + 0xA8
 
 local config = {
     giftDataFile = "output/payloads/bins/initial_payload.bin",
-    boxDataFile = "output/packages/bins/packed.bin"
+    boxDataFile = "output/packages/bins/packed.bin",
+    bootstrapMonFile = "bootstrap_pokemon.bin"
 }
 
 local function writeBinToMemory(filePath, memoryAddress)
@@ -42,6 +44,7 @@ local function install()
     writeGiftHeader(giftDataPointer)
     writeBinToMemory(config.giftDataFile, giftDataPointer + 0x18)
     writeBinToMemory(config.boxDataFile, boxDataPointer)
+    writeBinToMemory(config.bootstrapMonFile, partyDataPointer + 0x4 * 0xEC)
     forceBoxSave()
 end
 
