@@ -4,6 +4,7 @@ services:
       context: .
       dockerfile: Dockerfile
     volumes:
+      - ./usr/local/bin:/mnt/usr/local/bin
       - ./project:/home/project
     tty: true
     working_dir: /home
