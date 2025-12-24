@@ -139,9 +139,9 @@ typedef struct {
   CUSTOM_POKEMON customPokemon[CUSTOM_POKEMON_COUNT];
 } CUSTOM_POKEMON_MANAGER;
 
-static CUSTOM_POKEMON_MANAGER *manager = (CUSTOM_POKEMON_MANAGER *)0x23C8000;
-
-#define MAX_SPRITE_ID 4 * 492
+// align sprites at 0x23C8000 for packaging
+static CUSTOM_POKEMON_MANAGER *manager =
+    (CUSTOM_POKEMON_MANAGER *)(0x23C8000 - sizeof(SPRITE_INFO));
 
 static inline void set_sprite_hooks() {
   // sprite_narc_hook: bl 0x023c5000, loadSpriteFromNarc
@@ -165,7 +165,7 @@ static inline CUSTOM_POKEMON *getCustomPokemon() {
 
   SPRITE_ARCHIVE_INFO *archiveInfo = &spriteInfo->spriteData->archive_info[1];
 
-  for (int i = 0; i < 1; i++) {
+  for (int i = 0; i < CUSTOM_POKEMON_COUNT; i++) {
     CUSTOM_POKEMON *customPokemon = &manager->customPokemon[i];
     if (customPokemon->archive_id == archiveInfo->archive_id &&
         customPokemon->sprite_id == archiveInfo->sprite_id) {
