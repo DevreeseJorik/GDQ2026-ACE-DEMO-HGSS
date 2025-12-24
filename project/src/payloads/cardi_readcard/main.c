@@ -1,5 +1,5 @@
-#include "util/functions.h"
-#include "util/memory.h"
+#include "libs/util/functions.h"
+#include "libs/util/memory.h"
 
 void write_if_matching8(u8 *address, u32 match, u8 value) {
   if (read_u32_unaligned((u32 *)address) == match) {

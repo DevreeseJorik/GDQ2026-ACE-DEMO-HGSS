@@ -1,4 +1,4 @@
-#include "util/functions.h"
+#include "libs/util/functions.h"
 
 typedef void NarcSpriteData;
 typedef void NarcPaletteData;
