@@ -1,4 +1,4 @@
-#include "graphics/poke_sprite.h"
+#include "libs/graphics/poke_sprite.h"
 
 __attribute__((naked)) __attribute__((section(".text.main")))
 __attribute__((target("thumb"))) void

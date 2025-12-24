@@ -24,8 +24,8 @@ foreach(SUB_DIR IN LISTS SUBDIRS)
             ${SUB_DIR}/src/*.c
         )
 
-        add_executable(${PROJECT_NAME} ${COMMON_LIB_SRC_FILES} ${LOCAL_SRC_FILES})
-        target_include_directories(${PROJECT_NAME} PRIVATE ${COMMON_LIB_DIR} ${SUB_DIR}/src)
+        add_executable(${PROJECT_NAME} ${COMMON_SRC_FILES} ${COMMON_LIB_SRC_FILES} ${LOCAL_SRC_FILES})
+        target_include_directories(${PROJECT_NAME} PRIVATE ${COMMON_DIR} ${SUB_DIR}/src)
 
         set_target_properties(${PROJECT_NAME} PROPERTIES OUTPUT_NAME ${OUTPUT_NAME})
 
