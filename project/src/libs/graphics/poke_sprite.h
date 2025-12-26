@@ -177,7 +177,9 @@ static inline CUSTOM_POKEMON *getCustomPokemon() {
 }
 
 static inline void loadSpriteFromNarc() {
-  WITH_CURRENT_REGSTATE(tryLoadSpriteFromNarc, 2);
+  register void *dest asm("r0");
+  register NarcSpriteData *src asm("r1");
+  NNS_G2dGetUnpackedCharacterData(dest, src);
 
   register BOOL success asm("r0");
   register SPRITE_DATA *spriteData asm("r6");
