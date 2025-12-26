@@ -10,6 +10,8 @@ entries:
   - name: sprite_load
 
   - name: narc_sprite_load
+  
+  - name: archive_data_load
 
   - name: arceus_sprite_details
     bytes: [ 0x72, 0x0, 0x61, 0x0 ]
