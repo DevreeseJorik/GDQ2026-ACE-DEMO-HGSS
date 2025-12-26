@@ -12,4 +12,12 @@
 #define fp_CARDi_ReadCard fp_arm(0x020dd570, void, (void))
 static inline void CARDi_ReadCard(void) { fp_CARDi_ReadCard(); }
 
+#define fp_ReadFromNarcMemberByPathAndId                                       \
+  fp_thumb(0x0200732c, void, (void *, const char *, int, int, int))
+static inline void ReadFromNarcMemberByPathAndId(void *data, const char *name,
+                                                 int index, int ofset,
+                                                 int size) {
+  fp_ReadFromNarcMemberByPathAndId(data, name, index, ofset, size);
+}
+
 #endif // _FUNCTIONS_H
