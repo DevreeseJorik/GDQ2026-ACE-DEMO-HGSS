@@ -21,7 +21,9 @@ foreach(SUB_DIR IN LISTS SUBDIRS)
         file(GLOB LOCAL_SRC_FILES
             LIST_DIRECTORIES false
             ${SUB_DIR}/*.c
+            ${SUB_DIR}/*.cpp
             ${SUB_DIR}/src/*.c
+            ${SUB_DIR}/src/*.cpp
         )
 
         add_executable(${PROJECT_NAME} ${COMMON_SRC_FILES} ${COMMON_LIB_SRC_FILES} ${LOCAL_SRC_FILES})
