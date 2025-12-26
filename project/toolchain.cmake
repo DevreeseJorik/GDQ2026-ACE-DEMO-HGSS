@@ -9,6 +9,8 @@ set(CMAKE_CXX_COMPILER "arm-none-eabi-g++")
 set(CMAKE_ASM_COMPILER "arm-none-eabi-as")
 
 set(CMAKE_C_FLAGS "-mcpu=arm946e-s -mtune=arm946e-s -mthumb -march=armv5te -Os -nostartfiles -nodefaultlibs -fno-builtin -ffunction-sections --data-sections -Wl,--gc-sections -fno-unroll-loops -fomit-frame-pointer" )
+set(CMAKE_CXX_FLAGS "${CMAKE_C_FLAGS} -ffreestanding -nostdlib -fno-exceptions -fno-rtti -fno-unwind-tables -fno-asynchronous-unwind-tables -fno-threadsafe-statics")
+set(CMAKE_CXX_STANDARD 20)
 
 set(DEFAULT_LINKING_DIR ${CMAKE_CURRENT_SOURCE_DIR}/linking)
 set(DEFAULT_C_LINKERFILE ${DEFAULT_LINKING_DIR}/c_linker.ld)
