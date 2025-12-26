@@ -1,4 +1,5 @@
 #include "libs/util/functions.h"
+#include "libs/util/hooks.hpp"
 #include "libs/util/memory.h"
 
 void write_if_matching8(u8 *address, u32 match, u8 value) {
@@ -21,7 +22,7 @@ void write_if_matching32(u32 *address, u32 match, u32 value) {
 
 __attribute__((naked)) __attribute__((section(".text.main")))
 __attribute__((target("arm"))) void
-main(void) {
+main_entry(void) {
   __asm__ volatile("push {r0-r7, lr}\n");
   CARDi_ReadCard(); // original function call
 

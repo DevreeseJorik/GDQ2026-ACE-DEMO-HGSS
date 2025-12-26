@@ -1,3 +1,5 @@
+set -e
+
 rm -rf build
 mkdir build
 cd build
@@ -8,7 +10,7 @@ cd ..
 
 image_converter.py -i=assets -o=/home/project/output/images/bins
 
-mkdir /home/project/output/packages
+mkdir -p /home/project/output/packages
 packager.py -i=/home/project/output/payloads -o=/home/project/output/packages/bins/
 
 qhexdump /home/project/output/packages/bins/packed.bin > /home/project/output/packages/bins/packed_dump.txt
