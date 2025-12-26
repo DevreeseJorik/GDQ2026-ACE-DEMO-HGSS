@@ -164,6 +164,8 @@ static inline CUSTOM_POKEMON *getCustomPokemon() {
     return NULL;
 
   SPRITE_ARCHIVE_INFO *archiveInfo = &spriteInfo->spriteData->archive_info[1];
+  if (archiveInfo->archive_id == 0 && archiveInfo->sprite_id == 0)
+    archiveInfo = (SPRITE_ARCHIVE_INFO *)((u8 *)archiveInfo + 0xAC);
 
   for (int i = 0; i < CUSTOM_POKEMON_COUNT; i++) {
     CUSTOM_POKEMON *customPokemon = &manager->customPokemon[i];
