@@ -9,7 +9,7 @@ entries:
 
   - name: sprite_load
 
-  - name: narc_sprite_load
+  - name: archive_data_load_malloc
   
   - name: archive_data_load
 
