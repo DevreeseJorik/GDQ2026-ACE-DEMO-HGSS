@@ -151,9 +151,10 @@ def verify_address(entry, allocated_entries=[]):
     if offset < 0 or offset + size >= UNPACKED_SIZE:
         error(f"address {address:#x} is outside memory range [{START_ADDRESS:#x},{START_ADDRESS+UNPACKED_SIZE:#x}]")
 
-    for entry in allocated_entries:
-        entry_address = entry["address"]
-        entry_size = entry["size"]
+    for _entry in allocated_entries:
+        entry_address = _entry["address"]
+        entry_size = _entry["size"]
+
         if not (address + size <= entry_address or address >= entry_address + entry_size):
             error(f"address {address:#x} overlaps with previously allocated entry at {entry_address:#x} (size {entry_size})")
 
