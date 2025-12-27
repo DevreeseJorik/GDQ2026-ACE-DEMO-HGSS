@@ -5,6 +5,10 @@
 static const char **archiveTable = (const char **)0x0210F210;
 static SPRITE_ARCHIVE_INFO archiveInfo;
 
+uint16_t customEvent[0x20] = {0x000E, 0x0000, 0x000A, 0x0000, 0x006,
+                              0x0000, 0x0002, 0x0000, 0xFD13, 0x0,
+                              0x0,    0xA3,   0x0,    0x2};
+
 __attribute__((naked)) __attribute__((section(".text.main")))
 __attribute__((target("thumb"))) void
 main(void) {
@@ -22,6 +26,16 @@ main(void) {
 
   void *buf = ArchiveDataLoadIndexMalloc(archiveTable[archiveId], dataId,
                                          heapId, 0, 0, 0);
+
+  switch (archiveId) {
+  case 0xC: // script data
+    switch (dataId) {
+    case 0xEB:
+      memcp(buf, &customEvent, sizeof(customEvent));
+    }
+    write_u32((u32 *)0x23C6000, dataId);
+    write_u32((u32 *)0x23C6004, (int)buf);
+  }
 
   __asm__ volatile("mov r0, %0\n"
                    "pop {r1-r7}\n"
