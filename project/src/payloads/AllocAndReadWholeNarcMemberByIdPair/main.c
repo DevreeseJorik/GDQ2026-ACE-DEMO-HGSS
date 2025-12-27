@@ -12,7 +12,6 @@ main(void) {
   register int archiveId asm("r0");
   register int dataId asm("r1");
   register int heapId asm("r2");
-  write_u32((u32 *)0x23C5800 + archiveId, dataId);
 
   archiveInfo.archive_id = archiveId;
   archiveInfo.sprite_id = dataId;
