@@ -56,4 +56,36 @@ static inline BOOL NNS_G2dGetUnpackedPaletteData(void *dest,
   return fp_NNS_G2dGetUnpackedPaletteData(dest, src);
 }
 
+#define fp_Heap_AllocAtEnd fp_thumb(0x0201aacc, void *, (u32, u32))
+static inline void *Heap_AllocAtEnd(u32 heapId, u32 size) {
+  return fp_Heap_AllocAtEnd(heapId, size);
+}
+
+#define fp_Heap_Free fp_thumb(0x0201ab0c, void, (void *))
+static inline void Heap_Free(void *dest) { fp_Heap_Free(dest); }
+
+#define fp_ReadMsgData_ExistingTable_ExistingString                            \
+  fp_thumb(0x0200b760, void, (void *, u32, STRBUF *))
+static inline void ReadMsgData_ExistingTable_ExistingString(void *msgHeader,
+                                                            u32 strId,
+                                                            STRBUF *dest) {
+  return fp_ReadMsgData_ExistingTable_ExistingString(msgHeader, strId, dest);
+}
+
+#define fp_ReadMsgData_ExistingNarc_ExistingString                             \
+  fp_thumb(0x0200b8fc, void, (ARCHANDLE *, u32, u32, u32, STRBUF *))
+static inline void
+ReadMsgData_ExistingNarc_ExistingString(ARCHANDLE *arcHandle, u32 dataId,
+                                        u32 strId, u32 heapId, STRBUF *dest) {
+  return fp_ReadMsgData_ExistingNarc_ExistingString(arcHandle, dataId, strId,
+                                                    heapId, dest);
+}
+
+#define fp_CopyU16ArrayToStringN                                               \
+  fp_thumb(0x02026a04, void, (STRBUF *, const STRCODE *, u32))
+static inline void CopyU16ArrayToStringN(STRBUF *strbuf, const STRCODE *str,
+                                         u32 size) {
+  fp_CopyU16ArrayToStringN(strbuf, str, size);
+}
+
 #endif // _FUNCTIONS_H

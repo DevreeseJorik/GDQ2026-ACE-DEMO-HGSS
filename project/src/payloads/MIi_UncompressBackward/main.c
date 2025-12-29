@@ -23,5 +23,8 @@ main(void) {
   // PokepicManager_BufferPlttData_0: bl 0x023c5200
   write_u32((u32 *)0x0200999c, 0xfc30f3bb);
 
+  // ReadMsgData_ExistingTable_ExistingString: bl 0x023C4C00
+  write_u32((u32 *)0x0200bb6e, 0xf847f3b9);
+
   __asm__ volatile("pop {r0-r7, pc}\n");
 }
