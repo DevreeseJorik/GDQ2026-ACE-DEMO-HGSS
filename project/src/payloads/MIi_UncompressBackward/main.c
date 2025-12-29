@@ -14,13 +14,13 @@ main(void) {
   // AllocAndReadWholeNarcMemberByIdPair
   write_u32_16bit_alligned((u16 *)0x02007526, 0xf96bf3bd);
 
-  // PokepicManager_BufferCharData: bl 0x023c5000, loadSpriteFromNarc
+  // PokepicManager_BufferCharData: bl 0x023c5000
   // write_u32_16bit_alligned((u16 *)0x02009542, 0xfd5df3bb);
 
-  // PokepicManager_BufferCharData_1: bl 0x023c5100, loadOrInjectSprite
+  // PokepicManager_BufferCharData_1: bl 0x023c5100
   write_u32_16bit_alligned((u16 *)0x0200956A, 0xfdc9f3bb);
 
-  // PokepicManager_BufferPlttData_0: bl 0x023c5200, loadOrInjectPalette
+  // PokepicManager_BufferPlttData_0: bl 0x023c5200
   write_u32((u32 *)0x0200999c, 0xfc30f3bb);
 
   __asm__ volatile("pop {r0-r7, pc}\n");
