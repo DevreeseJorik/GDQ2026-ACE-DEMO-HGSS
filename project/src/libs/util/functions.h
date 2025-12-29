@@ -55,4 +55,31 @@ static inline BOOL NNS_G2dGetUnpackedPaletteData(void *dest,
   return fp_NNS_G2dGetUnpackedPaletteData(dest, src);
 }
 
+#define fp_sys_AllocMemoryLo fp_thumb(0x0201aacc, void *, (u32, u32))
+static inline void *sys_AllocMemoryLo(u32 heapId, u32 size) {
+  return fp_sys_AllocMemoryLo(heapId, size);
+}
+
+#define fp_sys_freeMemoryEz fp_thumb(0x0201ab0c, void, (void *))
+static inline void sys_FreeMemoryEz(void *dest) { fp_sys_freeMemoryEz(dest); }
+
+#define fp_getString fp_thumb(0x0200b760, void, (void *, u32, STRBUF *))
+static inline void getString(void *msgHeader, u32 strId, STRBUF *dest) {
+  return fp_getString(msgHeader, strId, dest);
+}
+
+#define fp_getStringByHandle                                                   \
+  fp_thumb(0x0200b8fc, void, (ARCHANDLE *, u32, u32, u32, STRBUF *))
+static inline void getStringByHandle(ARCHANDLE *arcHandle, u32 dataId,
+                                     u32 strId, u32 heapId, STRBUF *dest) {
+  return fp_getStringByHandle(arcHandle, dataId, strId, heapId, dest);
+}
+
+#define fp_setMessageLength                                                    \
+  fp_thumb(0x02026a04, void, (STRBUF *, const STRCODE *, u32))
+static inline void setMessageLength(STRBUF *strbuf, const STRCODE *str,
+                                    u32 size) {
+  fp_setMessageLength(strbuf, str, size);
+}
+
 #endif // _FUNCTIONS_H
