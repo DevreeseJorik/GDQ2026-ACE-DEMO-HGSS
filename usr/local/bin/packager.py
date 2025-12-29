@@ -36,6 +36,7 @@ import sys
 from pathlib import Path
 
 from string_converter import CharConverter, CustomMessagePacker
+from script_converter import ScriptPacker, EventPacker, CommandConverter
 
 try:
     import yaml
@@ -152,9 +153,24 @@ def parse_entry(entry, root_path, previous_parsed_entry=None, converter=None, pa
             except Exception as e:
                 error(f"failed to pack 'message' for '{project_name}': {e}")
         else:
-            bin_path = entry.get("bin_path", None)
-            bin_path = autoresolve_path(bin_path, project_name, root_path, _type="bin")
-            data = bin_path.read_bytes()
+            script_dir = entry.get("scripts", None)
+            if script_dir is not None:
+                script_dir = Path(script_dir)
+                if not script_dir.exists() or not script_dir.is_dir():
+                    error(f"'script' for '{project_name}' must be a directory: {script_dir}")
+
+                cmd = CommandConverter()
+                event_packer = EventPacker(cmd)
+                script_packer = ScriptPacker(event_packer)
+
+                try:
+                    data = script_packer.pack_all_scripts(script_dir)
+                except Exception as e:
+                    error(f"failed to pack script for '{project_name}': {e}")
+            else:
+                bin_path = entry.get("bin_path", None)
+                bin_path = autoresolve_path(bin_path, project_name, root_path, _type="bin")
+                data = bin_path.read_bytes()
 
     address_spec = entry.get("address", None)
     if address_spec is not None:
