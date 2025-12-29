@@ -10,7 +10,11 @@ entries:
   - name: _sub_PokepicManager_BufferCharData_1
 
   - name: AllocAndReadWholeNarcMemberByIdPair
-  
+
+  - name: scripts
+    scripts: scripts
+    address: 0x023C4600
+
   - name: ReadWholeNarcMemberByIdPair
 
   - name: ReadMsgDataIntoString
