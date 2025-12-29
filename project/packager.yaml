@@ -15,6 +15,13 @@ entries:
 
   - name: ReadMsgDataIntoString
 
+  - name: custom_messages
+    messages:
+      - type: 1
+        dataId: 0x2CF
+        string: "{ALN_CENTER, 0}Arbitrary Code Execution DEMO"
+    address: 0x023C4E00
+
   - name: arceus_sprite_details
     bytes: [ 0x72, 0x0, 0x61, 0x0 ]
     address: 0x23C8000
@@ -30,11 +37,3 @@ entries:
   - name: fearow_image
     bin_path: output/images/bins/test.bin
     address: auto
-
-  - name: custom_messages
-    messages:
-      - type: 1
-        dataId: 0x2CF
-        string: "{ALN_CENTER, 0}Arbitrary Code Execution DEMO"
-    address: 0x023C4E00
-
