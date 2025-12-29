@@ -3,9 +3,6 @@
 
 static const char **archiveTable = (const char **)0x0210F210;
 
-typedef u16 STRCODE;
-typedef u16 PMS_WORD;
-
 enum {
   TEAM_FORMAT_NORMAL = 0,
   TEAM_FORMAT_WAZA,
