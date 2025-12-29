@@ -14,5 +14,9 @@ main_entry(void) {
   if (*(u32 *)0x0221fde4 == 0xDA002804)
     write_u8((u8 *)0x0221fde4, 0x0);
 
+  // increase title screen text buffer size from 0x40 to 0x44
+  if (*(u32 *)0x021E670C == 0x20401C07)
+    write_u8((u8 *)0x021e670e, 0x44);
+
   __asm__ volatile("pop {r0-r7, pc}\n");
 }
