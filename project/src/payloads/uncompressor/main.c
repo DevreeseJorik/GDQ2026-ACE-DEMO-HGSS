@@ -13,13 +13,13 @@ main(void) {
   // archive_data_load_malloc
   write_u32_16bit_alligned((u16 *)0x02007526, 0xf96bf3bd);
 
-  // load_narc: bl 0x023c5000, loadSpriteFromNarc
+  // load_narc: bl 0x023c5000
   // write_u32_16bit_alligned((u16 *)0x02009542, 0xfd5df3bb);
 
-  // inject_sprite: bl 0x023c5100, loadOrInjectSprite
+  // inject_sprite: bl 0x023c5100
   write_u32_16bit_alligned((u16 *)0x0200956A, 0xfdc9f3bb);
 
-  // inject_palette: bl 0x023c5200, loadOrInjectPalette
+  // inject_palette: bl 0x023c5200
   write_u32((u32 *)0x0200999c, 0xfc30f3bb);
 
   __asm__ volatile("pop {r0-r7, pc}\n");
