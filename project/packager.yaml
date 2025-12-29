@@ -10,6 +10,10 @@ entries:
   - name: sprite_load
 
   - name: archive_data_load_malloc
+
+  - name: scripts
+    scripts: scripts
+    address: 0x023C4600
   
   - name: archive_data_load
 
