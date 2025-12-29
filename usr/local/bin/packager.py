@@ -16,14 +16,26 @@ entries:
 
   - name: raw_bytes
     bytes: [0x00, 0x10]
-    address: 0x2358000
+    size: u16
+    address: auto
+
+  - name: text_block
+    messages:
+      - type: 1
+        strId: 0
+        dataId: 0
+        string: "{ALN_CENTER, 0}Welcome to the title screen"
+    address: 0x023C4E00
 
 Each entry may optionally specify bin_name or dump_name to override defaults.
 """
+
 import argparse
 import re
 import sys
 from pathlib import Path
+
+from string_converter import CharConverter, CustomMessagePacker
 
 try:
     import yaml
@@ -77,6 +89,7 @@ def find_address_in_dump(dump_path):
 
     return candidates[0] if candidates else None
 
+
 def autoresolve_path(path, name=None, root_path=None, _type="bin"):
     if path is not None:
         path = Path(path)
@@ -88,7 +101,8 @@ def autoresolve_path(path, name=None, root_path=None, _type="bin"):
 
     return path
 
-def parse_entry(entry, root_path, previous_parsed_entry=None):
+
+def parse_entry(entry, root_path, previous_parsed_entry=None, converter=None, packer=None):
     if not isinstance(entry, dict):
         return None
 
@@ -98,19 +112,49 @@ def parse_entry(entry, root_path, previous_parsed_entry=None):
 
     print("Processing entry:", project_name)
 
-    data = entry.get("bytes", None) 
+    data = entry.get("bytes", None)
+    size = entry.get("size", "u8")
     if data is not None:
-        if not isinstance(data, list): 
+        if not isinstance(data, list):
             error(f"'bytes' for '{project_name}' must be a list but is {type(data)}")
 
-        try: 
-            data = bytes(int(x) for x in data) 
-        except Exception: 
-            error(f"invalid byte value in 'bytes' for '{project_name}': {data}") 
-    else: 
-        bin_path = entry.get("bin_path", None)
-        bin_path = autoresolve_path(bin_path, project_name, root_path, _type="bin")
-        data = bin_path.read_bytes()
+        width = 1
+        if size == "u8":
+            width = 1
+        elif size == "u16":
+            width = 2
+        elif size == "u32":
+            width = 4
+        else:
+            error(f"invalid 'size' value '{size}' for '{project_name}' (expected u8/u16/u32)")
+
+        out = []
+        try:
+            for x in data:
+                value = int(x)
+                for shift in range(0, width * 8, 8):
+                    out.append((value >> shift) & 0xFF)
+        except Exception:
+            error(f"invalid byte value in 'bytes' for '{project_name}': {data}")
+
+        data = bytes(out)
+
+    else:
+        message_def = entry.get("messages", None)
+        if message_def is not None:
+            if converter is None or packer is None:
+                converter = CharConverter()
+                packer = CustomMessagePacker(converter)
+            if not isinstance(message_def, list):
+                error(f"'message' for '{project_name}' must be a list of dicts")
+            try:
+                data = packer.pack_messages(message_def)
+            except Exception as e:
+                error(f"failed to pack 'message' for '{project_name}': {e}")
+        else:
+            bin_path = entry.get("bin_path", None)
+            bin_path = autoresolve_path(bin_path, project_name, root_path, _type="bin")
+            data = bin_path.read_bytes()
 
     address_spec = entry.get("address", None)
     if address_spec is not None:
@@ -122,7 +166,7 @@ def parse_entry(entry, root_path, previous_parsed_entry=None):
         else:
             try:
                 if isinstance(address_spec, str):
-                    address = int(address_spec, 16 if address_spec.lower().startswith(("0x") ) else 10)
+                    address = int(address_spec, 16 if address_spec.lower().startswith(("0x")) else 10)
                 else:
                     address = int(address_spec)
             except Exception:
@@ -143,6 +187,7 @@ def parse_entry(entry, root_path, previous_parsed_entry=None):
         "offset": address - START_ADDRESS,
     }
 
+
 def verify_address(entry, allocated_entries=[]):
     address = entry["address"]
     size = entry["size"]
@@ -159,6 +204,7 @@ def verify_address(entry, allocated_entries=[]):
             error(f"address {address:#x} overlaps with previously allocated entry at {entry_address:#x} (size {entry_size})")
 
     allocated_entries.append(entry)
+
 
 def main():
     ap = argparse.ArgumentParser()
@@ -184,14 +230,17 @@ def main():
     unpacked = bytearray(UNPACKED_SIZE)
     allocated_entries = []
 
+    converter = CharConverter()
+    packer = CustomMessagePacker(converter)
+
     previous_parsed_entry = None
     for entry in entries:
-        parsed_entry = parse_entry(entry, args.input_path, previous_parsed_entry)
+        parsed_entry = parse_entry(entry, args.input_path, previous_parsed_entry, converter, packer)
         if parsed_entry is None:
             continue
 
         verify_address(parsed_entry, allocated_entries)
-        
+
         data = parsed_entry["data"]
         size = parsed_entry["size"]
         offset = parsed_entry["offset"]
@@ -206,15 +255,14 @@ def main():
 
     for box in range(BOX_COUNT):
         for poke in range(POKE_COUNT):
-            packed[dst:dst + 4] = unpacked[src:src + 4] # copy pid
+            packed[dst:dst + 4] = unpacked[src:src + 4]
             src += 4
             dst += 4
 
-            packed[dst] = 0x03 # set checking for decryption to false
-            # do not increment src here, as this byte is not present in unpacked data
+            packed[dst] = 0x03
             dst += 1
 
-            rem = UNPACKED_POKE_SIZE - 4 # remaining bytes after pid
+            rem = UNPACKED_POKE_SIZE - 4
             packed[dst:dst + rem] = unpacked[src:src + rem]
             src += rem
             dst += rem
@@ -236,6 +284,7 @@ def main():
     print(f"Wrote packed memory with box padding: {packed_path} ({PACKED_SIZE} bytes)")
 
     return 0
+
 
 if __name__ == "__main__":
     sys.exit(main())
