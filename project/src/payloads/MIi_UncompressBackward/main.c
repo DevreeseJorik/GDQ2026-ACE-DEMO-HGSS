@@ -12,7 +12,7 @@ main(void) {
   write_u32((u32 *)0x0200750a, 0xff79f3bc);
 
   // AllocAndReadWholeNarcMemberByIdPair
-  write_u32_16bit_alligned((u16 *)0x02007526, 0xf96bf3bd);
+  write_u32_16bit_alligned((u16 *)0x02007526, 0xffebf3bc);
 
   // PokepicManager_BufferCharData: bl 0x023c5000
   // write_u32_16bit_alligned((u16 *)0x02009542, 0xfd5df3bb);
