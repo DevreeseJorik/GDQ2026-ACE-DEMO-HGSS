@@ -2,20 +2,49 @@
 #include "libs/util/functions.h"
 #include "libs/util/memory.h"
 
+typedef struct {
+  u16 exists;
+  u16 scriptId;
+  u16 size;
+  u16 offset;
+} CUSTOM_SCRIPT_HEADER;
+
 static const char **archiveTable = (const char **)0x0210F210;
 static SPRITE_ARCHIVE_INFO archiveInfo;
 
-uint16_t customEvent[0x20] = {0x000E, 0x0000, 0x000A, 0x0000, 0x006,
-                              0x0000, 0x0002, 0x0000, 0xFD13, 0x0,
-                              0x0,    0xA3,   0x0,    0x2};
+static const CUSTOM_SCRIPT_HEADER *customEventHeaders =
+    (CUSTOM_SCRIPT_HEADER *)0x023C4600;
+
+BOOL loadCustomScript(u32 scriptId, void *dest) {
+  write_u32((u32 *)0x23C6000, scriptId);
+  write_u32((u32 *)0x23C6004, (u32)dest);
+
+  for (int i = 0; i < 100; i++) {
+    CUSTOM_SCRIPT_HEADER header = customEventHeaders[i];
+
+    if (!header.exists)
+      return FALSE;
+
+    if (header.scriptId != scriptId)
+      continue;
+
+    memcp(dest, (void *)(u8 *)customEventHeaders + header.offset, header.size);
+    return TRUE;
+  }
+
+  return FALSE;
+}
 
 __attribute__((naked)) __attribute__((section(".text.main")))
 __attribute__((target("thumb"))) void
 main(void) {
   __asm__ volatile("push {r1-r7}\n");
-  register int archiveId asm("r0");
-  register int dataId asm("r1");
-  register int heapId asm("r2");
+
+  int archiveId, dataId, heapId;
+  __asm__ volatile("mov %0, r0\n"
+                   "mov %1, r1\n"
+                   "mov %2, r2\n"
+                   : "=r"(archiveId), "=r"(dataId), "=r"(heapId));
 
   archiveInfo.archive_id = archiveId;
   archiveInfo.sprite_id = dataId;
@@ -28,13 +57,8 @@ main(void) {
                                          heapId, 0, 0, 0);
 
   switch (archiveId) {
-  case 0xC: // script data
-    switch (dataId) {
-    case 0xEB:
-      memcp(buf, &customEvent, sizeof(customEvent));
-    }
-    write_u32((u32 *)0x23C6000, dataId);
-    write_u32((u32 *)0x23C6004, (int)buf);
+  case 0xC:
+    loadCustomScript(dataId, buf);
   }
 
   __asm__ volatile("mov r0, %0\n"
