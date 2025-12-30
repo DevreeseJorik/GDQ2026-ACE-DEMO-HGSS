@@ -19,6 +19,8 @@ entries:
 
   - name: get_string
 
+  - name: savedata_load
+
   - name: custom_messages
     messages:
       - type: 1
