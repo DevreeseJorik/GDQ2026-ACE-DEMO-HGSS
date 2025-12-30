@@ -138,7 +138,7 @@ class CharConverter:
 class CustomMessagePacker:
     HEADER_STRUCT = struct.Struct("<6H")
 
-    def __init__(self, converter: CharConverter):
+    def __init__(self, converter: CharConverter = CharConverter()):
         self.converter = converter
 
     def pack_messages(self, entries, write_to=None):
