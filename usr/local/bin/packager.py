@@ -36,8 +36,9 @@ import sys
 from pathlib import Path
 
 from image_converter import ImageConverter
-from string_converter import CustomMessagePacker
+from string_converter import CharConverter, CustomMessagePacker
 from script_converter import ScriptPacker, EventPacker, CommandConverter
+from trainer_converter import TrainerConverter
 
 try:
     import yaml
@@ -161,10 +162,14 @@ def resolve_image(entry, project_name, root_path):
     bg = entry.get("background_color")
     if bg is not None:
         try:
-            bg = tuple(int(x) for x in bg.split(","))
-            if len(bg) != 4:
-                raise ValueError
-        except Exception:
+            if isinstance(bg, list):
+                bg = tuple(bg)
+            if isinstance(bg, str):
+                bg = tuple(int(x) for x in bg.split(","))
+                if len(bg) != 4:
+                    raise ValueError
+        except Exception as e:
+            print(e)
             error(f"Invalid background_color for '{project_name}'. Expected R,G,B,A")
 
     try:
@@ -192,12 +197,33 @@ def resolve_images(entry, project_name, root_path):
     images = entry.get("images")
     if not isinstance(images, list):
         error(f"'images' for '{project_name}' must be a list of dicts")
-    
+
     data = bytes()
     for image in images:
         data += resolve_image(image, project_name, root_path)
 
     return data
+
+def resolve_trainers(entry, project_name):
+    trainers = entry.get("trainers")
+    if not isinstance(trainers, list):
+        error(f"'trainers' for '{project_name}' must be a list of dicts")
+
+    converter = CharConverter()
+    out = bytes()
+
+    for trainer in trainers:
+        td = trainer.get("trainerData", {})
+
+        name = td.get("name")
+        if isinstance(name, str):
+            codes = converter.ascii_to_codes(name)
+            td["name"] = converter.codes_to_bytes_le(codes)
+
+        out += TrainerConverter(trainer).pack()
+
+    return out
+
 
 def resolve_binary(entry, root_path, project_name):
     """Resolve the data for a packager entry. Supports:
@@ -219,7 +245,10 @@ def resolve_binary(entry, root_path, project_name):
 
     if entry.get("images") is not None:
         return resolve_images(entry, project_name, root_path)
-    
+
+    if entry.get("trainers") is not None:
+        return resolve_trainers(entry, project_name)
+
     bin_path = entry.get("bin_path")
     bin_path = autoresolve_path(bin_path, project_name, root_path, _type="bin")
     return bin_path.read_bytes()
