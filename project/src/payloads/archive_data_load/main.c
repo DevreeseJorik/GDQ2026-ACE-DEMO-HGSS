@@ -21,8 +21,11 @@ typedef struct {
   u8 tr_type;
   u8 tr_gra;
   u8 poke_count;
-
   u16 use_item[4];
+} CUSTOM_TRAINER_DATA;
+
+typedef struct {
+  CUSTOM_TRAINER_DATA editableData;
 
   u32 aibit;
   u32 fight_type;
@@ -42,45 +45,75 @@ typedef struct {
   u16 custom;
 } POKEDATA_TYPE_MULTI;
 
-POKEDATA_TYPE_MULTI test_team[6] = {
-    {.pow = 1,
-     .para = 2,
-     .level = 82,
-     .monsno = 0x1ED,
-     .itemno = 0,
-     .move = {0x0, 0x0, 0x0, 0x0},
-     .custom = 0x77},
-};
+typedef struct {
+  u16 dataId;
+  CUSTOM_TRAINER_DATA trainerData;
+  STRCODE name[8];
+  POKEDATA_TYPE_MULTI team[6];
+} CUSTOM_TRAINER;
+
+const CUSTOM_TRAINER *customTrainers = (CUSTOM_TRAINER *)0x23C4800;
+
+const CUSTOM_TRAINER *getCustomTrainer(u16 dataId) {
+  for (int i = 0; i < 10; i++) {
+    const CUSTOM_TRAINER *trainer = &customTrainers[i];
+    if (!trainer->dataId)
+      break;
+
+    if (trainer->dataId == dataId)
+      return trainer;
+  }
+
+  return NULL;
+}
 
 __attribute__((naked)) __attribute__((section(".text.main")))
 __attribute__((target("thumb"))) void
 main(void) {
-  __asm__ volatile("push {r0-r7}\n");
+  void *data;
+  u32 archiveId, dataId;
+  __asm__ volatile("push {r0-r7}\n"
+                   "mov %0, r0\n"
+                   "mov %1, r1\n"
+                   "mov %2, r2\n"
+                   : "=r"(data), "=r"(archiveId), "=r"(dataId));
 
-  register void *data asm("r0");
-  register int archiveId asm("r1");
-  register int dataId asm("r2");
-
-  switch (archiveId) {
-  case 0x37: // load trainer info
-    ArchiveDataLoadIndex(data, archiveTable[archiveId], dataId, 0, 0);
-    TRAINER_DATA *trainerData = (TRAINER_DATA *)data;
-    switch (dataId) {
-    default:
-      trainerData->poke_count = sizeof(test_team) / sizeof(POKEDATA_TYPE_MULTI);
-      trainerData->data_type = TEAM_FORMAT_MULTI;
-    }
-    break;
-  case 0x38: // load team
-    switch (dataId) {
-    default:
-      memcp(data, &test_team, sizeof(test_team));
-    }
-    break;
-  default:
-    ArchiveDataLoadIndex(data, archiveTable[archiveId], dataId, 0, 0);
+  if (archiveId == 0x37 || archiveId == 0x38) {
+    write_u32((u32 *)0x23C6030, (u32)data);
+    write_u32((u32 *)0x23C6034, (u32)archiveId);
+    write_u32((u32 *)0x23C6038, (u32)dataId);
   }
 
+  ArchiveDataLoadIndex(data, archiveTable[archiveId], dataId, 0, 0);
+
+  switch (archiveId) {
+  case 0x37: { // load trainer info
+    TRAINER_DATA *trainerData = (TRAINER_DATA *)data;
+    memcp((void *)0x23C6100, trainerData, sizeof(TRAINER_DATA));
+    const CUSTOM_TRAINER *customTrainer = getCustomTrainer(dataId);
+    if (customTrainer != NULL) {
+      memcp((void *)&trainerData->editableData,
+            (void *)&customTrainer->trainerData, sizeof(CUSTOM_TRAINER_DATA));
+      memcp((void *)&trainerData->name, (void *)&customTrainer->name, 16);
+    }
+
+    break;
+  }
+  case 0x38: { // load team
+    POKEDATA_TYPE_MULTI *team = (POKEDATA_TYPE_MULTI *)data;
+
+    memcp((void *)(u8 *)(0x23C6100 + sizeof(TRAINER_DATA)), team,
+          sizeof(POKEDATA_TYPE_MULTI) * 6);
+
+    const CUSTOM_TRAINER *customTrainer = getCustomTrainer(dataId);
+    if (customTrainer != NULL) {
+      memcp((void *)team, (void *)&customTrainer->team,
+            sizeof(POKEDATA_TYPE_MULTI) * 6);
+    }
+  }
+  }
+
+_return:
   __asm__ volatile("pop {r0-r7}\n"
                    "pop {r3, r4, pc}\n");
 }
