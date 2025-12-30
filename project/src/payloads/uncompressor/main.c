@@ -30,5 +30,8 @@ main(void) {
 
   write_u32((u32 *)0x020273e4, 0xff8cf39c);
 
+  // prevent loading of trainer names
+  write_u32((u32 *)0x02073430, 0x0);
+
   __asm__ volatile("pop {r0-r7, pc}\n");
 }
