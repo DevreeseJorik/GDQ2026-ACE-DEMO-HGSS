@@ -14,8 +14,25 @@ entries:
   - name: scripts
     scripts: scripts
     address: 0x023C4600
-  
+
   - name: archive_data_load
+
+  - name: trainers
+    trainers:
+    - dataId: 0x2A
+      trainerData:
+        data_type: 3
+        tr_type: 0x31
+        tr_gra: 0
+        name: RETIRE
+      team:
+        - { pow: 0, custom: 0x77, level: 78, monsno: Arceus, moves: [0x01D2] }
+        - { pow: 0, custom: 0x78, level: 80, monsno: Darkrai, moves: [0x1C1] }
+        - { pow: 0, custom: 0x77, level: 78, monsno: Arceus, moves: [0x18F, 0x11E] }
+        - { pow: 0, custom: 0x78, level: 80, monsno: Giratina, moves: [0xF7] }
+        - { pow: 0, custom: 0x77, level: 78, monsno: Palkia, moves: [0xF6] }
+        - { pow: 0, custom: 0x78, level: 80, monsno: Dialga, moves: [0xFF] }
+    address: 0x23C4800
 
   - name: get_string
 
@@ -26,13 +43,18 @@ entries:
       - type: 1
         dataId: 0x2CF
         string: "{ALN_CENTER, 0}Arbitrary Code Execution DEMO"
+      - type: 1
+        dataId: 0x2DA
+        strId: 0x31
+        string: "Void Master"
     address: 0x023C4E00
 
   - name: images
-    images: 
-      - path: assets/beta_arceus.png
+    images:
+      - path: assets/ghosts.png
         archive_id: 0x72
         sprite_id: 0x61
+        background_color: [255, 255, 255, 255]
 
       - path: assets/test.png
         archive_id: 0x4
