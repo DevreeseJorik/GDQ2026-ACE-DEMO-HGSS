@@ -72,6 +72,13 @@ static inline void ReadMsgData_ExistingTable_ExistingString(void *msgHeader,
   return fp_ReadMsgData_ExistingTable_ExistingString(msgHeader, strId, dest);
 }
 
+#define fp_ReadMsgData_ExistingTable_NewString                                 \
+  fp_thumb(0x0200b810, STRBUF *, (void *, u32, u32))
+static inline STRBUF *
+ReadMsgData_ExistingTable_NewString(void *msgHeader, u32 strId, u32 heapId) {
+  return fp_ReadMsgData_ExistingTable_NewString(msgHeader, strId, heapId);
+}
+
 #define fp_ReadMsgData_ExistingNarc_ExistingString                             \
   fp_thumb(0x0200b8fc, void, (ARCHANDLE *, u32, u32, u32, STRBUF *))
 static inline void
@@ -81,6 +88,15 @@ ReadMsgData_ExistingNarc_ExistingString(ARCHANDLE *arcHandle, u32 dataId,
                                                     heapId, dest);
 }
 
+#define fp_ReadMsgData_ExistingNarc_NewString                                  \
+  fp_thumb(0x0200b9f8, STRBUF *, (ARCHANDLE *, u32, u32, u32))
+static inline STRBUF *ReadMsgData_ExistingNarc_NewString(ARCHANDLE *arcHandle,
+                                                         u32 dataId, u32 strId,
+                                                         u32 heapId) {
+  return fp_ReadMsgData_ExistingNarc_NewString(arcHandle, dataId, strId,
+                                               heapId);
+}
+
 #define fp_CopyU16ArrayToStringN                                               \
   fp_thumb(0x02026a04, void, (STRBUF *, const STRCODE *, u32))
 static inline void CopyU16ArrayToStringN(STRBUF *strbuf, const STRCODE *str,
@@ -88,5 +104,11 @@ static inline void CopyU16ArrayToStringN(STRBUF *strbuf, const STRCODE *str,
   fp_CopyU16ArrayToStringN(strbuf, str, size);
 }
 
+#define fp_String_New fp_thumb(0x02026354, STRBUF *, (u32, u32))
+static inline STRBUF *String_New(u32 size, u32 heapId) {
+  return fp_String_New(size, heapId);
+}
+
 static inline void *getBasePointer() { return (void *)*(u32 *)0x021D2228; }
+
 #endif // _FUNCTIONS_H
