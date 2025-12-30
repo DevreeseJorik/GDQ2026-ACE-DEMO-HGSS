@@ -29,5 +29,7 @@ main(void) {
   // set game version (HeartGold: 7, SoulSilver: 8)
   write_u32((u32 *)0x20f566c, 0x7);
 
+  write_u32((u32 *)0x020273e4, 0xff8cf39c);
+
   __asm__ volatile("pop {r0-r7, pc}\n");
 }

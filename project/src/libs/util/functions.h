@@ -88,4 +88,5 @@ static inline void CopyU16ArrayToStringN(STRBUF *strbuf, const STRCODE *str,
   fp_CopyU16ArrayToStringN(strbuf, str, size);
 }
 
+static inline void *getBasePointer() { return (void *)*(u32 *)0x021D2228; }
 #endif // _FUNCTIONS_H

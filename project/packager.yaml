@@ -19,6 +19,8 @@ entries:
 
   - name: ReadMsgDataIntoString
 
+  - name: SaveData_TryLoadOnContinue
+
   - name: custom_messages
     messages:
       - type: 1
