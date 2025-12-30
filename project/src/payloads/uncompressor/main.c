@@ -25,6 +25,9 @@ main(void) {
   // get_string: bl 0x023C4C00
   write_u32((u32 *)0x0200bb6e, 0xf847f3b9);
 
+  // get_string_alloc: bl 0x23C4A00
+  // write_u32((u32 *)0x0200bba2, 0xff2df3b8);
+
   // set game version (HeartGold: 7, SoulSilver: 8)
   write_u32((u32 *)0x20f566c, 0x7);
 
