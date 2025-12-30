@@ -28,18 +28,13 @@ entries:
         string: "{ALN_CENTER, 0}Arbitrary Code Execution DEMO"
     address: 0x023C4E00
 
-  - name: arceus_sprite_details
-    bytes: [ 0x72, 0x0, 0x61, 0x0 ]
+  - name: images
+    images: 
+      - path: assets/beta_arceus.png
+        archive_id: 0x72
+        sprite_id: 0x61
+
+      - path: assets/test.png
+        archive_id: 0x4
+        sprite_id: 0x86
     address: 0x23C8000
-  
-  - name: beta_arceus_image
-    bin_path: output/images/bins/beta_arceus.bin
-    address: auto
-
-  - name: fearow_sprite_details
-    bytes: [0x4, 0x0, 0x86, 0x0]
-    address: auto
-
-  - name: fearow_image
-    bin_path: output/images/bins/test.bin
-    address: auto
