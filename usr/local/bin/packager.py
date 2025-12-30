@@ -35,7 +35,8 @@ import re
 import sys
 from pathlib import Path
 
-from string_converter import CharConverter, CustomMessagePacker
+from image_converter import ImageConverter
+from string_converter import CustomMessagePacker
 from script_converter import ScriptPacker, EventPacker, CommandConverter
 
 try:
@@ -102,8 +103,129 @@ def autoresolve_path(path, name=None, root_path=None, _type="bin"):
 
     return path
 
+def resolve_raw_bytes(entry, project_name):
+    raw_bytes = entry.get("bytes")
+    size = entry.get("size", "u8")
 
-def parse_entry(entry, root_path, previous_parsed_entry=None, converter=None, packer=None):
+    if not isinstance(raw_bytes, list):
+        error(f"'bytes' for '{project_name}' must be a list but is {type(raw_bytes)}")
+
+    if size == "u8":
+        width = 1
+    elif size == "u16":
+        width = 2
+    elif size == "u32":
+        width = 4
+    else:
+        error(f"invalid 'size' value '{size}' for '{project_name}' (expected u8/u16/u32)")
+
+    out = []
+    try:
+        for x in raw_bytes:
+            value = int(x)
+            for shift in range(0, width * 8, 8):
+                out.append((value >> shift) & 0xFF)
+    except Exception:
+        error(f"invalid byte value in 'bytes' for '{project_name}': {raw_bytes}")
+
+    return bytes(out)
+
+
+def resolve_messages(entry, project_name):
+    messages = entry.get("messages")
+    if not isinstance(messages, list):
+        error(f"'messages' for '{project_name}' must be a list of dicts")
+
+    try:
+        return CustomMessagePacker().pack_messages(messages)
+    except Exception as e:
+        error(f"failed to pack 'messages' for '{project_name}': {e}")
+
+def resolve_scripts(entry, project_name):
+    script_dir = Path(entry.get("scripts"))
+    if not script_dir.exists() or not script_dir.is_dir():
+        error(f"'scripts' for '{project_name}' must be a directory: {script_dir}")
+
+    cmd = CommandConverter()
+    event_packer = EventPacker(cmd)
+    script_packer = ScriptPacker(event_packer)
+
+    try:
+        return script_packer.pack_all_scripts(script_dir)
+    except Exception as e:
+        error(f"failed to pack script for '{project_name}': {e}")
+
+def resolve_image(entry, project_name, root_path):
+    img_path = autoresolve_path(entry.get("path"), project_name, root_path, _type="png")
+
+    bg = entry.get("background_color")
+    if bg is not None:
+        try:
+            bg = tuple(int(x) for x in bg.split(","))
+            if len(bg) != 4:
+                raise ValueError
+        except Exception:
+            error(f"Invalid background_color for '{project_name}'. Expected R,G,B,A")
+
+    try:
+        converter = ImageConverter(str(img_path), background_color=bg)
+        img_data = converter.process_image()
+    except Exception as e:
+        error(f"Failed to convert image for '{project_name}': {e}")
+
+    archive_id = entry.get("archive_id")
+    sprite_id = entry.get("sprite_id")
+
+    if archive_id is not None and sprite_id is not None:
+        try:
+            a = int(archive_id)
+            s = int(sprite_id)
+        except Exception:
+            error(f"archive_id and sprite_id must be integers for '{project_name}'")
+
+        header = a.to_bytes(2, "little") + s.to_bytes(2, "little")
+        return header + img_data
+
+    return img_data
+
+def resolve_images(entry, project_name, root_path):
+    images = entry.get("images")
+    if not isinstance(images, list):
+        error(f"'images' for '{project_name}' must be a list of dicts")
+    
+    data = bytes()
+    for image in images:
+        data += resolve_image(image, project_name, root_path)
+
+    return data
+
+def resolve_binary(entry, root_path, project_name):
+    """Resolve the data for a packager entry. Supports:
+       - bytes
+       - messages
+       - scripts
+       - image
+       - binary
+    """
+
+    if entry.get("bytes")is not None:
+        return resolve_raw_bytes(entry, project_name)
+
+    if entry.get("messages") is not None:
+        return resolve_messages(entry, project_name)
+
+    if entry.get("scripts") is not None:
+        return resolve_scripts(entry, project_name)
+
+    if entry.get("images") is not None:
+        return resolve_images(entry, project_name, root_path)
+    
+    bin_path = entry.get("bin_path")
+    bin_path = autoresolve_path(bin_path, project_name, root_path, _type="bin")
+    return bin_path.read_bytes()
+
+
+def parse_entry(entry, root_path, previous_parsed_entry=None):
     if not isinstance(entry, dict):
         return None
 
@@ -113,64 +235,7 @@ def parse_entry(entry, root_path, previous_parsed_entry=None, converter=None, pa
 
     print("Processing entry:", project_name)
 
-    data = entry.get("bytes", None)
-    size = entry.get("size", "u8")
-    if data is not None:
-        if not isinstance(data, list):
-            error(f"'bytes' for '{project_name}' must be a list but is {type(data)}")
-
-        width = 1
-        if size == "u8":
-            width = 1
-        elif size == "u16":
-            width = 2
-        elif size == "u32":
-            width = 4
-        else:
-            error(f"invalid 'size' value '{size}' for '{project_name}' (expected u8/u16/u32)")
-
-        out = []
-        try:
-            for x in data:
-                value = int(x)
-                for shift in range(0, width * 8, 8):
-                    out.append((value >> shift) & 0xFF)
-        except Exception:
-            error(f"invalid byte value in 'bytes' for '{project_name}': {data}")
-
-        data = bytes(out)
-
-    else:
-        message_def = entry.get("messages", None)
-        if message_def is not None:
-            if converter is None or packer is None:
-                converter = CharConverter()
-                packer = CustomMessagePacker(converter)
-            if not isinstance(message_def, list):
-                error(f"'message' for '{project_name}' must be a list of dicts")
-            try:
-                data = packer.pack_messages(message_def)
-            except Exception as e:
-                error(f"failed to pack 'message' for '{project_name}': {e}")
-        else:
-            script_dir = entry.get("scripts", None)
-            if script_dir is not None:
-                script_dir = Path(script_dir)
-                if not script_dir.exists() or not script_dir.is_dir():
-                    error(f"'script' for '{project_name}' must be a directory: {script_dir}")
-
-                cmd = CommandConverter()
-                event_packer = EventPacker(cmd)
-                script_packer = ScriptPacker(event_packer)
-
-                try:
-                    data = script_packer.pack_all_scripts(script_dir)
-                except Exception as e:
-                    error(f"failed to pack script for '{project_name}': {e}")
-            else:
-                bin_path = entry.get("bin_path", None)
-                bin_path = autoresolve_path(bin_path, project_name, root_path, _type="bin")
-                data = bin_path.read_bytes()
+    data = resolve_binary(entry, root_path, project_name)
 
     address_spec = entry.get("address", None)
     if address_spec is not None:
@@ -246,12 +311,9 @@ def main():
     unpacked = bytearray(UNPACKED_SIZE)
     allocated_entries = []
 
-    converter = CharConverter()
-    packer = CustomMessagePacker(converter)
-
     previous_parsed_entry = None
     for entry in entries:
-        parsed_entry = parse_entry(entry, args.input_path, previous_parsed_entry, converter, packer)
+        parsed_entry = parse_entry(entry, args.input_path, previous_parsed_entry)
         if parsed_entry is None:
             continue
 
