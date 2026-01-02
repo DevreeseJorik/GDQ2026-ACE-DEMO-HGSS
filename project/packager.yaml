@@ -47,6 +47,79 @@ entries:
         dataId: 0x2DA
         strId: 0x31
         string: "Void Master"
+        # == CREDITS ==
+      - type: 0
+        dataId: 0x1B8
+        strId: 0x2
+        string: "ACE Showcase Credits"
+      - type: 0
+        dataId: 0x1B8
+        strId: 0x3
+        string: "{COLOR, 1}ぁRunner"
+      - type: 0
+        dataId: 0x1B8
+        strId: 0x4
+        string: "TTS4life"
+      - type: 0
+        dataId: 0x1B8
+        strId: 0x5
+        string: "{COLOR, 1}ぁCouch"
+      - type: 0
+        dataId: 0x1B8
+        strId: 0x6
+        string: "Etchy\ngroundzero\nShenanagans"
+      - type: 0
+        dataId: 0x1B8
+        strId: 0x7
+        string: "{COLOR, 1}ぁACE Developers"
+      - type: 0
+        dataId: 0x1B8
+        strId: 0x8
+        string: "RETIRE\nMartmists"
+      - type: 0
+        dataId: 0x1B8
+        strId: 0x9
+        string: "{COLOR, 1}ぁArtist"
+      - type: 0
+        dataId: 0x1B8
+        strId: 0xa
+        string: "Swiftalu"
+      - type: 0
+        dataId: 0x1B8
+        strId: 0xb
+        string: "{COLOR, 1}ぁSpecial Thanks"
+      - type: 0
+        dataId: 0x1B8
+        strId: 0xc
+        string: "DSPRE and the romhacking community"
+      - type: 0
+        dataId: 0x1B8
+        strId: 0xd
+        string: "{COLOR, 1}ぁ{ALN_CENTER, 0}Thank you AGDQ 2026!"
+      - type: 0
+        dataId: 0x1B8
+        strId: 0xe
+        string: ""
+      - type: 0
+        dataId: 0x1B8
+        strId: 0xf
+        string: ""
+      - type: 0
+        dataId: 0x1B8
+        strId: 0x10
+        string: ""
+      - type: 0
+        dataId: 0x1B8
+        strId: 0x11
+        string: ""
+      - type: 0
+        dataId: 0x1B8
+        strId: 0x12
+        string: ""
+      - type: 0
+        dataId: 0x1B8
+        strId: 0x13
+        string: ""
     address: 0x023C4E00
 
   - name: images
