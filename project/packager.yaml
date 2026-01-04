@@ -17,6 +17,8 @@ entries:
 
   - name: archive_data_load
 
+  - name: get_vec_sinjoh_ruins
+
   - name: trainers
     trainers:
     - dataId: 0x2A

@@ -53,4 +53,10 @@ typedef struct {
   };
 } MSGDATA_MANAGER;
 
+typedef struct {
+  u32 x;
+  u32 y;
+  u32 z;
+} VecFx32;
+
 #endif // _TYPES_H

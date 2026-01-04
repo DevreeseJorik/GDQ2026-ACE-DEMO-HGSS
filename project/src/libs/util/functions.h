@@ -55,6 +55,11 @@ static inline BOOL NNS_G2dGetUnpackedPaletteData(void *dest,
   return fp_NNS_G2dGetUnpackedPaletteData(dest, src);
 }
 
+#define fp_sys_AllocMemory fp_thumb(0x0201aa8c, void *, (u32, u32))
+static inline void *sys_AllocMemory(u32 heapId, u32 size) {
+  return fp_sys_AllocMemory(heapId, size);
+}
+
 #define fp_sys_AllocMemoryLo fp_thumb(0x0201aacc, void *, (u32, u32))
 static inline void *sys_AllocMemoryLo(u32 heapId, u32 size) {
   return fp_sys_AllocMemoryLo(heapId, size);
