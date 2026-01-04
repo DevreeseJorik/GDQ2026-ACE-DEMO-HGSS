@@ -52,7 +52,7 @@ typedef struct {
   POKEDATA_TYPE_MULTI team[6];
 } CUSTOM_TRAINER;
 
-const CUSTOM_TRAINER *customTrainers = (CUSTOM_TRAINER *)0x23C4800;
+const CUSTOM_TRAINER *customTrainers = (CUSTOM_TRAINER *)0x23C4820;
 
 const CUSTOM_TRAINER *getCustomTrainer(u16 dataId) {
   for (int i = 0; i < 10; i++) {
@@ -79,9 +79,9 @@ main(void) {
                    : "=r"(data), "=r"(archiveId), "=r"(dataId));
 
   if (archiveId == 0x37 || archiveId == 0x38) {
-    write_u32((u32 *)0x23C6030, (u32)data);
-    write_u32((u32 *)0x23C6034, (u32)archiveId);
-    write_u32((u32 *)0x23C6038, (u32)dataId);
+    write_u32((u32 *)0x23DFC30, (u32)data);
+    write_u32((u32 *)0x23DFC34, (u32)archiveId);
+    write_u32((u32 *)0x23DFC38, (u32)dataId);
   }
 
   ArchiveDataLoadIndex(data, archiveTable[archiveId], dataId, 0, 0);
@@ -89,7 +89,7 @@ main(void) {
   switch (archiveId) {
   case 0x37: { // load trainer info
     TRAINER_DATA *trainerData = (TRAINER_DATA *)data;
-    memcp((void *)0x23C6100, trainerData, sizeof(TRAINER_DATA));
+    memcp((void *)0x23DFD00, trainerData, sizeof(TRAINER_DATA));
     const CUSTOM_TRAINER *customTrainer = getCustomTrainer(dataId);
     if (customTrainer != NULL) {
       memcp((void *)&trainerData->editableData,
@@ -102,7 +102,7 @@ main(void) {
   case 0x38: { // load team
     POKEDATA_TYPE_MULTI *team = (POKEDATA_TYPE_MULTI *)data;
 
-    memcp((void *)(u8 *)(0x23C6100 + sizeof(TRAINER_DATA)), team,
+    memcp((void *)(u8 *)(0x23DFD00 + sizeof(TRAINER_DATA)), team,
           sizeof(POKEDATA_TYPE_MULTI) * 6);
 
     const CUSTOM_TRAINER *customTrainer = getCustomTrainer(dataId);
