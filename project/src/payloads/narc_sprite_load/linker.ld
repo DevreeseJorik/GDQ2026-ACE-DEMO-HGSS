@@ -1,10 +1,10 @@
 MEMORY {
-    RAM : ORIGIN = 0x023C5000, LENGTH = 60k
+    RAM : ORIGIN = 0x0, LENGTH = 60k
 }
 
 SECTIONS {
     .text : {
-        _start = 0x023C5000;
+        _start = 0x0;
         KEEP(*(.text.main))
         KEEP(*(.text.main_thumb))
         *(.text.startup)

@@ -3,7 +3,7 @@ set -e
 rm -rf build
 mkdir build
 cd build
-cmake -DCMAKE_TOOLCHAIN_FILE=../toolchain.cmake ../
+cmake -DCMAKE_TOOLCHAIN_FILE=../tools/toolchain.cmake ../
 make
 
 cd ..
