@@ -6,6 +6,6 @@
 .thumb
 .global start
 _start:
-bl 0x23C4301
+bl 0x23C4200
 
 

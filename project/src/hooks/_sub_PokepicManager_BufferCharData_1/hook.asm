@@ -7,4 +7,4 @@
 .thumb
 .global start
 _start:
-bl 0x23c5101 @ custom sprite payload
+bl 0x23c4400 @ custom sprite payload

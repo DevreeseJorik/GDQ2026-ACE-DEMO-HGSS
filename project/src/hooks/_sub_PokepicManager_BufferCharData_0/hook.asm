@@ -7,4 +7,4 @@
 .thumb
 .global start
 _start:
-bl 0x23c5001 @ _call_NNS_G2dGetUnpackedCharacterData
+bl 0x0 @ _call_NNS_G2dGetUnpackedCharacterData

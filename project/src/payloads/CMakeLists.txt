@@ -11,6 +11,9 @@ add_custom_command(TARGET make_payloads_dirs PRE_BUILD
     COMMENT "Creating directories for payloads subproject"
 )
 
+add_custom_target(all_payloads ALL)
+add_dependencies(all_payloads make_payloads_dirs)
+
 file(GLOB SUBDIRS LIST_DIRECTORIES true ${CMAKE_CURRENT_SOURCE_DIR}/*)
 
 foreach(SUB_DIR IN LISTS SUBDIRS)
@@ -27,14 +30,14 @@ foreach(SUB_DIR IN LISTS SUBDIRS)
         )
 
         add_executable(${PROJECT_NAME} ${COMMON_SRC_FILES} ${COMMON_LIB_SRC_FILES} ${LOCAL_SRC_FILES})
-        target_include_directories(${PROJECT_NAME} PRIVATE ${COMMON_DIR} ${SUB_DIR}/src)
+        target_include_directories(${PROJECT_NAME} PRIVATE ${COMMON_DIR} ${SUB_DIR}/src ${PREPROCESSOR_DIR})
 
         set_target_properties(${PROJECT_NAME} PROPERTIES OUTPUT_NAME ${OUTPUT_NAME})
 
         set(LINKER_FILE ${SUB_DIR}/linker.ld)
         target_link_options(${PROJECT_NAME} PRIVATE -T ${LINKER_FILE} "-Wl,--just-symbols=${SYMBOLFILE}")
 
-        add_dependencies(${PROJECT_NAME} make_payloads_dirs)
+        add_dependencies(${PROJECT_NAME} all_payloads)
 
         add_custom_command(
             TARGET ${PROJECT_NAME} POST_BUILD

@@ -1,13 +1,12 @@
 MEMORY {
-    RAM : ORIGIN = 0x023C4400, LENGTH = 60k
+    RAM : ORIGIN = 0x020dd8c8, LENGTH = 60k
 }
 
 SECTIONS {
+    . = 0x020dd8c8;
+
     .text : {
-        _start = 0x023C4400;
-        KEEP(*(.text.main))
-        KEEP(*(.text.main_thumb))
-        *(.text.startup)
+        _start = 0x020dd8c8;
         *(.text*)
         . = ALIGN(4);
     } > RAM

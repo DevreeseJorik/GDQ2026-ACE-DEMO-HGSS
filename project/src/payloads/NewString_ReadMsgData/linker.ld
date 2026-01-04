@@ -1,10 +1,10 @@
 MEMORY {
-    RAM : ORIGIN = 0x23C4A00, LENGTH = 60k
+    RAM : ORIGIN = 0x23C48B0, LENGTH = 60k
 }
 
 SECTIONS {
     .text : {
-        _start = 0x23C4A00;
+        _start = 0x23C48B0;
         KEEP(*(.text.main))
         KEEP(*(.text.main_thumb))
         *(.text.startup)
