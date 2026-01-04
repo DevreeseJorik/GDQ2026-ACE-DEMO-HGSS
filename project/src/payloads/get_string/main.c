@@ -62,6 +62,13 @@ void getStringWrapper(const MSGDATA_MANAGER *man, u32 strId, STRBUF *dest) {
   if (loadCustomString(man, strId, dest))
     return;
 
+  // Special case: if a string shown in the Credit Sequence, AND it has not been
+  // found Then set the strId to 0xFF, which we specified to return null
+  if (man->dataId == 0x1B8) {
+    if (loadCustomString(man, 0xFF, dest))
+      return;
+  }
+
   switch (man->type) {
   case TYPE_NORMAL:
     getString(man->msgData, strId, dest);

@@ -21,10 +21,10 @@ entries:
 
   - name: trainers
     trainers:
-    - dataId: 0x2A
+    - dataId: 256
       trainerData:
         data_type: 3
-        tr_type: 0x31
+        tr_type: 0x56
         tr_gra: 0
         name: RETIRE
       team:
@@ -42,21 +42,250 @@ entries:
 
   - name: messages
     messages:
+      # == Title Screen ==
       - type: 1
         dataId: 0x2CF
         string: "{ALN_CENTER, 0}Arbitrary Code Execution DEMO"
+      # == Trainer Banner ==
+      - type: 1
+        dataId: 0x2D9
+        strId: 0xF4
+        string: "RETIRE"
+      # == Trainer Title ==
       - type: 1
         dataId: 0x2DA
-        strId: 0x31
+        strId: 0x56
         string: "Void Master"
+     # == CREDITS ==
+     # == Page 1 ==
+      - type: 0
+        dataId: 0x1B8
+        strId: 0x1
+        string: "{COLOR, 0, 1}{ALN_CENTER, 0, 0}Pokemon GDQ Edition\n{COLOR, 0, 0}{ALN_CENTER, 1, 0}ACE Showcase Credits"
+      # == Page 2 ==
+      - type: 0
+        dataId: 0x1B8
+        strId: 0x3
+        string: "{COLOR, 0, 1}ACE Developers"
+      - type: 0
+        dataId: 0x1B8
+        strId: 0x4
+        string: "RETIRE\nMartmists"
+      # == Page 3 ==
+      - type: 0
+        dataId: 0x1B8
+        strId: 0x5
+        string: "{COLOR, 0, 1}Runner"
+      - type: 0
+        dataId: 0x1B8
+        strId: 0x6
+        string: "TTS4life"
+      - type: 0
+        dataId: 0x1B8
+        strId: 0x7
+        string: "{COLOR, 0, 1}Couch"
+      - type: 0
+        dataId: 0x1B8
+        strId: 0x8
+        string: "Etchy\ngroundzero\nShenanagans_________\n____________________"
+      - type: 0
+        dataId: 0x1B8
+        strId: 0xB
+        string: "{COLOR, 0, 1}Artist"
+      - type: 0
+        dataId: 0x1B8
+        strId: 0xC
+        string: "Swiftalu"
+      # == Page 4 ==
+      - type: 0
+        dataId: 0x1B8
+        strId: 0xD
+        string: "{COLOR, 0, 1}ROM-hacking community"
+      - type: 0
+        dataId: 0x1B8
+        strId: 0xE
+        string: "AdAstra\nYako?\nShuckle Lord Mixone\nK...\nAll DSPRE developers!"
+      # == Page 5 ==
+      - type : 0
+        dataId: 0x1B8
+        strId: 0x14
+        string: "{COLOR, 0, 1}    Thank you AGDQ 2026!"
+      # == Page 6 ==
+      - type: 0
+        dataId: 0x1B8
+        strId: 0x20
+        string: "(Surprised Pikachu Face)"
+      # == Page 7 ==
+      - type: 0
+        dataId: 0x1B8
+        strId: 0x26
+        string: "Yeah that was it guys"
+      # == Page 8 ==
+      - type: 0
+        dataId: 0x1B8
+        strId: 0x30
+        string: "..."
+      # == Page 9
+      - type: 0
+        dataId: 0x1B8
+        strId: 0x38
+        string: "These are a lot longer\nthan I remember"
+      # == Page 10
+      - type: 0
+        dataId: 0x1B8
+        strId: 0x40
+        string: "You are still watching?"
+      # == Page 11
+      - type: 0
+        dataId: 0x1B8
+        strId: 0x46
+        string: "Like seriously that was it."
+      # == Page 11
+      - type: 0
+        dataId: 0x1B8
+        strId: 0x48
+        string: "Soo.. What we doing after\nthis? ;)\n"
+      # == Page 12
+      - type: 0
+        dataId: 0x1B8
+        strId: 0x4C
+        string: "..."
+      # == Page 13
+      - type: 0
+        dataId: 0x1B8
+        strId: 0x50
+        string: "Just Kidding, haha!"
+      # == Page 14
+      - type: 0
+        dataId: 0x1B8
+        strId: 0x56
+        string: "... Unless?"
+      # == Page 15
+      - type: 0
+        dataId: 0x1B8
+        strId: 0x5D
+        string: "Alright. Bye for real now!\n    RETIRE OUT!"
+      # == Null Entry Default ==
+      - type: 0
+        dataId: 0x1B8
+        strId: 0xFF
+        string: ""
+      # == Player House ==
+      - type: 1
+        dataId: 0x221
+        strId: 0x21
+        string: "Hey GDQ, Sweetie.\rI'd love to congratulate you on your\nvictory...\rBut I've heard rumors about something.\nYou should visit the Ruins of Alph.\rPlease, make haste at once.\r"
+      # == Sinjoh Ruins (Void Temple) ==
+      - type: 1
+        dataId: 0x92
+        strId: 20
+        string: "???: ... ... ...\r ... You ... \rYou've finally made your appearance.\r...\rI've taken notice of your antics.\r"
+      - type: 1
+        dataId: 0x92
+        strId: 21
+        string: "Dashing through routes. Moving the\nearth. Bending Space.\rSlipping between seems, leaving behind\nplaces the void may escape through.\r"
+      - type: 1
+        dataId: 0x92
+        strId: 22
+        string: "Tweaking... a powerful technique only\na handful can wield.\rAnd even fewer can truly understand.\r"
+      - type: 1
+        dataId: 0x92
+        strId: 23
+        string: "I come from a land filled with diamonds\nand pearls.\rHere, I spent years researching the\ntrue potential of this glitch.\rOpening black voids, catching the\nunobtainable.\rRewriting reality itself.\r"
+      - type: 1
+        dataId: 0x92
+        strId: 24
+        string: "Tell me... How did you like the little\ngift I sent you?\rQuite... 'Wonderful', wasn't it?\rOne might even say...{COLOR, 0, 1}ACE{COLOR, 1, 0}.\r"
+      - type: 1
+        dataId: 0x92
+        strId: 25
+        string: "It seems we have to part for now.\rAnother guest has arrived.\r"
+      - type: 1
+        dataId: 0x92
+        strId: 26
+        string: "Where did you come from?!\rI was just in here a moment before...\r"
+      - type: 1
+        dataId: 0x92
+        strId: 27
+        string: "My name is Cynthia. I've been studying\nthese ruins to understand\rthe close dynamic between people\nand Pokémon.\rThere is a cabin not far from here.\nLet us talk in private there.\r"
+      - type: 1
+        dataId: 0x92
+        strId: 0
+        string: "Cynthia: this is the{COLOR, 0, 1}Mystri Stage{COLOR, 1, 0}. The\nmythical stage built to show respect\rfor ARCEUS. I feel a strong connection\nto Sinnoh here.\r"
+      - type: 1
+        dataId: 0x92
+        strId: 1
+        string: "Cynthia: According to ancient document,\ntime ,space, and antimatter shall join\ras they were once born.\rOn that day, a fierce battle will\ndetermine the future of both Sinnoh\rand Johto.\r"
+      - type: 1
+        dataId: 0x92
+        strId: 2
+        string: "I believe that day has come to be.\rYou being here, along with ARCEUS,\namongst this turmoil.\rYes, this cannot be mere coincidence.\rEach of us must take part in this play.\nWhen you are ready, please join me.\r"
+      - type: 1
+        dataId: 0x92
+        strId: 0xF
+        string: "Activate the final part of the\nsequence?\r"
+      # == Sinjoh Ruins outside ==
+      - type: 1
+        dataId: 0x91
+        strId: 7
+        string: "Temple of the Void.\r"
+      # == Cabin ==
+      - type: 1
+        dataId: 0x93
+        strId: 0
+        string: "Cynthia: Ah, welcome trainer.\rThe{COLOR, 0, 1}Sinjoh Ruins{COLOR, 1, 0} remind me of Sinnoh,\nwhere I come from.\rIt is believed that this temple acts as\nsome kind of gate.\rInitially, I believed this to be a gate\nto the three dieties of Sinnoh.\rThese dieties are Dialga, Palkia and\nGiratina. They ruled space and time.\rThis ended two decades ago.\rThe people of Sinnoh discovered a new\nmethod of transportation.\rRather than moving themselves...\rThey would move the world around them.\r"
+      - type: 1
+        dataId: 0x93
+        strId: 1
+        string: "Cynthia: You know of this power?\rA technique known as Tweaking...\rAnd you have been using it.\r"
+      - type: 1
+        dataId: 0x93
+        strId: 2
+        string: "This only confirms my suspicions...\nTrainer, you are using a dangerous power.\nWhere I come from, some people figured\rout how to leverage it to bend the\rentire universe to their will.\rAnd I'm afraid that they're trying to\nachieve the same here.\r"
+      - type: 1
+        dataId: 0x93
+        strId: 3
+        string: "Cynthia: It is possible that through\nyour efforts, you have helped open\ra rift to Sinnoh.\rA rift to those that wield its true\npower.\r"
+      - type: 1
+        dataId: 0x93
+        strId: 4
+        string: "Cynthia: we should make haste at once,\ntrainer. I hope we are still on time.\r"
     address: 0x023C8000
 
   - name: images
     images:
-      - path: assets/ghosts.png
+      - path: assets/beta_arceus.png
+        name: arceus
         archive_id: 0x72
         sprite_id: 0x61
+
+      - path: assets/ghosts.png
+        name: shaymin
+        archive_id: 0x72
+        sprite_id: 0x61
+
+      - path: assets/ghosts.png
+        archive_id: 0x4
+        name: darkrai
+        sprite_id: 0xB85
         background_color: [255, 255, 255, 255]
+
+      - path: assets/ghosts.png
+        archive_id: 0x4
+        name: dialga
+        sprite_id: 0xB55
+        background_color: [255, 255, 255, 255]
+
+      - path: assets/ghosts.png
+        archive_id: 0x4
+        name: palkia
+        sprite_id: 0xB5B
+        background_color: [255, 255, 255, 255]
+
+      - path: assets/beta_arceus.png
+        name: giratina
+        archive_id: 0x72
+        sprite_id: 0x97
 
       - path: assets/test.png
         archive_id: 0x4
