@@ -22,25 +22,15 @@ class CharConverter:
         if end == -1:
             raise ValueError("Unclosed control sequence starting at position {}".format(i))
         inner = text[i + 1:end]
-        parts = [p.strip() for p in inner.split(",", 1)]
+        parts = [p.strip() for p in inner.split(",")]
 
         if len(parts) == 1:
             parts.append(0)
-        elif len(parts) != 2:
-            raise ValueError(f"Invalid control sequence syntax: {{{inner}}}")
-        
-        name, value_str = parts
-        key = self.rev_function_keys.get(name)
-        if key is None:
-            raise ValueError(f"Unknown control name: {name!r}")
-        try:
-            value = int(value_str)
-        except ValueError:
-            raise ValueError(f"Invalid control value (must be int): {value_str!r}")
+
+        key = self.rev_function_keys.get(parts[0])
         ctrl_prefix = 0xFFFE
-        ctrl_type = int(key, 16)
-        ctrl_value = value & 0xFFFF
-        return [ctrl_prefix, ctrl_type, ctrl_value], end + 1
+
+        return [ctrl_prefix, int(key, 16)] + [int(v,0) & 0xFFFF for v in parts[1:]], end + 1
 
     def ascii_to_codes(self, text):
         codes = []
@@ -59,7 +49,7 @@ class CharConverter:
             codes.append(int(hexcode, 16))
             i += 1
 
-        if codes[len(codes)-1] != 0xFFFF:
+        if not codes or codes[len(codes)-1] != 0xFFFF:
             codes.append(0xFFFF)
 
         return codes
