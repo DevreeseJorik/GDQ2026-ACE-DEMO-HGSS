@@ -13,7 +13,7 @@ typedef struct {
 } CUSTOM_MSG_HEADER;
 
 static const CUSTOM_MSG_HEADER *customMsgHeaders =
-    (CUSTOM_MSG_HEADER *)0x023C4E00;
+    (CUSTOM_MSG_HEADER *)0x023C8000;
 
 #define MAX_MSGS 100
 
@@ -54,10 +54,10 @@ BOOL loadCustomString(const MSGDATA_MANAGER *man, u32 strId, STRBUF *dest) {
 }
 
 void getStringWrapper(const MSGDATA_MANAGER *man, u32 strId, STRBUF *dest) {
-  write_u32((u32 *)0x23C6010, man->dataId);
-  write_u32((u32 *)0x23C6014, strId);
-  write_u32((u32 *)0x23C6018, man->type);
-  write_u32((u32 *)0x23C601C, (u32)dest);
+  write_u32((u32 *)0x23DFC10, man->dataId);
+  write_u32((u32 *)0x23DFC14, strId);
+  write_u32((u32 *)0x23DFC18, man->type);
+  write_u32((u32 *)0x23DFC1C, (u32)dest);
 
   if (loadCustomString(man, strId, dest))
     return;

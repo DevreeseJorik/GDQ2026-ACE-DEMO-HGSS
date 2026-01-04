@@ -13,26 +13,27 @@ static const char **archiveTable = (const char **)0x0210F210;
 static SPRITE_ARCHIVE_INFO archiveInfo;
 
 static const CUSTOM_SCRIPT_HEADER *customEventHeaders =
-    (CUSTOM_SCRIPT_HEADER *)0x023C4600;
+    (CUSTOM_SCRIPT_HEADER *)0x023C4A00;
 
-BOOL loadCustomScript(u32 scriptId, void *dest) {
-  write_u32((u32 *)0x23C6000, scriptId);
-  write_u32((u32 *)0x23C6004, (u32)dest);
+void *loadCustomScript(u32 scriptId, u32 heapId) {
+  void *buf = NULL;
+  write_u32((u32 *)0x23DFC00, scriptId);
 
   for (int i = 0; i < 100; i++) {
     CUSTOM_SCRIPT_HEADER header = customEventHeaders[i];
 
     if (!header.exists)
-      return FALSE;
+      break;
 
     if (header.scriptId != scriptId)
       continue;
 
-    memcp(dest, (void *)(u8 *)customEventHeaders + header.offset, header.size);
-    return TRUE;
+    buf = Heap_Alloc(heapId, header.size);
+    memcp(buf, (void *)(u8 *)customEventHeaders + header.offset, header.size);
+    break;
   }
 
-  return FALSE;
+  return buf;
 }
 
 __attribute__((naked)) __attribute__((section(".text.main")))
@@ -53,13 +54,17 @@ main(void) {
   if (getCustomPokemon(&archiveInfo))
     memcp(&manager->archiveInfo, &archiveInfo, sizeof(SPRITE_ARCHIVE_INFO));
 
-  void *buf = AllocAndReadFromNarcMemberByPathAndId(archiveTable[archiveId],
-                                                    dataId, heapId, 0, 0, 0);
-
+  void *buf = NULL;
   switch (archiveId) {
   case 0xC:
-    loadCustomScript(dataId, buf);
+    buf = loadCustomScript(dataId, heapId);
   }
+
+  if (buf == NULL)
+    buf = AllocAndReadFromNarcMemberByPathAndId(archiveTable[archiveId], dataId,
+                                                heapId, 0, 0, 0);
+
+  write_u32((u32 *)0x23DFC04, (u32)buf);
 
   __asm__ volatile("mov r0, %0\n"
                    "pop {r1-r7}\n"
