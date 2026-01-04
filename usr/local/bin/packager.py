@@ -262,6 +262,20 @@ def parse_entry(entry, root_path, previous_parsed_entry=None):
 
     print("Processing entry:", project_name)
 
+    # determine kind for reporting/theoretical layout
+    if entry.get("bytes") is not None:
+        kind = "bytes"
+    elif entry.get("messages") is not None:
+        kind = "messages"
+    elif entry.get("scripts") is not None:
+        kind = "scripts"
+    elif entry.get("images") is not None:
+        kind = "images"
+    elif entry.get("trainers") is not None:
+        kind = "trainers"
+    else:
+        kind = "binary"
+
     data = resolve_binary(entry, root_path, project_name)
 
     address_spec = entry.get("address", None)
@@ -289,6 +303,7 @@ def parse_entry(entry, root_path, previous_parsed_entry=None):
 
     return {
         "name": project_name,
+        "kind": kind,
         "data": data,
         "size": len(data),
         "address": address,
@@ -312,6 +327,83 @@ def verify_address(entry, allocated_entries=[]):
             error(f"address {address:#x} overlaps with previously allocated entry at {entry_address:#x} (size {entry_size})")
 
     allocated_entries.append(entry)
+
+def report_unused_regions(allocated_entries):
+    if not allocated_entries:
+        print("No allocated entries; entire region is unused.")
+        print(f"Unused region: {START_ADDRESS:#010x} - {START_ADDRESS + UNPACKED_SIZE:#010x} "
+              f"({UNPACKED_SIZE} bytes)")
+        print(f"Total remaining free space: {UNPACKED_SIZE} bytes")
+        return
+
+    entries_sorted = sorted(allocated_entries, key=lambda e: e["address"])
+
+    current = START_ADDRESS
+    end = START_ADDRESS + UNPACKED_SIZE
+    total_free = 0
+
+    print("\nUnused memory regions (gaps between binaries):")
+
+    for e in entries_sorted:
+        addr = e["address"]
+        size = e["size"]
+
+        if addr > current:
+            gap_start = current
+            gap_end = addr
+            gap_size = gap_end - gap_start
+            total_free += gap_size
+            print(f"  {gap_start:#010x} - {gap_end:#010x} ({gap_size} bytes)")
+
+        current = max(current, addr + size)
+
+    if current < end:
+        gap_start = current
+        gap_end = end
+        gap_size = gap_end - gap_start
+        total_free += gap_size
+        print(f"  {gap_start:#010x} - {gap_end:#010x} ({gap_size} bytes)")
+
+    print(f"\nTotal remaining free space: {total_free} bytes")
+
+def report_theoretical_layout(allocated_entries):
+    if not allocated_entries:
+        print("\nNo entries for theoretical layout.")
+        return
+
+    def category(entry):
+        kind = entry.get("kind", "binary")
+        if kind in ("images", "messages", "scripts", "trainers"):
+            return kind
+
+        return "regular"
+
+    category_order = {
+        "regular": 0,
+        "images": 1,
+        "messages": 2,
+        "scripts": 3,
+        "trainers": 4
+    }
+
+    indexed = list(enumerate(allocated_entries))
+    indexed.sort(key=lambda t: (category_order.get(category(t[1]), 99), t[0]))
+
+    print("\nTheoretical best layout (no gaps, grouped by type):")
+    print(f"  Start address: {START_ADDRESS:#010x}")
+
+    cursor = START_ADDRESS
+    for idx, entry in indexed:
+        name = entry["name"]
+        kind = entry.get("kind", "binary")
+        size = entry["size"]
+        addr = cursor
+        print(f"  {addr:#010x} - {addr + size:#010x}  {size:6d} bytes  [{kind:8}]  {name}")
+        cursor += size
+
+    total_used = cursor - START_ADDRESS
+    print(f"\n  Total used in theoretical layout: {total_used} bytes")
+    print(f"  Theoretical end address: {cursor:#010x}")
 
 
 def main():
@@ -387,6 +479,9 @@ def main():
     packed_path = output_path / "packed.bin"
     packed_path.write_bytes(bytes(packed))
     print(f"Wrote packed memory with box padding: {packed_path} ({PACKED_SIZE} bytes)")
+
+    report_unused_regions(allocated_entries)
+    report_theoretical_layout(allocated_entries)
 
     return 0
 
