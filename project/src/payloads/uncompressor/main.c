@@ -28,5 +28,8 @@ main(void) {
   // prevent loading of trainer names
   write_u32((u32 *)0x02073430, 0x0);
 
+  // skip straight to credits (as long as mode of EndGameScreen == 1)
+  write_u8((u8 *)0x02052b1a, 0xA);
+
   __asm__ volatile("pop {r0-r7, pc}\n");
 }

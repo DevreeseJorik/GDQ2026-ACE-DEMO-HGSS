@@ -5,17 +5,17 @@ entries:
 
   - name: cardi_readcard
 
-  - name: palette_load
+  - name: savedata_load
 
   - name: sprite_load
 
+  - name: palette_load
+
   - name: archive_data_load_malloc
 
-  - name: scripts
-    scripts: scripts
-    address: 0x023C4600
-
   - name: archive_data_load
+
+  - name: get_string
 
   - name: get_vec_sinjoh_ruins
 
@@ -34,13 +34,13 @@ entries:
         - { pow: 0, custom: 0x78, level: 80, monsno: Giratina, moves: [0xF7] }
         - { pow: 0, custom: 0x77, level: 78, monsno: Palkia, moves: [0xF6] }
         - { pow: 0, custom: 0x78, level: 80, monsno: Dialga, moves: [0xFF] }
-    address: 0x23C4800
+    address: 0x23C4820
 
-  - name: get_string
+  - name: scripts
+    scripts: scripts
+    address: 0x023C4A00
 
-  - name: savedata_load
-
-  - name: custom_messages
+  - name: messages
     messages:
       - type: 1
         dataId: 0x2CF
@@ -49,7 +49,7 @@ entries:
         dataId: 0x2DA
         strId: 0x31
         string: "Void Master"
-    address: 0x023C4E00
+    address: 0x023C8000
 
   - name: images
     images:
@@ -61,4 +61,4 @@ entries:
       - path: assets/test.png
         archive_id: 0x4
         sprite_id: 0x86
-    address: 0x23C8000
+    address: 0x23CA000
