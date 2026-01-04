@@ -30,7 +30,6 @@ entries:
       team:
         - { pow: 0, custom: 0x77, level: 78, monsno: Arceus, moves: [0x01D2] }
         - { pow: 0, custom: 0x78, level: 80, monsno: Darkrai, moves: [0x1C1] }
-        - { pow: 0, custom: 0x77, level: 78, monsno: Arceus, moves: [0x18F, 0x11E] }
         - { pow: 0, custom: 0x78, level: 80, monsno: Giratina, moves: [0xF7] }
         - { pow: 0, custom: 0x77, level: 78, monsno: Palkia, moves: [0xF6] }
         - { pow: 0, custom: 0x78, level: 80, monsno: Dialga, moves: [0xFF] }
@@ -256,11 +255,6 @@ entries:
     images:
       - path: assets/beta_arceus.png
         name: arceus
-        archive_id: 0x72
-        sprite_id: 0x61
-
-      - path: assets/ghosts.png
-        name: shaymin
         archive_id: 0x72
         sprite_id: 0x61
 
