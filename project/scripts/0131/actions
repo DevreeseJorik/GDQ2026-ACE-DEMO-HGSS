@@ -1,0 +1,264 @@
+Action 1:
+		WalkNorth8 0x8
+End
+
+Action 2:
+		WalkSouth8 0x3
+		WalkWest8 0x4
+End
+
+Action 3:
+		WalkEast8 0x8
+End
+
+Action 4:
+		WalkWest8 0x4
+		WalkNorth8 0x6
+End
+
+Action 5:
+		WalkSouth8 0x4
+End
+
+Action 6:
+		WalkSouth8 0x8
+End
+
+Action 7:
+		WalkNorth8 0x4
+		WalkWest8 0x4
+		WalkOnSpotEast8 0x1
+End
+
+Action 8:
+		Delay16 0x2
+End
+
+Action 9:
+		WalkEast8 0x4
+		WalkSouth8 0x4
+End
+
+Action 10:
+		EmoteExclamation 0x1
+		WalkWest8 0x1
+		WalkOnSpotEast8 0x1
+End
+
+Action 11:
+		WalkNorth8 0x1
+End
+
+Action 12:
+		WalkNorth8 0x5
+		WalkEast8 0x4
+		WalkOnSpotWest8 0x1
+End
+
+Action 13:
+		WalkWest8 0x4
+		WalkSouth8 0x6
+		WalkWest8 0x1
+End
+
+Action 14:
+		WalkOnSpotSouth8 0x1
+End
+
+Action 15:
+		WalkSouth8 0x2
+End
+
+Action 16:
+		EmoteExclamation 0x1
+		Delay16 0x1
+		WalkOnSpotWest8 0x1
+		Delay16 0x1
+		WalkOnSpotEast8 0x1
+		Delay16 0x1
+		WalkOnSpotSouth8 0x1
+		Delay16 0x1
+End
+
+Action 17:
+		WalkNorth8 0xE
+End
+
+Action 18:
+		WalkSouth8 0xE
+End
+
+Action 19:
+		Delay16 0x1
+		EmoteExclamation 0x1
+		Delay16 0x1
+		WalkNorth8 0x3
+		Delay16 0x1
+End
+
+Action 20:
+		Delay16 0x1
+		WalkOnSpotWest8 0x1
+		Delay16 0x1
+		WalkOnSpotEast8 0x1
+		Delay16 0x1
+		WalkOnSpotNorth8 0x1
+		Delay16 0x1
+End
+
+Action 21:
+		Delay16 0x1
+		WalkSouth8 0x3
+End
+
+Action 22:
+		WalkEast16 0x4
+		WalkNorth16 0x4
+		WalkOnSpotSouth8 0x1
+End
+
+Action 23:
+		WalkEast16 0x4
+		WalkNorth16 0x3
+End
+
+Action 24:
+		WalkWest16 0x4
+		WalkNorth16 0x4
+		WalkOnSpotSouth8 0x1
+End
+
+Action 25:
+		WalkWest16 0x4
+		WalkNorth16 0x3
+End
+
+Action 26:
+		WalkNorth16 0x2
+		WalkEast16 0x5
+		WalkNorth16 0x1
+		WalkOnSpotSouth8 0x1
+End
+
+Action 27:
+		WalkSouth16 0x3
+		WalkOnSpotSouth8 0x1
+End
+
+Action 28:
+		WalkSouth16 0x4
+End
+
+Action 29:
+		WalkWest16 0x3
+		WalkNorth16 0x3
+		WalkOnSpotSouth8 0x1
+End
+
+Action 30:
+		WalkEast16 0x3
+		WalkNorth16 0x3
+		WalkOnSpotSouth8 0x1
+End
+
+Action 31:
+		WalkEast2 0x4
+		FaceNorth 0x1
+End
+
+Action 32:
+		WalkSouth16 0x4
+		WalkEast16 0x1
+		WalkOnSpotSouth8 0x1
+End
+
+Action 33:
+		WalkNorth16 0x2
+		WalkWest16 0x5
+		WalkNorth16 0x1
+		WalkOnSpotSouth8 0x1
+End
+
+Action 34:
+		WalkEast16 0x4
+		WalkNorth16 0x2
+		WalkOnSpotSouth8 0x1
+End
+
+Action 35:
+		WalkWest2 0x4
+		FaceNorth 0x1
+End
+
+Action 36:
+		WalkNorth8 0x3
+End
+
+Action 37:
+		WalkSouth16 0x4
+		WalkWest16 0x1
+		WalkOnSpotSouth8 0x1
+End
+
+Action 38:
+		WalkWest16 0x4
+		WalkNorth16 0x2
+		WalkOnSpotSouth8 0x1
+End
+
+Action 39:
+		WalkSouth8 0x7
+		FaceNorth 0x1
+End
+
+Action 40:
+		Delay8 0x1
+		EmoteExclamation 0x1
+		Delay8 0x1
+End
+
+Action 41:
+		WalkSouth8 0x3
+End
+
+Action 42:
+		WalkEast16 0x1
+		WalkSouth16 0x5
+		WalkWest16 0x1
+		WalkOnSpotSouth8 0x1
+End
+
+Action 43:
+		WalkNorth8 0x9
+End
+
+Action 44:
+		Delay16 0x2
+		WalkSouth8 0x2
+End
+
+Action 45:
+		Delay16 0x2
+		WalkSouth8 0x4
+End
+
+Action 46:
+		Delay8 0x1
+		WalkOnSpotSouth8 0x1
+End
+
+Action 47:
+		FaceEast 0x1
+		Delay8 0x3
+		FaceWest 0x1
+		Delay8 0x3
+End
+
+Action 48:
+		WalkOnSpotNorth8 0x1
+End
+
+Action 49:
+		WalkSouth8 0x3
+End
+
