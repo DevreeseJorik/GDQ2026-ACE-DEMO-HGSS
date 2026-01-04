@@ -11,6 +11,20 @@ add_custom_command(TARGET make_hooks_dirs PRE_BUILD
     COMMENT "Creating directories for hooks subproject"
 )
 
+add_custom_target(all_hooks ALL)
+add_custom_command(
+    TARGET all_hooks
+    POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E make_directory ${PREPROCESSOR_DIR}
+    COMMAND ${PYTHON_EXECUTABLE} ${CMAKE_SOURCE_DIR}/tools/make_preprocessors.py
+            --bins  ${OUT_DIR}/hooks/bins
+            --dumps ${OUT_DIR}/hooks/dumps
+            --out   ${PREPROCESSOR_DIR}
+    COMMENT "Generating preprocessors after all hooks are built"
+)
+
+add_dependencies(all_hooks make_hooks_dirs)
+
 file(GLOB SUBDIRS LIST_DIRECTORIES true ${CMAKE_CURRENT_SOURCE_DIR}/*)
 
 foreach(SUBDIR IN LISTS SUBDIRS)
@@ -25,16 +39,16 @@ foreach(SUBDIR IN LISTS SUBDIRS)
 
         add_custom_command(
             TARGET ${PROJECT_NAME} POST_BUILD
-            COMMAND ${CMAKE_OBJCOPY} -O binary 
-                    $<TARGET_FILE:${PROJECT_NAME}> 
+            COMMAND ${CMAKE_OBJCOPY} -O binary
+                    $<TARGET_FILE:${PROJECT_NAME}>
                     ${BIN_DIR}/${OUTPUT_NAME}.bin
             COMMENT "Generating binary for ${PROJECT_NAME}"
         )
 
         add_custom_command(
             TARGET ${PROJECT_NAME} POST_BUILD
-            COMMAND ${CMAKE_OBJDUMP} -d 
-                $<TARGET_FILE:${PROJECT_NAME}> 
+            COMMAND ${CMAKE_OBJDUMP} -d
+                $<TARGET_FILE:${PROJECT_NAME}>
                 > ${OBJDUMP_DIR}/${OUTPUT_NAME}.dump
             COMMENT "Generating object dump for ${PROJECT_NAME}"
         )
@@ -44,5 +58,7 @@ foreach(SUBDIR IN LISTS SUBDIRS)
             DEPENDS ${BIN_DIR}/${OUTPUT_NAME}.bin
             DEPENDS ${OBJDUMP_DIR}/${OUTPUT_NAME}.dump
         )
+
+        add_dependencies(all_hooks build_${PROJECT_NAME})
     endif()
 endforeach()

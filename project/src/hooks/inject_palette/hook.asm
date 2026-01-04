@@ -6,5 +6,5 @@
 .thumb
 .global start
 _start:
-bl 0x023c5201 @ custom palette payload
+bl 0x023c4500 @ custom palette payload
 

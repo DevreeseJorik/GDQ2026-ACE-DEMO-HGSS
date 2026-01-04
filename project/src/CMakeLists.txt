@@ -7,5 +7,8 @@ file(GLOB COMMON_LIB_SRC_FILES
     ${COMMON_DIR}/libs/*/*.c
 )
 
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/hooks)
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/payloads)
+set(PREPROCESSOR_DIR ${OUT_DIR}/hooks/preprocessor)
+
+add_subdirectory(hooks)
+add_subdirectory(payloads)
+add_dependencies(all_payloads all_hooks)

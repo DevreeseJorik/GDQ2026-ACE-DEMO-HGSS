@@ -6,4 +6,4 @@
 .thumb
 .global start
 _start:
-bl 0x23c5001 @ custom narc payload
+bl 0x0 @ custom narc payload
