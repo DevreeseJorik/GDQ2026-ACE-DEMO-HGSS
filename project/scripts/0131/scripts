@@ -1,0 +1,145 @@
+Script 1:
+End
+
+Script 2:
+	PlayFanfare SEQ_SE_CONFIRM
+	LockAll
+	FacePlayer
+	Message 0
+	CloseMessage
+	GetPlayerPosition 0x4007 0x4008
+	LockCamera 0x4007 0x4008
+	Movement Camera Action#1
+	WaitMovement
+	Message 5
+	CloseMessage
+	Movement Camera Action#2
+	WaitMovement
+	Message 7
+	CloseMessage
+	Movement Camera Action#3
+	WaitMovement
+	Message 8
+	CloseMessage
+	Movement Camera Action#4
+	WaitMovement
+	Message 9
+	CloseMessage
+	Movement Camera Action#5
+	WaitMovement
+	Message 1
+	CloseMessage
+	Movement Camera Action#6
+	WaitMovement
+	Message 2
+	CloseMessage
+	Movement Overworld.0 Action#7
+	Movement Camera Action#7
+	WaitMovement
+	CMD_820 1
+	Movement Overworld.0 Action#8
+	WaitMovement
+	CMD_820 0
+	Movement Camera Action#9
+	WaitMovement
+	PlayCry SPECIES_ARCEUS 1
+	WaitCry
+	Movement Player Action#10
+	WaitMovement
+	Movement Following Action#11
+	WaitMovement
+	Movement Following Action#12
+	Movement Camera Action#12
+	WaitMovement
+	CMD_820 2
+	Movement Overworld.0 Action#8
+	WaitMovement
+	CMD_820 0
+	Movement Camera Action#13
+	WaitMovement
+	ReleaseCamera
+	SetVar 0x4104 1
+End
+
+Script 3:
+	CompareVarValue 0x40FB 3
+	JumpIf EQUAL Function#1
+	CompareVarValue 0x40FB 7
+	JumpIf EQUAL Function#2
+	CompareVarValue 0x40FB 8
+	JumpIf EQUAL Function#2
+	CompareVarValue 0x40FB 9
+	JumpIf EQUAL Function#2
+	CompareVarValue 0x40FB 12
+	JumpIf EQUAL Function#2
+	CompareVarValue 0x40FB 13
+	JumpIf EQUAL Function#2
+End
+
+Script 4:
+	MecScript
+	LockAll
+	CompareVarValue 0x40FB 13
+	JumpIf LESS Function#3
+	CompareVarValue 0x4103 2
+	JumpIf EQUAL Function#4
+	Call Function#5
+	CompareVarValue 0x400A 0
+	JumpIf EQUAL Function#6
+	CompareVarValue 0x400A 2
+	JumpIf EQUAL Function#7
+	CompareVarValue 0x400A 3
+	JumpIf EQUAL Function#8
+	Message 28
+Jump Function#9
+
+Script 5:
+	MecScript
+	LockAll
+	CompareVarValue 0x40FB 13
+	JumpIf LESS Function#10
+	CompareVarValue 0x4103 1
+	JumpIf EQUAL Function#4
+	Call Function#5
+	CompareVarValue 0x400A 0
+	JumpIf EQUAL Function#6
+	CompareVarValue 0x400A 2
+	JumpIf EQUAL Function#7
+	CompareVarValue 0x400A 3
+	JumpIf EQUAL Function#8
+	Message 27
+Jump Function#11
+
+Script 6:
+	MecScript
+	LockAll
+	CMD_820 3
+	Movement Player Action#14
+	WaitMovement
+	CMD_820 0
+	CompareVarValue 0x40FB 13
+	JumpIf LESS Function#12
+	CompareVarValue 0x4103 3
+	JumpIf EQUAL Function#4
+	Call Function#5
+	CompareVarValue 0x400A 0
+	JumpIf EQUAL Function#6
+	CompareVarValue 0x400A 2
+	JumpIf EQUAL Function#7
+	CompareVarValue 0x400A 3
+	JumpIf EQUAL Function#8
+	Message 29
+Jump Function#13
+
+Script 7:
+	Call Function#14
+	SetVar 0x40FB 4
+	ReleaseAll
+End
+
+Script 8:
+	Call Function#14
+	SetVar 0x40FB 13
+	ReleaseAll
+End
+

@@ -37,7 +37,7 @@ from pathlib import Path
 
 from image_converter import ImageConverter
 from string_converter import CharConverter, CustomMessagePacker
-from script_converter import ScriptPacker, EventPacker, CommandConverter
+from script_converter import ScriptPacker
 from trainer_converter import TrainerConverter
 
 try:
@@ -147,9 +147,7 @@ def resolve_scripts(entry, project_name):
     if not script_dir.exists() or not script_dir.is_dir():
         error(f"'scripts' for '{project_name}' must be a directory: {script_dir}")
 
-    cmd = CommandConverter()
-    event_packer = EventPacker(cmd)
-    script_packer = ScriptPacker(event_packer)
+    script_packer = ScriptPacker()
 
     try:
         return script_packer.pack_all_scripts(script_dir)

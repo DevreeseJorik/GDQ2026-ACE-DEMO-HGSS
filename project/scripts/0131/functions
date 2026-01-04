@@ -1,0 +1,703 @@
+Function 1:
+	SetOWDefaultPosition Overworld.0 0 0
+	SetFlag 731
+End
+
+Function 2:
+	InitMystriStageAnimation
+End
+
+Function 3:
+	Message 14
+	CMD_820 2
+	SetVar 0x4009 484
+Jump Function#15
+
+Function 4:
+	Message 30
+	WaitButton
+	CloseMessage
+End
+
+Function 5:
+	GetPartyCount 0x8004
+	CompareVarValue 0x8004 1
+	JumpIf EQUAL Function#16
+	CMD_490 0x4008
+	SetVar 0x400A 2
+Return
+
+Function 6:
+	Message 30
+	WaitButton
+	CloseMessage
+End
+
+Function 7:
+	Message 31
+	WaitButton
+	CloseMessage
+End
+
+Function 8:
+	Message 33
+	WaitButton
+	CloseMessage
+End
+
+Function 9:
+	CMD_820 2
+	SetVar 0x4009 484
+Jump Function#15
+
+Function 10:
+	Message 13
+	CMD_820 1
+	SetVar 0x4009 483
+Jump Function#15
+
+Function 11:
+	CMD_820 1
+	SetVar 0x4009 483
+Jump Function#15
+
+Function 12:
+	Movement Player Action#14
+	WaitMovement
+	Message 15
+	CMD_820 3
+	SetVar 0x4009 487
+Jump Function#15
+
+Function 13:
+	CMD_820 3
+	SetVar 0x4009 487
+Jump Function#15
+
+Function 14:
+	MecScript
+	LockAll
+	LockFollowingPoke 0
+	WaitFollowingPoke
+	SetFollowingPokeMovement 55
+	Movement Player Action#15
+	WaitMovement
+	WaitFollowingPoke
+	LockFollowingPoke 1
+	SetFollowingPokeMovement 48
+	SetVar 0x40FB 4
+	ShakeCamera 1 1 2 33
+	Movement Player Action#16
+	WaitMovement
+	GetPlayerPosition 0x8004 0x8005
+	LockCamera 0x8004 0x8005
+	Movement Camera Action#17
+	WaitMovement
+	Movement Following Action#8
+	WaitMovement
+	Message 20
+	Message 21
+	Message 22
+	Message 23
+	Message 24
+	CloseMessage
+	PlayFanfare SEQ_SE_DP_KAIDAN2
+	WaitFanfare SEQ_SE_DP_KAIDAN2
+	Movement Following Action#8
+	WaitMovement
+	Message 25
+	CloseMessage
+	Movement Camera Action#18
+	WaitMovement
+	ReleaseCamera
+	ClearFlag 732
+	AddOW Overworld.0
+	SetOWPosition Overworld.0 16 0 30 Up
+	Movement Overworld.0 Action#19
+	WaitMovement
+	Message 26
+	CloseMessage
+	Movement Overworld.0 Action#20
+	WaitMovement
+	Message 27
+	CloseMessage
+	Movement Overworld.0 Action#21
+	WaitMovement
+	PlayFanfare SEQ_SE_DP_KAIDAN2
+	RemoveOW Overworld.0
+Return
+
+Function 15:
+	CMD_490 0x4009
+	OpenTouchScreen
+	YesNoTouchScreen 0x800C
+	CloseTouchScreen
+	CompareVarValue 0x800C 0
+	JumpIf EQUAL Function#17
+	CompareVarValue 0x800C 1
+	JumpIf GREATER/EQUAL Function#18
+End
+
+Function 16:
+	GetFirstAlivePokemonSlot 0x4000
+	CompareVarValue 0x4102 1
+	JumpIf DIFFERENT Function#19
+	FollowingPokemonIsEventTrigger 1 0x4000 0x800C
+	CompareVarValue 0x800C 1
+	JumpIf EQUAL Function#20
+	FollowingPokemonIsEventTrigger 2 0x4000 0x800C
+	CompareVarValue 0x800C 1
+	JumpIf EQUAL Function#21
+Jump Function#22
+
+Function 17:
+	IncrementVar 0x4019 1
+	CompareVarValue 0x4019 3
+	JumpIf LESS Function#23
+	CloseMessage
+	CompareVarValue 0x40FB 13
+	JumpIf DIFFERENT Function#24
+	SetVar 0x40FB 14
+Jump Function#25
+
+Function 18:
+	CloseMessage
+	CMD_820 0
+	ReleaseAll
+End
+
+Function 19:
+	CompareVarValue 0x4102 2
+	JumpIf DIFFERENT Function#26
+	FollowingPokemonIsEventTrigger 2 0x4000 0x800C
+	CompareVarValue 0x800C 1
+	JumpIf EQUAL Function#20
+	FollowingPokemonIsEventTrigger 1 0x4000 0x800C
+	CompareVarValue 0x800C 1
+	JumpIf EQUAL Function#21
+Jump Function#22
+
+Function 20:
+	SetVar 0x400A 1
+Return
+
+Function 21:
+	SetVar 0x400A 3
+Return
+
+Function 22:
+	SetVar 0x400A 0
+Return
+
+Function 23:
+	CloseMessage
+	Movement Player Action#8
+	WaitMovement
+	GetPlayerPosition 0x4007 0x4008
+	LockCamera 0x4007 0x4008
+	Movement Camera Action#49
+	WaitMovement
+	Movement Overworld.0 Action#8
+	WaitMovement
+	Movement Camera Action#2
+	WaitMovement
+	AdrsValueSet 0x23D5DEA 1
+	AdrsValueSet 0x23D5DE6 12
+	AdrsValueSet 0x23D5DEE 13
+	CMD_820 1
+	PlayFanfare SEQ_SE_GS_TAMASYUTUGEN
+	CMD_817 0
+	StopFanfare SEQ_SE_GS_TAMASYUTUGEN
+	CMD_820 0
+	Movement Camera Action#3
+	WaitMovement
+	AdrsValueSet 0x23D5DE6 20
+	CMD_820 2
+	PlayFanfare SEQ_SE_GS_TAMASYUTUGEN
+	CMD_817 1
+	StopFanfare SEQ_SE_GS_TAMASYUTUGEN
+	CMD_820 0
+	Movement Camera Action#4
+	WaitMovement
+	AdrsValueSet 0x23D5DE6 16
+	AdrsValueSet 0x23D5DEE 8
+	CMD_820 3
+	PlayFanfare SEQ_SE_GS_TAMASYUTUGEN
+	CMD_817 2
+	StopFanfare SEQ_SE_GS_TAMASYUTUGEN
+	CMD_820 0
+	Movement Camera Action#49
+	WaitMovement
+	AdrsValueSet 0x23D5DEE 13
+	PlayFanfare SEQ_SE_GS_TAMASYUTUGEN
+	UnownCircle
+	StopFanfare SEQ_SE_GS_DOWSING_LOOP
+	Message 30
+	WaitButton
+	CloseMessage
+	TrainerBattle TRAINER_ERIKA_256 TRAINER_NONE 0 0
+	Message 31
+	CloseMessage
+	FadeScreen 0 0 0 0
+	EndGameScreen 1
+	ReleaseCamera
+End
+
+Function 24:
+	SetVar 0x40FB 9
+	CMD_820 0
+	SetVar 0x4104 0
+	GetPlayerPosition 0x8004 0x8005
+	LockCamera 0x8004 0x8005
+	GetPlayerDirection 0x4002
+	CompareVarValue 0x4009 483
+	JumpIf DIFFERENT Function#27
+Jump Function#28
+
+Function 25:
+	CMD_820 0
+	SetVar 0x4104 0
+	GetPlayerPosition 0x8004 0x8005
+	LockCamera 0x8004 0x8005
+	GetPlayerDirection 0x4002
+	CompareVarValue 0x4009 483
+	JumpIf DIFFERENT Function#27
+Jump Function#28
+
+Function 26:
+Jump Function#22
+
+Function 27:
+	CompareVarValue 0x4009 484
+	JumpIf DIFFERENT Function#29
+Jump Function#30
+
+Function 28:
+	CompareVarValue 0x4002 0
+	JumpIf DIFFERENT Function#31
+	Movement Following Action#22
+	Movement Camera Action#23
+Jump Function#32
+
+Function 29:
+Jump Function#33
+
+Function 30:
+	CompareVarValue 0x4002 0
+	JumpIf DIFFERENT Function#34
+	Movement Following Action#24
+	Movement Camera Action#25
+Jump Function#35
+
+Function 31:
+	CompareVarValue 0x4002 3
+	JumpIf DIFFERENT Function#36
+	Movement Following Action#26
+	Movement Camera Action#23
+Jump Function#32
+
+Function 32:
+	WaitMovement
+Jump Function#37
+
+Function 33:
+	CompareVarValue 0x4002 0
+	JumpIf DIFFERENT Function#38
+	Movement Following Action#27
+	Movement Camera Action#28
+Jump Function#39
+
+Function 34:
+	CompareVarValue 0x4002 3
+	JumpIf DIFFERENT Function#40
+	Movement Following Action#29
+	Movement Camera Action#25
+Jump Function#35
+
+Function 35:
+	WaitMovement
+Jump Function#37
+
+Function 36:
+	CompareVarValue 0x4002 2
+	JumpIf DIFFERENT Function#41
+	Movement Following Action#30
+	Movement Camera Action#23
+Jump Function#32
+
+Function 37:
+	FadeOutMusic 0 30
+	PlayFanfare SEQ_SE_GS_TAMASYUTUGEN
+	UnownCircle
+	StopFanfare SEQ_SE_GS_DOWSING_LOOP
+	RenderCutscene 2
+	CompareVarValue 0x40FB 14
+	JumpIf EQUAL Function#42
+	Release Overworld.0
+	SetOWPosition Overworld.0 16 1 28 Up
+	WaitTime 5 0x800C
+	Lock Overworld.0
+	CompareVarValue 0x4009 483
+	JumpIf DIFFERENT Function#43
+	Movement Player Action#31
+Jump Function#44
+
+Function 38:
+	CompareVarValue 0x4002 3
+	JumpIf DIFFERENT Function#45
+	Movement Following Action#32
+	Movement Camera Action#28
+Jump Function#39
+
+Function 39:
+	WaitMovement
+Jump Function#37
+
+Function 40:
+	CompareVarValue 0x4002 2
+	JumpIf DIFFERENT Function#46
+	Movement Following Action#33
+	Movement Camera Action#25
+Jump Function#35
+
+Function 41:
+	Movement Following Action#34
+	Movement Camera Action#23
+	WaitMovement
+Jump Function#37
+
+Function 42:
+	CompareVarValue 0x4009 483
+	JumpIf DIFFERENT Function#43
+	Movement Player Action#31
+Jump Function#44
+
+Function 43:
+	CompareVarValue 0x4009 484
+	JumpIf DIFFERENT Function#47
+	Movement Player Action#35
+Jump Function#44
+
+Function 44:
+	WaitTime 150 0x800C
+	FadeScreen 6 30 1 0
+	WaitFadeScreen
+	GetPlayerPosition 0x8004 0x8005
+	LockCamera 0x8004 0x8005
+	CMD_490 0x8004
+	CMD_490 0x8005
+	Movement Camera Action#36
+	WaitMovement
+	PlayFanfare SEQ_SE_GS_TAMASYUTUGEN
+	CompareVarValue 0x4009 483
+	JumpIf DIFFERENT Function#48
+	CMD_817 0
+Jump Function#49
+
+Function 45:
+	CompareVarValue 0x4002 2
+	JumpIf DIFFERENT Function#50
+	Movement Following Action#37
+	Movement Camera Action#28
+Jump Function#39
+
+Function 46:
+	Movement Following Action#38
+	Movement Camera Action#25
+	WaitMovement
+Jump Function#37
+
+Function 47:
+	Movement Player Action#39
+	WaitTime 150 0x800C
+	FadeScreen 6 30 1 0
+	WaitFadeScreen
+	GetPlayerPosition 0x8004 0x8005
+	LockCamera 0x8004 0x8005
+	CMD_490 0x8004
+	CMD_490 0x8005
+	Movement Camera Action#36
+	WaitMovement
+	PlayFanfare SEQ_SE_GS_TAMASYUTUGEN
+	CompareVarValue 0x4009 483
+	JumpIf DIFFERENT Function#48
+	CMD_817 0
+Jump Function#49
+
+Function 48:
+	CompareVarValue 0x4009 484
+	JumpIf DIFFERENT Function#51
+	CMD_817 1
+Jump Function#49
+
+Function 49:
+	StopFanfare SEQ_SE_GS_TAMASYUTUGEN
+	Movement Player Action#40
+	WaitMovement
+	CMD_819
+	WaitTime 2 0x800C
+	Message 25
+	CMD_490 0x4009
+	TextPlayerName 0
+	TextPokemon 1 0x4009 0 0
+	PlaySound SEQ_ME_SHINKAOME
+	Message 26
+	WaitSound
+	CloseMessage
+	Movement Camera Action#41
+	WaitMovement
+	ReleaseCamera
+	PlayDefaultMusic
+	CMD_490 0x4009
+	CompareVarValue 0x4009 483
+	JumpIf DIFFERENT Function#52
+	GivePokemon SPECIES_DIALGA 1 ITEM_ADAMANT_ORB 0 0 0x800C
+	SetVar 0x4103 1
+Jump Function#53
+
+Function 50:
+	Movement Following Action#42
+	Movement Camera Action#28
+	WaitMovement
+Jump Function#37
+
+Function 51:
+	CMD_817 2
+	StopFanfare SEQ_SE_GS_TAMASYUTUGEN
+	Movement Player Action#40
+	WaitMovement
+	CMD_819
+	WaitTime 2 0x800C
+	Message 25
+	CMD_490 0x4009
+	TextPlayerName 0
+	TextPokemon 1 0x4009 0 0
+	PlaySound SEQ_ME_SHINKAOME
+	Message 26
+	WaitSound
+	CloseMessage
+	Movement Camera Action#41
+	WaitMovement
+	ReleaseCamera
+	PlayDefaultMusic
+	CMD_490 0x4009
+	CompareVarValue 0x4009 483
+	JumpIf DIFFERENT Function#52
+	GivePokemon SPECIES_DIALGA 1 ITEM_ADAMANT_ORB 0 0 0x800C
+	SetVar 0x4103 1
+Jump Function#53
+
+Function 52:
+	CompareVarValue 0x4009 484
+	JumpIf DIFFERENT Function#54
+	GivePokemon SPECIES_PALKIA 1 ITEM_LUSTROUS_ORB 0 0 0x800C
+	SetVar 0x4103 2
+Jump Function#53
+
+Function 53:
+	OpenTouchScreen
+	Message 32
+	YesNoTouchScreen 0x800C
+	CloseMessage
+	CMD_815 0
+	CompareVarValue 0x800C 0
+	CallIf EQUAL Function#55
+	CompareVarValue 0x40FB 14
+	JumpIf EQUAL Function#56
+	Movement Overworld.0 Action#43
+	Movement Player Action#44
+	Movement Following Action#45
+	WaitMovement
+	Message 16
+	CloseMessage
+	Movement Overworld.0 Action#46
+	WaitMovement
+	Message 17
+	CloseMessage
+	PlayFanfare SEQ_SE_GS_ZENIGAME_JOURO
+	FadeScreen 6 6 0 0
+	WaitFadeScreen
+	WaitTime 1 0x800C
+	FadeScreen 6 6 1 0
+	WaitFadeScreen
+	Movement Overworld.0 Action#47
+	WaitMovement
+	Message 18
+	CloseMessage
+	Movement Overworld.0 Action#48
+	WaitMovement
+	Message 19
+	CloseMessage
+	PlayFanfare SEQ_SE_GS_ZENIGAME_JOURO
+	FadeScreen 6 6 0 0
+	WaitFadeScreen
+	WaitTime 1 0x800C
+	FadeScreen 6 6 1 0
+	WaitFadeScreen
+	CompareVarValue 0x40FB 14
+	JumpIf EQUAL Function#57
+	GetFirstAlivePokemonSlot 0x4005
+	FollowingPokemonIsEventTrigger 2 0x4005 0x4006
+	CompareVarValue 0x4006 1
+	JumpIf DIFFERENT Function#58
+	SetVar 0x4102 1
+Jump Function#59
+
+Function 54:
+	GivePokemon SPECIES_GIRATINA 1 ITEM_GRISEOUS_ORB 1 26 0x800C
+	SetVar 0x4103 3
+	OpenTouchScreen
+	Message 32
+	YesNoTouchScreen 0x800C
+	CloseMessage
+	CMD_815 0
+	CompareVarValue 0x800C 0
+	CallIf EQUAL Function#55
+	CompareVarValue 0x40FB 14
+	JumpIf EQUAL Function#56
+	Movement Overworld.0 Action#43
+	Movement Player Action#44
+	Movement Following Action#45
+	WaitMovement
+	Message 16
+	CloseMessage
+	Movement Overworld.0 Action#46
+	WaitMovement
+	Message 17
+	CloseMessage
+	PlayFanfare SEQ_SE_GS_ZENIGAME_JOURO
+	FadeScreen 6 6 0 0
+	WaitFadeScreen
+	WaitTime 1 0x800C
+	FadeScreen 6 6 1 0
+	WaitFadeScreen
+	Movement Overworld.0 Action#47
+	WaitMovement
+	Message 18
+	CloseMessage
+	Movement Overworld.0 Action#48
+	WaitMovement
+	Message 19
+	CloseMessage
+	PlayFanfare SEQ_SE_GS_ZENIGAME_JOURO
+	FadeScreen 6 6 0 0
+	WaitFadeScreen
+	WaitTime 1 0x800C
+	FadeScreen 6 6 1 0
+	WaitFadeScreen
+	CompareVarValue 0x40FB 14
+	JumpIf EQUAL Function#57
+	GetFirstAlivePokemonSlot 0x4005
+	FollowingPokemonIsEventTrigger 2 0x4005 0x4006
+	CompareVarValue 0x4006 1
+	JumpIf DIFFERENT Function#58
+	SetVar 0x4102 1
+Jump Function#59
+
+Function 55:
+	GetPartyCount 0x800C
+	DecrementVar 0x800C 1
+	SetVar 0x4008 0
+	FadeScreen 6 1 0 0
+	WaitFadeScreen
+	ChoosePokemonNickname 0x800C 0x4008
+	CMD_819
+	FadeScreen 6 1 1 0
+	WaitFadeScreen
+Return
+
+Function 56:
+	PlayFanfare SEQ_SE_GS_ZENIGAME_JOURO
+	FadeScreen 6 6 0 0
+	WaitFadeScreen
+	WaitTime 1 0x800C
+	FadeScreen 6 6 1 0
+	WaitFadeScreen
+	CompareVarValue 0x40FB 14
+	JumpIf EQUAL Function#57
+	GetFirstAlivePokemonSlot 0x4005
+	FollowingPokemonIsEventTrigger 2 0x4005 0x4006
+	CompareVarValue 0x4006 1
+	JumpIf DIFFERENT Function#58
+	SetVar 0x4102 1
+Jump Function#59
+
+Function 57:
+	PlayFanfare SEQ_SE_DP_KAIDAN2
+	CompareVarValue 0x403E 6
+	JumpIf DIFFERENT Function#60
+	FadeScreen 6 1 0 0
+	WaitFadeScreen
+	Warp 490 0 9 24 Down
+	FadeScreen 6 1 1 0
+	WaitFadeScreen
+Jump Function#61
+
+Function 58:
+	SetVar 0x4102 2
+	ClearFlag 743
+	PlayFanfare SEQ_SE_DP_KAIDAN2
+	CompareVarValue 0x403E 6
+	JumpIf DIFFERENT Function#60
+	FadeScreen 6 1 0 0
+	WaitFadeScreen
+	Warp 490 0 9 24 Down
+	FadeScreen 6 1 1 0
+	WaitFadeScreen
+Jump Function#61
+
+Function 59:
+	ClearFlag 743
+	PlayFanfare SEQ_SE_DP_KAIDAN2
+	CompareVarValue 0x403E 6
+	JumpIf DIFFERENT Function#60
+	FadeScreen 6 1 0 0
+	WaitFadeScreen
+	Warp 490 0 9 24 Down
+	FadeScreen 6 1 1 0
+	WaitFadeScreen
+Jump Function#61
+
+Function 60:
+	CompareVarValue 0x403E 7
+	JumpIf DIFFERENT Function#62
+	FadeScreen 6 1 0 0
+	WaitFadeScreen
+	Warp 492 0 9 24 Down
+	FadeScreen 6 1 1 0
+	WaitFadeScreen
+Jump Function#61
+
+Function 61:
+	ReleaseAll
+End
+
+Function 62:
+	CompareVarValue 0x403E 8
+	JumpIf DIFFERENT Function#63
+	FadeScreen 6 1 0 0
+	WaitFadeScreen
+	Warp 492 0 9 24 Down
+	FadeScreen 6 1 1 0
+	WaitFadeScreen
+Jump Function#61
+
+Function 63:
+	CompareVarValue 0x403E 9
+	JumpIf DIFFERENT Function#64
+	FadeScreen 6 1 0 0
+	WaitFadeScreen
+	Warp 492 0 9 24 Down
+	FadeScreen 6 1 1 0
+	WaitFadeScreen
+Jump Function#61
+
+Function 64:
+	FadeScreen 6 1 0 0
+	WaitFadeScreen
+	Warp 315 0 9 24 Down
+	FadeScreen 6 1 1 0
+	WaitFadeScreen
+	ReleaseAll
+End
+
