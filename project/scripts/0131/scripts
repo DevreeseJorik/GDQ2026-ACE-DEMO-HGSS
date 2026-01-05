@@ -15,11 +15,11 @@ Script 2:
 	CloseMessage
 	Movement Camera Action#2
 	WaitMovement
-	Message 7
+	Message 8
 	CloseMessage
 	Movement Camera Action#3
 	WaitMovement
-	Message 8
+	Message 7
 	CloseMessage
 	Movement Camera Action#4
 	WaitMovement
