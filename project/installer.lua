@@ -28,13 +28,26 @@ end
 
 local function writeGiftHeader(memoryAddress)
     local giftHeader = {
-        0x06, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x9E, 0x10, 0x02,
-        0x00, 0x00, 0x07, 0x00, 0x19, 0x82, 0x04, 0x02, 0x47, 0x03, 0x03, 0x00, 0x00
+        0x06, 0x00, 0x00, 0x00, -- gift type: accessory
+        0x01, 0x00, 0x00, 0x00, -- variant: seal
+        0x9E, 0x10, 0x02, 0x00, -- id: 0x2109E
+        0x00, 0x07, 0x00, 0x19, 0x82, 0x04, 0x02, 0x47, -- write 0x47 to 0x2048219 (overwrite push to bx)
+        0x03, 0x03, 0x00, 0x00 -- execute command located at 0x2048219 (bx to current address)
     }
     mainmemory.write_bytes_as_array(memoryAddress - 0x2000000, giftHeader)
 end
 
-local function forceBoxSave() 
+local function writeGiftFooter(memoryAddress)
+    local giftFooter = {
+        -- 0x51, 0x00, 0x00, 0x00, -- stop music
+        -- 0x05, 0x03, 0x00, 0x00, -- play ho-oh cutscene
+        0x13, 0x1, 0x0, 0x0, -- shop call
+        0xDD, 0x01, 0x03, 0x00, 0x40 -- any command that can call an assert
+    }
+    mainmemory.write_bytes_as_array(memoryAddress - 0x2000000, giftFooter)
+end
+
+local function forceBoxSave()
     local boxSaveBitsPointer = 0x02028c8e
     mainmemory.write_u8(boxSaveBitsPointer - 0x2000000, 0xFF)
 end
@@ -49,6 +62,7 @@ local function install()
 
     writeGiftHeader(giftDataPointer)
     writeBinToMemory(config.giftDataFile, giftDataPointer + 0x18)
+    writeGiftFooter(giftDataPointer + 0xA8)
     writeBinToMemory(config.boxDataFile, boxDataPointer)
     writeBinToMemory(config.unpackedFile, 0x23C4000)
     writeBinToMemory(config.bootstrapMonFile, partyDataPointer + 0x4 * 0xEC)
