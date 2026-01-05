@@ -6,6 +6,7 @@
 .thumb
 .global start
 _start:
-.word 0x023C4120
+mov r0, #0x14
+pop {r3, pc}
 
 
