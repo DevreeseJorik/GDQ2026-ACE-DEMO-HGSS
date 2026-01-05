@@ -29,12 +29,13 @@ void unpack_box_data(u8 *destAddress) {
 __attribute__((naked)) __attribute__((section(".text.main_thumb")))
 __attribute__((target("thumb"))) void
 main(void) {
-  __asm__ volatile(
-      "push {r0-r7, lr}\n"
-      "ldr r1, [r0, #0x8]\n"
-      "add r1, r1, #0xFE\n"
-      "str r1, [r0, #0x8]\n"); // advance command pointer to past arbitrary code
+  __asm__ volatile("push {r0-r7, lr}\n"
+                   "ldr r1, [r0, #0x8]\n"
+                   "add r1, r1, #0x90\n"
+                   "str r1, [r0, #0x8]\n"); // advance command pointer past
+                                            // arbitrary code
   unpack_box_data((u8 *)0x23C4000);
   SET_HOOK(OSI_DORESETSYSTEM);
+  SET_HOOK(COMMUNICATION_ERROR);
   __asm__ volatile("pop {r0-r7, pc}\n");
 }
