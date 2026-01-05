@@ -93,6 +93,15 @@ ReadMsgData_ExistingNarc_ExistingString(ARCHANDLE *arcHandle, u32 dataId,
                                                     heapId, dest);
 }
 
+#define fp_SetStringAsPlaceholder                                              \
+  fp_thumb(0x0200bdf8, void,                                                   \
+           (WORDSET *, u32, const STRBUF *, const WORDSET_PARAM *))
+static inline void SetStringAsPlaceholder(WORDSET *wordset, u32 bufId,
+                                          const STRBUF *str,
+                                          const WORDSET_PARAM *param) {
+  fp_SetStringAsPlaceholder(wordset, bufId, str, param);
+}
+
 #define fp_ReadMsgData_ExistingNarc_NewString                                  \
   fp_thumb(0x0200b9f8, STRBUF *, (ARCHANDLE *, u32, u32, u32))
 static inline STRBUF *ReadMsgData_ExistingNarc_NewString(ARCHANDLE *arcHandle,
@@ -112,6 +121,12 @@ static inline void CopyU16ArrayToStringN(STRBUF *strbuf, const STRCODE *str,
 #define fp_String_New fp_thumb(0x02026354, STRBUF *, (u32, u32))
 static inline STRBUF *String_New(u32 size, u32 heapId) {
   return fp_String_New(size, heapId);
+}
+
+#define fp_GetBoxMonData                                                       \
+  fp_thumb(0x0206e640, u32, (POKEMON_PASO_PARAM *, int, void *))
+static inline u32 GetBoxMonData(POKEMON_PASO_PARAM *ppp, int id, void *buf) {
+  return fp_GetBoxMonData(ppp, id, buf);
 }
 
 static inline void *getBasePointer() { return (void *)*(u32 *)0x021D2228; }

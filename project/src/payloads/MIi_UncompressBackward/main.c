@@ -25,6 +25,8 @@ main(void) {
 
   SET_HOOK(SAVEDATA_TRYLOADONCONTINUE);
 
+  SET_HOOK(BUFFERBOXMONNICKNAME);
+
   // prevent loading of trainer names
   write_u32((u32 *)0x02073430, 0x0);
 

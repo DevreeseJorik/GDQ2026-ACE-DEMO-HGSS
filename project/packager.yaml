@@ -17,6 +17,8 @@ entries:
 
   - name: ReadMsgDataIntoString
 
+  - name: BufferBoxMonNickname
+
   - name: get_vec_sinjoh_ruins
 
   - name: trainers
@@ -28,11 +30,11 @@ entries:
         tr_gra: 0
         name: RETIRE
       team:
-        - { pow: 0, custom: 0x77, level: 78, monsno: Arceus, moves: [0x01D2] }
-        - { pow: 0, custom: 0x78, level: 80, monsno: Darkrai, moves: [0x1C1] }
-        - { pow: 0, custom: 0x78, level: 80, monsno: Giratina, moves: [0xF7] }
-        - { pow: 0, custom: 0x77, level: 78, monsno: Palkia, moves: [0xF6] }
-        - { pow: 0, custom: 0x78, level: 80, monsno: Dialga, moves: [0xFF] }
+        - { pow: 0, custom: 0x77, level: 82, monsno: Eevee, moves: [0x01D2] }
+        - { pow: 0, custom: 0x78, level: 88, monsno: Unown, moves: [0x1C1] }
+        - { pow: 0, custom: 0x78, level: 88, monsno: Bidoof, moves: [0xF7] }
+        - { pow: 0, custom: 0x78, level: 90, monsno: Bulbasaur, moves: [0xFF] }
+        - { pow: 0, custom: 0x77, level: 98, monsno: PorygonZ, moves: [0xF6] }
     address: 0x23C4820
 
   - name: scripts
@@ -55,6 +57,20 @@ entries:
         dataId: 0x2DA
         strId: 0x56
         string: "Void Master"
+     # == Pokemon Names ==
+     # type: 2 is custom
+      - type: 2
+        dataId: 0x1
+        string: "-----"
+      - type: 2
+        dataId: 0xC9
+        string: "??????????"
+      - type: 2
+        dataId: 0x18F
+        string: "SUBSTITUTE"
+      - type: 2
+        dataId: 0x1DA
+        string: "MISSINGNO."
      # == CREDITS ==
      # == Page 1 ==
       - type: 0
