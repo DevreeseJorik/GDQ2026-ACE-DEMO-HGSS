@@ -232,11 +232,9 @@ Function 23:
 	PlayFanfare SEQ_SE_GS_TAMASYUTUGEN
 	UnownCircle
 	StopFanfare SEQ_SE_GS_DOWSING_LOOP
-	Message 30
-	WaitButton
-	CloseMessage
+	FadeScreen 0 0 0 0
 	TrainerBattle TRAINER_ERIKA_256 TRAINER_NONE 0 0
-	Message 31
+	Message 29
 	CloseMessage
 	FadeScreen 0 0 0 0
 	EndGameScreen 1
