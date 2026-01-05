@@ -269,35 +269,28 @@ entries:
 
   - name: images
     images:
-      - path: assets/beta_arceus.png
-        name: arceus
+      - path: assets/swiftalu.png
+        name: eevee
+        archive_id: 0x4
+        sprite_id: 0x321
+
+      - path: assets/decamark.png
+        name: unown
         archive_id: 0x72
-        sprite_id: 0x61
+        sprite_id: 0x9
 
-      - path: assets/ghosts.png
+      - path: assets/missingno.png
+        name: porygonz
         archive_id: 0x4
-        name: darkrai
-        sprite_id: 0xB85
-        background_color: [255, 255, 255, 255]
+        sprite_id: 0xB1F
 
-      - path: assets/ghosts.png
+      - path: assets/substitute.png
+        name: bidoof
         archive_id: 0x4
-        name: dialga
-        sprite_id: 0xB55
-        background_color: [255, 255, 255, 255]
+        sprite_id: 0x95D
 
-      - path: assets/ghosts.png
+      - path: assets/dpbox.png
+        name: bulbasaur
         archive_id: 0x4
-        name: palkia
-        sprite_id: 0xB5B
-        background_color: [255, 255, 255, 255]
-
-      - path: assets/beta_arceus.png
-        name: giratina
-        archive_id: 0x72
-        sprite_id: 0x97
-
-      - path: assets/test.png
-        archive_id: 0x4
-        sprite_id: 0x86
+        sprite_id: 0x9
     address: 0x23CA000
