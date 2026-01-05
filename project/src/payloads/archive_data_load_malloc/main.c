@@ -64,8 +64,6 @@ main(void) {
     buf = ArchiveDataLoadIndexMalloc(archiveTable[archiveId], dataId, heapId, 0,
                                      0, 0);
 
-  write_u32((u32 *)0x23DFC04, (u32)buf);
-
   __asm__ volatile("mov r0, %0\n"
                    "pop {r1-r7}\n"
                    "pop {r4, pc}\n"
