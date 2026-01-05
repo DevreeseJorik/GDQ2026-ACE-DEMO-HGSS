@@ -1,22 +1,6 @@
 #include "libs/util/functions.h"
 #include "libs/util/memory.h"
 
-enum { TYPE_NORMAL = 0, TYPE_ARCHIVE };
-
-typedef struct {
-  u16 type;
-  u16 exists;
-  u16 dataId;
-  u16 strId;
-  u16 size;
-  u16 offset;
-} CUSTOM_MSG_HEADER;
-
-static const CUSTOM_MSG_HEADER *customMsgHeaders =
-    (CUSTOM_MSG_HEADER *)0x023C8000;
-
-#define MAX_MSGS 100
-
 BOOL loadCustomString(const MSGDATA_MANAGER *man, u32 strId, STRBUF *dest) {
   for (int i = 0; i < MAX_MSGS; i++) {
     CUSTOM_MSG_HEADER header = customMsgHeaders[i];
