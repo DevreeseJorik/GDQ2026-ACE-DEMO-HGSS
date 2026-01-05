@@ -59,4 +59,42 @@ typedef struct {
   u32 z;
 } VecFx32;
 
+typedef void POKEMON_PASO_PARAM;
+
+typedef struct {
+  u8 def_article;
+  u8 indef_article;
+  u8 preposition;
+  u8 grammer : 7;
+  u8 form : 1;
+} WORDSET_PARAM;
+
+typedef struct {
+  WORDSET_PARAM param;
+  STRBUF *str;
+} WORD;
+
+typedef struct {
+  u32 max;
+  u32 heapID;
+  WORD *word;
+  STRBUF *tmpBuf;
+} WORDSET;
+
+enum { TYPE_NORMAL = 0, TYPE_ARCHIVE, TYPE_CUSTOM_POKE_NICKNAME };
+
+typedef struct {
+  u16 type;
+  u16 exists;
+  u16 dataId;
+  u16 strId;
+  u16 size;
+  u16 offset;
+} CUSTOM_MSG_HEADER;
+
+static const CUSTOM_MSG_HEADER *customMsgHeaders =
+    (CUSTOM_MSG_HEADER *)0x023C8000;
+
+#define MAX_MSGS 100
+
 #endif // _TYPES_H

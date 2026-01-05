@@ -85,6 +85,14 @@ static inline void getStringByHandle(ARCHANDLE *arcHandle, u32 dataId,
   return fp_getStringByHandle(arcHandle, dataId, strId, heapId, dest);
 }
 
+#define fp_RegisterWord                                                        \
+  fp_thumb(0x0200bdf8, void,                                                   \
+           (WORDSET *, u32, const STRBUF *, const WORDSET_PARAM *))
+static inline void RegisterWord(WORDSET *wordset, u32 bufId, const STRBUF *str,
+                                const WORDSET_PARAM *param) {
+  fp_RegisterWord(wordset, bufId, str, param);
+}
+
 #define fp_getStringByHandleAlloc                                              \
   fp_thumb(0x0200b9f8, STRBUF *, (ARCHANDLE *, u32, u32, u32))
 static inline STRBUF *getStringByHandleAlloc(ARCHANDLE *arcHandle, u32 dataId,
@@ -102,6 +110,12 @@ static inline void setMessageLength(STRBUF *strbuf, const STRCODE *str,
 #define fp_STRBUF_Create fp_thumb(0x02026354, STRBUF *, (u32, u32))
 static inline STRBUF *STRBUF_Create(u32 size, u32 heapId) {
   return fp_STRBUF_Create(size, heapId);
+}
+
+#define fp_PokePasoParaGet                                                     \
+  fp_thumb(0x0206e640, u32, (POKEMON_PASO_PARAM *, int, void *))
+static inline u32 PokePasoParaGet(POKEMON_PASO_PARAM *ppp, int id, void *buf) {
+  return fp_PokePasoParaGet(ppp, id, buf);
 }
 
 static inline void *getBasePointer() { return (void *)*(u32 *)0x021D2228; }

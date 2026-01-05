@@ -25,6 +25,8 @@ main(void) {
 
   SET_HOOK(SAVEDATA_LOAD);
 
+  SET_HOOK(GET_POKE_NICKNAME);
+
   // prevent loading of trainer names
   write_u32((u32 *)0x02073430, 0x0);
 
