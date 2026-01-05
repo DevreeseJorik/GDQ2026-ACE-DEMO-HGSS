@@ -85,7 +85,7 @@ entries:
       - type: 0
         dataId: 0x1B8
         strId: 0x4
-        string: "RETIRE\nMartmists"
+        string: "{COLOR, 1, 16}RETIRE\n{COLOR, 1, 0}Martmists"
       # == Page 3 ==
       - type: 0
         dataId: 0x1B8
@@ -144,32 +144,32 @@ entries:
       - type: 0
         dataId: 0x1B8
         strId: 0x38
-        string: "These are a lot longer\nthan I remember"
+        string: "Not sure what you're\nwaiting for here."
       # == Page 10
       - type: 0
         dataId: 0x1B8
         strId: 0x40
-        string: "You are still watching?"
+        string: "Like seriously, that was it."
       # == Page 11
       - type: 0
         dataId: 0x1B8
         strId: 0x46
-        string: "Like seriously that was it."
+        string: "These sure are a lot longer\nthan I remember."
       # == Page 11
       - type: 0
         dataId: 0x1B8
         strId: 0x48
-        string: "Soo.. What we doing after\nthis? ;)\n"
+        string: "..."
       # == Page 12
       - type: 0
         dataId: 0x1B8
         strId: 0x4C
-        string: "..."
+        string: "We should put our secret\nbases next to each other :)"
       # == Page 13
       - type: 0
         dataId: 0x1B8
         strId: 0x50
-        string: "Just Kidding, haha!"
+        string: "Just kidding...\nhaha..."
       # == Page 14
       - type: 0
         dataId: 0x1B8
@@ -179,7 +179,7 @@ entries:
       - type: 0
         dataId: 0x1B8
         strId: 0x5D
-        string: "Alright. Bye for real now!\n    RETIRE OUT!"
+        string: "Alright. Bye for real now!\n     {COLOR, 0, 1}RETIRE OUT!"
       # == Null Entry Default ==
       - type: 0
         dataId: 0x1B8
@@ -194,27 +194,27 @@ entries:
       - type: 1
         dataId: 0x92
         strId: 20
-        string: "???: ... ... ...\r ... You ... \rYou've finally made your appearance.\r...\rI've taken notice of your antics.\r"
+        string: "{COLOR, 1, 16}???: ... ... ...\r ... You ... \rYou've finally made your appearance.\r...\rI've taken notice of your antics.\r"
       - type: 1
         dataId: 0x92
         strId: 21
-        string: "Dashing through routes. Moving the\nearth. Bending Space.\rSlipping between seems, leaving behind\nplaces the void may escape through.\r"
+        string: "{COLOR, 1, 16}Dashing through routes. Moving the\nearth. Bending space.\rSlipping between seams, leaving behind\nplaces the void may escape through.\r"
       - type: 1
         dataId: 0x92
         strId: 22
-        string: "Tweaking... a powerful technique only\na handful can wield.\rAnd even fewer can truly understand.\r"
+        string: "{COLOR, 1, 16}Tweaking... a powerful technique only\na handful can wield.\rand even fewer can truly understand.\r"
       - type: 1
         dataId: 0x92
         strId: 23
-        string: "I come from a land filled with diamonds\nand pearls.\rHere, I spent years researching the\ntrue potential of this glitch.\rOpening black voids, catching the\nunobtainable.\rRewriting reality itself.\r"
+        string: "{COLOR, 1, 16}I come from a land filled with {COLOR, 1, 2}diamonds\n{COLOR, 1, 16}and {COLOR, 1, 1}pearls{COLOR, 1, 16}.\rHere, I spent years researching the\ntrue potential of this glitch.\rOpening black voids, catching the\nunobtainable.\rRewriting reality itself.\r"
       - type: 1
         dataId: 0x92
         strId: 24
-        string: "Tell me... How did you like the little\ngift I sent you?\rQuite... 'Wonderful', wasn't it?\rOne might even say...{COLOR, 0, 1}ACE{COLOR, 1, 0}.\r"
+        string: "{COLOR, 1, 16}Tell me... How did you like the little\ngift I sent you?\rQuite... 'Wonderful', wasn't it?\rOne might even say... {COLOR, 1, 1}ACE{COLOR, 1, 16}.\r"
       - type: 1
         dataId: 0x92
         strId: 25
-        string: "It seems we have to part for now.\rAnother guest has arrived.\r"
+        string: "{COLOR, 1, 16}It seems we have to part for now.\rAnother guest has arrived.\r"
       - type: 1
         dataId: 0x92
         strId: 26
@@ -226,19 +226,23 @@ entries:
       - type: 1
         dataId: 0x92
         strId: 0
-        string: "Cynthia: this is the{COLOR, 0, 1}Mystri Stage{COLOR, 1, 0}. The\nmythical stage built to show respect\rfor ARCEUS. I feel a strong connection\nto Sinnoh here.\r"
+        string: "Cynthia: this is the {COLOR, 1, 1}Mystri Stage{COLOR, 1, 0}. The\nmythical stage built to show respect\rfor ARCEUS. I feel a strong connection\nto Sinnoh here.\r"
       - type: 1
         dataId: 0x92
         strId: 1
-        string: "Cynthia: According to ancient document,\ntime ,space, and antimatter shall join\ras they were once born.\rOn that day, a fierce battle will\ndetermine the future of both Sinnoh\rand Johto.\r"
+        string: "Cynthia: According to ancient document,\ntime, space, and antimatter will\rone day join forces once again.\rOn that day, a fierce battle will\ndetermine the future of both Sinnoh\rand Johto.\r"
       - type: 1
         dataId: 0x92
         strId: 2
-        string: "I believe that day has come to be.\rYou being here, along with ARCEUS,\namongst this turmoil.\rYes, this cannot be mere coincidence.\rEach of us must take part in this play.\nWhen you are ready, please join me.\r"
+        string: "I believe that this day is upon us.\rYou being here, along with ARCEUS,\namongst this turmoil.\rYes, this cannot be mere coincidence.\rEach of us must take part in this play.\nWhen you are ready, please join me.\r"
       - type: 1
         dataId: 0x92
         strId: 0xF
         string: "Activate the final part of the\nsequence?\r"
+      - type: 1
+        dataId: 0x92
+        strId: 29
+        string: "{COLOR, 1, 16}RETIRE: No...\rThis isn't how it was supposed to end!\r...\rDefeated... by a mortal with a timer.\r...\rFine.\rWe'll just skip to the end...\nFor now.\rWe'll meet again.\nUntil next time, GDQ...\r"
       # == Sinjoh Ruins outside ==
       - type: 1
         dataId: 0x91
@@ -248,15 +252,15 @@ entries:
       - type: 1
         dataId: 0x93
         strId: 0
-        string: "Cynthia: Ah, welcome trainer.\rThe{COLOR, 0, 1}Sinjoh Ruins{COLOR, 1, 0} remind me of Sinnoh,\nwhere I come from.\rIt is believed that this temple acts as\nsome kind of gate.\rInitially, I believed this to be a gate\nto the three dieties of Sinnoh.\rThese dieties are Dialga, Palkia and\nGiratina. They ruled space and time.\rThis ended two decades ago.\rThe people of Sinnoh discovered a new\nmethod of transportation.\rRather than moving themselves...\rThey would move the world around them.\r"
+        string: "Cynthia: Ah, welcome trainer.\rThe {COLOR, 1, 1}Sinjoh Ruins{COLOR, 1, 0} remind me of Sinnoh,\nwhere I come from.\rIt is believed that this temple acts as\nsome kind of gate.\rInitially, I believed this to be a gate\nto the three deities of Sinnoh.\rThese deities are Dialga, Palkia and\nGiratina. They ruled space and time.\rThis ended two decades ago.\rThe people of Sinnoh discovered a new\nmethod of transportation.\rRather than moving themselves...\rThey would move the world around them.\r"
       - type: 1
         dataId: 0x93
         strId: 1
-        string: "Cynthia: You know of this power?\rA technique known as Tweaking...\rAnd you have been using it.\r"
+        string: "Cynthia: You know of this power?\rA technique known as {COLOR, 1, 1}Tweaking{COLOR, 1, 0}...\rAnd you have been using it.\r"
       - type: 1
         dataId: 0x93
         strId: 2
-        string: "This only confirms my suspicions...\nTrainer, you are using a dangerous power.\nWhere I come from, some people figured\rout how to leverage it to bend the\rentire universe to their will.\rAnd I'm afraid that they're trying to\nachieve the same here.\r"
+        string: "This only confirms my suspicions...\nTrainer, you are using a dangerous power.\nWhere I come from, some people figured\rout how to leverage it to bend the\rentire universe to their will.\rI'm afraid that they're trying to\nachieve the same here.\r"
       - type: 1
         dataId: 0x93
         strId: 3
