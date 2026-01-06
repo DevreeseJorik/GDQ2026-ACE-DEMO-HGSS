@@ -7,13 +7,13 @@ entries:
 
   - name: savedata_load
 
+  - name: archive_data_load
+
   - name: sprite_load
 
   - name: palette_load
 
   - name: archive_data_load_malloc
-
-  - name: archive_data_load
 
   - name: get_string
 
@@ -38,8 +38,16 @@ entries:
     address: 0x23C4820
 
   - name: scripts
-    scripts: scripts
+    packed_binaries: 
+      directory: "scripts/"
+      extension: "script"
     address: 0x023C4A00
+
+  - name: eventdata
+    packed_binaries: 
+      directory: "eventdata/"
+      extension: "event"
+    address: 0x023C6000
 
   - name: messages
     messages:
@@ -121,64 +129,73 @@ entries:
         strId: 0xE
         string: "AdAstra\nYako?\nShuckle Lord Mixone\nK...\nAll DSPRE developers!"
       # == Page 5 ==
-      - type : 0
-        dataId: 0x1B8
-        strId: 0x14
-        string: "{COLOR, 0, 1}    Thank you AGDQ 2026!"
-      # == Page 6 ==
       - type: 0
         dataId: 0x1B8
+        strId: 0x14
+        string: "{COLOR, 0, 1}Our lovely host"
+      - type : 0
+        dataId: 0x1B8
+        strId: 0x15
+        string: "    Tpat"
+      # == Page 6 ==
+      - type : 0
+        dataId: 0x1B8
         strId: 0x20
-        string: "(Surprised Pikachu Face)"
+        string: "{COLOR, 0, 1}Thank you AGDQ 2026!"
       # == Page 7 ==
       - type: 0
         dataId: 0x1B8
         strId: 0x26
-        string: "Yeah that was it guys"
+        string: "(Surprised Pikachu Face)"
       # == Page 8 ==
       - type: 0
         dataId: 0x1B8
         strId: 0x30
-        string: "..."
+        string: "Yeah that was it guys"
       # == Page 9
       - type: 0
         dataId: 0x1B8
         strId: 0x38
-        string: "Not sure what you're\nwaiting for here."
+        string: "..."
       # == Page 10
       - type: 0
         dataId: 0x1B8
         strId: 0x40
-        string: "Like seriously, that was it."
+        string: "Not sure what you're\nwaiting for here."
       # == Page 11
       - type: 0
         dataId: 0x1B8
         strId: 0x46
-        string: "These sure are a lot longer\nthan I remember."
+        string: "Like seriously, that was it."
       # == Page 11
       - type: 0
         dataId: 0x1B8
         strId: 0x48
-        string: "..."
+        string: "These sure are a lot longer\nthan I remember."
       # == Page 12
       - type: 0
         dataId: 0x1B8
         strId: 0x4C
-        string: "We should put our secret\nbases next to each other :)"
+        string: "..."
       # == Page 13
       - type: 0
         dataId: 0x1B8
         strId: 0x50
-        string: "Just kidding...\nhaha..."
+        string: "We should put our secret\nbases next to each other :)"
       # == Page 14
       - type: 0
         dataId: 0x1B8
         strId: 0x56
-        string: "... Unless?"
+        string: "Just kidding...\nhaha..."
       # == Page 15
       - type: 0
         dataId: 0x1B8
         strId: 0x5D
+        string: "... Unless?"
+      # == Page 16
+      - type: 0
+        dataId: 0x1B8
+        strId: 0x62
         string: "Alright. Bye for real now!\n     {COLOR, 0, 1}RETIRE OUT!"
       # == Null Entry Default ==
       - type: 0
@@ -242,7 +259,19 @@ entries:
       - type: 1
         dataId: 0x92
         strId: 29
-        string: "{COLOR, 1, 16}RETIRE: No...\rThis isn't how it was supposed to end!\r...\rDefeated... by a mortal with a timer.\r...\rFine.\rWe'll just skip to the end...\nFor now.\rWe'll meet again.\nUntil next time, GDQ...\r"
+        string: "{COLOR, 1, 16}???: Well, that's never happened\nbefore...\rAt last, free from that pesky void.\rAs for your reward...\r"
+      - type: 1
+        dataId: 0x92
+        strId: 30
+        string: "{COLOR, 1, 16}???: You, along with your 'chat',\nget to witness my true power.\r"
+      - type: 1
+        dataId: 0x92
+        strId: 31
+        string: "{COLOR, 1, 16}RETIRE: No... his isn't how it was\nsupposed to end!\rPerhaps... I underestimated you.\r"
+      - type: 1
+        dataId: 0x92
+        strId: 32
+        string: "{COLOR, 1, 16}RETIRE: ...\rDefeated... by a mortal with a timer.\r...\rFine.\rWe'll just skip to the end...\nFor now.\rWe'll meet again.\nUntil next time, GDQ...\r"
       # == Sinjoh Ruins outside ==
       - type: 1
         dataId: 0x91
@@ -297,4 +326,4 @@ entries:
         name: bulbasaur
         archive_id: 0x4
         sprite_id: 0x9
-    address: 0x23CA000
+    address: 0x23CB000

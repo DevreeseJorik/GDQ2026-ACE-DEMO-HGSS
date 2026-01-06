@@ -37,7 +37,7 @@ from pathlib import Path
 
 from image_converter import ImageConverter
 from string_converter import CharConverter, CustomMessagePacker
-from script_converter import ScriptPacker
+from binary_packer import BinaryPacker
 from trainer_converter import TrainerConverter
 
 try:
@@ -142,17 +142,29 @@ def resolve_messages(entry, project_name):
     except Exception as e:
         error(f"failed to pack 'messages' for '{project_name}': {e}")
 
-def resolve_scripts(entry, project_name):
-    script_dir = Path(entry.get("scripts"))
-    if not script_dir.exists() or not script_dir.is_dir():
-        error(f"'scripts' for '{project_name}' must be a directory: {script_dir}")
+def resolve_packed_binaries(entry, project_name):
+    cfg = entry.get("packed_binaries")
+    if not isinstance(cfg, dict):
+        error(f"'packed_binaries' for '{project_name}' must be a dict")
 
-    script_packer = ScriptPacker()
+    directory = cfg.get("directory")
+    if not directory:
+        error(f"'packed_binaries' for '{project_name}' must specify a 'directory'")
+
+    directory = Path(directory)
+    if not directory.exists() or not directory.is_dir():
+        error(f"'packed_binaries.directory' for '{project_name}' must be a valid directory: {directory}")
+
+    extension = cfg.get("extension")
+    if not extension:
+        error(f"'packed_binaries.extension for '{project_name}' must be specified")
 
     try:
-        return script_packer.pack_all_scripts(script_dir)
+        from binary_packer import BinaryPacker   # or wherever you placed it
+        packer = BinaryPacker(extension)
+        return packer.pack(directory)
     except Exception as e:
-        error(f"failed to pack script for '{project_name}': {e}")
+        error(f"failed to pack binarypacker for '{project_name}': {e}")
 
 def resolve_image(entry, project_name, root_path):
     img_path = autoresolve_path(entry.get("path"), project_name, root_path, _type="png")
@@ -227,7 +239,7 @@ def resolve_binary(entry, root_path, project_name):
     """Resolve the data for a packager entry. Supports:
        - bytes
        - messages
-       - scripts
+       - packedbinaries
        - image
        - binary
     """
@@ -238,8 +250,8 @@ def resolve_binary(entry, root_path, project_name):
     if entry.get("messages") is not None:
         return resolve_messages(entry, project_name)
 
-    if entry.get("scripts") is not None:
-        return resolve_scripts(entry, project_name)
+    if entry.get("packed_binaries") is not None:
+        return resolve_packed_binaries(entry, project_name)
 
     if entry.get("images") is not None:
         return resolve_images(entry, project_name, root_path)
@@ -267,8 +279,8 @@ def parse_entry(entry, root_path, previous_parsed_entry=None):
         kind = "bytes"
     elif entry.get("messages") is not None:
         kind = "messages"
-    elif entry.get("scripts") is not None:
-        kind = "scripts"
+    elif entry.get("packed_binaries") is not None:
+        kind = "packed_binaries" + "." + entry.get('packed_binaries',{}).get("extension")
     elif entry.get("images") is not None:
         kind = "images"
     elif entry.get("trainers") is not None:
@@ -371,19 +383,17 @@ def report_theoretical_layout(allocated_entries):
         print("\nNo entries for theoretical layout.")
         return
 
+    categories = ("regular", "images", "messages", "scripts", "trainers", "packed_binaries")
     def category(entry):
         kind = entry.get("kind", "binary")
-        if kind in ("images", "messages", "scripts", "trainers"):
-            return kind
+        for cat in categories[1:]:
+            if kind.startswith(cat):
+                return cat
 
-        return "regular"
+        return categories[0]
 
     category_order = {
-        "regular": 0,
-        "images": 1,
-        "messages": 2,
-        "scripts": 3,
-        "trainers": 4
+        cat: id for id, cat in enumerate(categories)
     }
 
     indexed = list(enumerate(allocated_entries))

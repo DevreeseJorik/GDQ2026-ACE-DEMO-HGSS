@@ -52,7 +52,16 @@ typedef struct {
   POKEDATA_TYPE_MULTI team[6];
 } CUSTOM_TRAINER;
 
+typedef struct {
+  u16 exists;
+  u16 dataId;
+  u16 size;
+  u16 offset;
+} CUSTOM_EVENTDATA_HEADER;
+
 const CUSTOM_TRAINER *customTrainers = (CUSTOM_TRAINER *)0x23C4820;
+const CUSTOM_EVENTDATA_HEADER *customEventDataHeaders =
+    (CUSTOM_EVENTDATA_HEADER *)0x023C6000;
 
 const CUSTOM_TRAINER *getCustomTrainer(u16 dataId) {
   for (int i = 0; i < 10; i++) {
@@ -65,6 +74,27 @@ const CUSTOM_TRAINER *getCustomTrainer(u16 dataId) {
   }
 
   return NULL;
+}
+
+BOOL loadCustomEventData(u32 dataId, void *buffer) {
+  write_u32((u32 *)0x23DA000, dataId);
+
+  for (int i = 0; i < 100; i++) {
+    CUSTOM_EVENTDATA_HEADER header = customEventDataHeaders[i];
+
+    if (!header.exists)
+      break;
+
+    if (header.dataId != dataId)
+      continue;
+
+    memset(buffer, 0, 0x800);
+    memcp(buffer, (void *)(u8 *)customEventDataHeaders + header.offset,
+          header.size);
+    return TRUE;
+  }
+
+  return FALSE;
 }
 
 __attribute__((naked)) __attribute__((section(".text.main")))
@@ -87,7 +117,7 @@ main(void) {
   ArchiveDataLoadIndex(data, archiveTable[archiveId], dataId, 0, 0);
 
   switch (archiveId) {
-  case 0x37: { // load trainer info
+  case ARC_TRDATA: {
     TRAINER_DATA *trainerData = (TRAINER_DATA *)data;
     memcp((void *)0x23DFD00, trainerData, sizeof(TRAINER_DATA));
     const CUSTOM_TRAINER *customTrainer = getCustomTrainer(dataId);
@@ -99,7 +129,7 @@ main(void) {
 
     break;
   }
-  case 0x38: { // load team
+  case ARC_TRPOKE: {
     POKEDATA_TYPE_MULTI *team = (POKEDATA_TYPE_MULTI *)data;
 
     memcp((void *)(u8 *)(0x23DFD00 + sizeof(TRAINER_DATA)), team,
@@ -110,6 +140,11 @@ main(void) {
       memcp((void *)team, (void *)&customTrainer->team,
             sizeof(POKEDATA_TYPE_MULTI) * 6);
     }
+    break;
+  }
+  case ARC_EVENTDATA: {
+    loadCustomEventData(dataId, data);
+    break;
   }
   }
 
