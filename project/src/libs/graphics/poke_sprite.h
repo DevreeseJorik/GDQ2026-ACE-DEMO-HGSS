@@ -38,7 +38,7 @@ typedef struct {
 
 // align sprites for packaging
 static CUSTOM_POKEMON_MANAGER *manager =
-    (CUSTOM_POKEMON_MANAGER *)(0x23CA000 - sizeof(SPRITE_ARCHIVE_INFO));
+    (CUSTOM_POKEMON_MANAGER *)(0x23CB000 - sizeof(SPRITE_ARCHIVE_INFO));
 
 BOOL inline isValidPointer(void *ptr) {
   return ((u32)ptr >= 0x02000000 && (u32)ptr < 0x023E0000);

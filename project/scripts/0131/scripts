@@ -62,6 +62,7 @@ Script 2:
 End
 
 Script 3:
+	SetFlag 999
 	CompareVarValue 0x40FB 3
 	JumpIf EQUAL Function#1
 	CompareVarValue 0x40FB 7

@@ -95,6 +95,10 @@ typedef struct {
 static const CUSTOM_MSG_HEADER *customMsgHeaders =
     (CUSTOM_MSG_HEADER *)0x023C8000;
 
+#define ARCHIVE_EVENTDATA 32
+#define ARCHIVE_TRAINERDATA 55
+#define ARCHIVE_TRAINERTEAM 56
+
 #define MAX_MSGS 100
 
 #endif // _TYPES_H

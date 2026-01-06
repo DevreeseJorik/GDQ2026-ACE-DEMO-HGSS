@@ -190,12 +190,13 @@ Function 22:
 Return
 
 Function 23:
+	ClearFlag 999
 	CloseMessage
 	Movement Player Action#8
 	WaitMovement
 	GetPlayerPosition 0x4007 0x4008
 	LockCamera 0x4007 0x4008
-	Movement Camera Action#49
+	Movement Camera Action#22
 	WaitMovement
 	Movement Overworld.0 Action#8
 	WaitMovement
@@ -226,19 +227,43 @@ Function 23:
 	CMD_817 2
 	StopFanfare SEQ_SE_GS_TAMASYUTUGEN
 	CMD_820 0
-	Movement Camera Action#49
+	Movement Camera Action#22
 	WaitMovement
+	ReleaseCamera
 	AdrsValueSet 0x23D5DEE 13
 	PlayFanfare SEQ_SE_GS_TAMASYUTUGEN
 	UnownCircle
 	StopFanfare SEQ_SE_GS_DOWSING_LOOP
-	FadeScreen 0 0 0 0
-	TrainerBattle TRAINER_ERIKA_256 TRAINER_NONE 0 0
+	FadeScreen 0 0 1 0
+	SetFlag 799
+	AddOW Overworld.1
+	PlayFanfare SEQ_SE_DP_KAIDAN2
+	WaitFanfare SEQ_SE_DP_KAIDAN2
+	Movement Overworld.1 Action#23
+	WaitMovement
 	Message 29
 	CloseMessage
+	Movement Overworld.1 Action#14
+	WaitMovement
+	Message 30
+	CloseMessage
+	Movement Overworld.1 Action#24
+	WaitMovement
+	TrainerBattle TRAINER_ERIKA_256 TRAINER_NONE 0 0
+	Movement Overworld.0 Action#25
+	WaitMovement
+	Message 31
+	CloseMessage
+	Movement Overworld.1 Action#26
+	WaitMovement
+	Message 32
+	CloseMessage
+	RemoveOW Overworld.1
+	PlayFanfare SEQ_SE_DP_KAIDAN2
+	WaitFanfare SEQ_SE_DP_KAIDAN2
+	Movement Overworld.0 Action#25
 	FadeScreen 0 0 0 0
 	EndGameScreen 1
-	ReleaseCamera
 End
 
 Function 24:
@@ -273,8 +298,8 @@ Jump Function#30
 Function 28:
 	CompareVarValue 0x4002 0
 	JumpIf DIFFERENT Function#31
-	Movement Following Action#22
-	Movement Camera Action#23
+	Movement Following Action#27
+	Movement Camera Action#28
 Jump Function#32
 
 Function 29:
@@ -283,15 +308,15 @@ Jump Function#33
 Function 30:
 	CompareVarValue 0x4002 0
 	JumpIf DIFFERENT Function#34
-	Movement Following Action#24
-	Movement Camera Action#25
+	Movement Following Action#29
+	Movement Camera Action#30
 Jump Function#35
 
 Function 31:
 	CompareVarValue 0x4002 3
 	JumpIf DIFFERENT Function#36
-	Movement Following Action#26
-	Movement Camera Action#23
+	Movement Following Action#31
+	Movement Camera Action#28
 Jump Function#32
 
 Function 32:
@@ -301,15 +326,15 @@ Jump Function#37
 Function 33:
 	CompareVarValue 0x4002 0
 	JumpIf DIFFERENT Function#38
-	Movement Following Action#27
-	Movement Camera Action#28
+	Movement Following Action#32
+	Movement Camera Action#33
 Jump Function#39
 
 Function 34:
 	CompareVarValue 0x4002 3
 	JumpIf DIFFERENT Function#40
-	Movement Following Action#29
-	Movement Camera Action#25
+	Movement Following Action#34
+	Movement Camera Action#30
 Jump Function#35
 
 Function 35:
@@ -319,8 +344,8 @@ Jump Function#37
 Function 36:
 	CompareVarValue 0x4002 2
 	JumpIf DIFFERENT Function#41
-	Movement Following Action#30
-	Movement Camera Action#23
+	Movement Following Action#35
+	Movement Camera Action#28
 Jump Function#32
 
 Function 37:
@@ -337,14 +362,14 @@ Function 37:
 	Lock Overworld.0
 	CompareVarValue 0x4009 483
 	JumpIf DIFFERENT Function#43
-	Movement Player Action#31
+	Movement Player Action#36
 Jump Function#44
 
 Function 38:
 	CompareVarValue 0x4002 3
 	JumpIf DIFFERENT Function#45
-	Movement Following Action#32
-	Movement Camera Action#28
+	Movement Following Action#37
+	Movement Camera Action#33
 Jump Function#39
 
 Function 39:
@@ -354,26 +379,26 @@ Jump Function#37
 Function 40:
 	CompareVarValue 0x4002 2
 	JumpIf DIFFERENT Function#46
-	Movement Following Action#33
-	Movement Camera Action#25
+	Movement Following Action#38
+	Movement Camera Action#30
 Jump Function#35
 
 Function 41:
-	Movement Following Action#34
-	Movement Camera Action#23
+	Movement Following Action#39
+	Movement Camera Action#28
 	WaitMovement
 Jump Function#37
 
 Function 42:
 	CompareVarValue 0x4009 483
 	JumpIf DIFFERENT Function#43
-	Movement Player Action#31
+	Movement Player Action#36
 Jump Function#44
 
 Function 43:
 	CompareVarValue 0x4009 484
 	JumpIf DIFFERENT Function#47
-	Movement Player Action#35
+	Movement Player Action#40
 Jump Function#44
 
 Function 44:
@@ -384,7 +409,7 @@ Function 44:
 	LockCamera 0x8004 0x8005
 	CMD_490 0x8004
 	CMD_490 0x8005
-	Movement Camera Action#36
+	Movement Camera Action#41
 	WaitMovement
 	PlayFanfare SEQ_SE_GS_TAMASYUTUGEN
 	CompareVarValue 0x4009 483
@@ -395,18 +420,18 @@ Jump Function#49
 Function 45:
 	CompareVarValue 0x4002 2
 	JumpIf DIFFERENT Function#50
-	Movement Following Action#37
-	Movement Camera Action#28
+	Movement Following Action#42
+	Movement Camera Action#33
 Jump Function#39
 
 Function 46:
-	Movement Following Action#38
-	Movement Camera Action#25
+	Movement Following Action#43
+	Movement Camera Action#30
 	WaitMovement
 Jump Function#37
 
 Function 47:
-	Movement Player Action#39
+	Movement Player Action#44
 	WaitTime 150 0x800C
 	FadeScreen 6 30 1 0
 	WaitFadeScreen
@@ -414,7 +439,7 @@ Function 47:
 	LockCamera 0x8004 0x8005
 	CMD_490 0x8004
 	CMD_490 0x8005
-	Movement Camera Action#36
+	Movement Camera Action#41
 	WaitMovement
 	PlayFanfare SEQ_SE_GS_TAMASYUTUGEN
 	CompareVarValue 0x4009 483
@@ -430,7 +455,7 @@ Jump Function#49
 
 Function 49:
 	StopFanfare SEQ_SE_GS_TAMASYUTUGEN
-	Movement Player Action#40
+	Movement Player Action#45
 	WaitMovement
 	CMD_819
 	WaitTime 2 0x800C
@@ -442,7 +467,7 @@ Function 49:
 	Message 26
 	WaitSound
 	CloseMessage
-	Movement Camera Action#41
+	Movement Camera Action#46
 	WaitMovement
 	ReleaseCamera
 	PlayDefaultMusic
@@ -454,15 +479,15 @@ Function 49:
 Jump Function#53
 
 Function 50:
-	Movement Following Action#42
-	Movement Camera Action#28
+	Movement Following Action#47
+	Movement Camera Action#33
 	WaitMovement
 Jump Function#37
 
 Function 51:
 	CMD_817 2
 	StopFanfare SEQ_SE_GS_TAMASYUTUGEN
-	Movement Player Action#40
+	Movement Player Action#45
 	WaitMovement
 	CMD_819
 	WaitTime 2 0x800C
@@ -474,7 +499,7 @@ Function 51:
 	Message 26
 	WaitSound
 	CloseMessage
-	Movement Camera Action#41
+	Movement Camera Action#46
 	WaitMovement
 	ReleaseCamera
 	PlayDefaultMusic
@@ -502,13 +527,13 @@ Function 53:
 	CallIf EQUAL Function#55
 	CompareVarValue 0x40FB 14
 	JumpIf EQUAL Function#56
-	Movement Overworld.0 Action#43
-	Movement Player Action#44
-	Movement Following Action#45
+	Movement Overworld.0 Action#48
+	Movement Player Action#49
+	Movement Following Action#50
 	WaitMovement
 	Message 16
 	CloseMessage
-	Movement Overworld.0 Action#46
+	Movement Overworld.0 Action#51
 	WaitMovement
 	Message 17
 	CloseMessage
@@ -518,11 +543,11 @@ Function 53:
 	WaitTime 1 0x800C
 	FadeScreen 6 6 1 0
 	WaitFadeScreen
-	Movement Overworld.0 Action#47
+	Movement Overworld.0 Action#52
 	WaitMovement
 	Message 18
 	CloseMessage
-	Movement Overworld.0 Action#48
+	Movement Overworld.0 Action#53
 	WaitMovement
 	Message 19
 	CloseMessage
@@ -553,13 +578,13 @@ Function 54:
 	CallIf EQUAL Function#55
 	CompareVarValue 0x40FB 14
 	JumpIf EQUAL Function#56
-	Movement Overworld.0 Action#43
-	Movement Player Action#44
-	Movement Following Action#45
+	Movement Overworld.0 Action#48
+	Movement Player Action#49
+	Movement Following Action#50
 	WaitMovement
 	Message 16
 	CloseMessage
-	Movement Overworld.0 Action#46
+	Movement Overworld.0 Action#51
 	WaitMovement
 	Message 17
 	CloseMessage
@@ -569,11 +594,11 @@ Function 54:
 	WaitTime 1 0x800C
 	FadeScreen 6 6 1 0
 	WaitFadeScreen
-	Movement Overworld.0 Action#47
+	Movement Overworld.0 Action#52
 	WaitMovement
 	Message 18
 	CloseMessage
-	Movement Overworld.0 Action#48
+	Movement Overworld.0 Action#53
 	WaitMovement
 	Message 19
 	CloseMessage
