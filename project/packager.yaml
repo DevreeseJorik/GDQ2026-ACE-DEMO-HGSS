@@ -82,7 +82,7 @@ entries:
         dataId: 0x1DA
         string: "MISSINGNO."
       - type: 2
-        dataId: 0xF9
+        dataId: 0x1ED
         string: "VELOCITY"
      # == CREDITS ==
      # == Page 1 ==
@@ -333,7 +333,7 @@ entries:
         sprite_id: 0x9
 
       - path: assets/velocity_backsprite.png
-        name: lugia
-        archive_id: 0x04
-        sprite_id: 0x5D7
+        name: arceus
+        archive_id: 0x72
+        sprite_id: 0x60
     address: 0x23CB000
