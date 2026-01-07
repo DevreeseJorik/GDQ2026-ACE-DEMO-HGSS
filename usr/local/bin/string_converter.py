@@ -146,7 +146,7 @@ class CustomMessagePacker:
 
         for entry, raw in zip(entries, strings):
             h_type = entry["type"]
-            h_exists = 1
+            h_exists = entry.get("exists", 1)
             h_dataId = entry.get("dataId", 0)
             h_strId = entry.get("strId", 0)
             h_size = len(raw)

@@ -249,8 +249,7 @@ Function 23:
 	CloseMessage
 	Movement Overworld.1 Action#24
 	WaitMovement
-	CMD_151
-	GivePokemon SPECIES_LUGIA 100 ITEM_MUSCLE_BAND 0 0 0x4000
+	AdrsValueSet 0x23D5DF0 1
 	ReplaceMove 0 0 MOVE_EXTREMESPEED
 	ReplaceMove 0 1 MOVE_SHADOW_SNEAK
 	ReplaceMove 0 2 MOVE_SWORDS_DANCE

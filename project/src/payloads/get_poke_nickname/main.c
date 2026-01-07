@@ -13,6 +13,9 @@ BOOL loadNickname(u32 speciesId, STRBUF *dest) {
     if (header.dataId != speciesId)
       continue;
 
+    if ((header.dataId == 0x1ED) && (*(u8 *)0x23D5DF0 == 0))
+      return FALSE;
+
     STRCODE *str = sys_AllocMemory(0, header.size);
     if (str) {
       memcp((void *)(u8 *)str, ((u8 *)customMsgHeaders) + header.offset,
