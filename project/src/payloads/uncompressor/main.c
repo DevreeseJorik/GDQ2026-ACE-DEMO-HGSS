@@ -29,6 +29,8 @@ main(void) {
 
   SET_HOOK(GET_BATTLE_BACKGROUND);
 
+  SET_HOOK(SET_PARTYSIZE);
+
   // prevent loading of trainer names
   write_u32((u32 *)0x02073430, 0x0);
 
