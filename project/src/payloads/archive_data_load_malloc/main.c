@@ -51,6 +51,8 @@ main(void) {
   archiveInfo.sprite_id = dataId;
   archiveInfo.heap_id = heapId;
 
+  // write_u32((u32 *)0x23DFB00, archiveId);
+  // write_u32((u32 *)0x23DFB04, dataId);
   if (getCustomPokemon(&archiveInfo))
     memcp(&manager->archiveInfo, &archiveInfo, sizeof(SPRITE_ARCHIVE_INFO));
 
