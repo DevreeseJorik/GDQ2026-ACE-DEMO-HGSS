@@ -12,8 +12,8 @@ main_entry(void) {
   // custom overlay modifications:
 
   // disable sprite pop up in battle
-  if (*(u32 *)0x0221fde4 == 0xDA002804)
-    write_u8((u8 *)0x0221fde4, 0x0);
+  if (*(u32 *)0x0221fc0c == 0x68609407)
+    write_u16((u16 *)0x0221fc0c, 0xe0ed);
 
   // increase title screen text buffer size from 0x40 to 0x44
   if (*(u32 *)0x021E670C == 0x20401C07)
