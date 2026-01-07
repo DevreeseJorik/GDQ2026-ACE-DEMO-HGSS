@@ -250,10 +250,10 @@ Function 23:
 	Movement Overworld.1 Action#24
 	WaitMovement
 	CMD_151
-	GivePokemon SPECIES_CRESSELIA 100 ITEM_NONE 0 0 0x4000
+	GivePokemon SPECIES_LUGIA 100 ITEM_MUSCLE_BAND 0 0 0x4000
 	ReplaceMove 0 0 MOVE_EXTREMESPEED
-	ReplaceMove 0 1 MOVE_QUICK_ATTACK
-	ReplaceMove 0 2 MOVE_AGILITY
+	ReplaceMove 0 1 MOVE_SHADOW_SNEAK
+	ReplaceMove 0 2 MOVE_SWORDS_DANCE
 	ReplaceMove 0 3 MOVE_DRAGON_CLAW
 	TrainerBattle TRAINER_ERIKA_256 TRAINER_NONE 0 0
 	Movement Overworld.0 Action#25
