@@ -1,13 +1,12 @@
 MEMORY {
-    RAM : ORIGIN = 0x023C4130, LENGTH = 60k
+    RAM : ORIGIN = 0x020faf5c, LENGTH = 60k
 }
 
 SECTIONS {
+    . = 0x020faf5c;
+
     .text : {
-        _start = 0x023C4130;
-        KEEP(*(.text.main))
-        KEEP(*(.text.main_thumb))
-        *(.text.startup)
+        _start = 0x020faf5c;
         *(.text*)
         . = ALIGN(4);
     } > RAM
