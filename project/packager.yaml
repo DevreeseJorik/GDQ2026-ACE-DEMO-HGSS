@@ -248,7 +248,7 @@ entries:
       - type: 1
         dataId: 0x92
         strId: 0
-        string: "Cynthia: this is the {COLOR, 1, 1}Mystri Stage{COLOR, 1, 0}. The\nmythical stage built to show respect\rfor ARCEUS. I feel a strong connection\nto Sinnoh here.\r"
+        string: "Cynthia: This is the {COLOR, 1, 1}Mystri Stage{COLOR, 1, 0}. The\nmythical stage built to show respect\rfor ARCEUS. I feel a strong connection\nto Sinnoh here.\r"
       - type: 1
         dataId: 0x92
         strId: 1
@@ -272,7 +272,7 @@ entries:
       - type: 1
         dataId: 0x92
         strId: 31
-        string: "{COLOR, 1, 16}RETIRE: No... his isn't how it was\nsupposed to end!\rPerhaps... I underestimated you.\r"
+        string: "{COLOR, 1, 16}RETIRE: No... this isn't how it was\nsupposed to end!\rPerhaps... I underestimated you.\r"
       - type: 1
         dataId: 0x92
         strId: 32
