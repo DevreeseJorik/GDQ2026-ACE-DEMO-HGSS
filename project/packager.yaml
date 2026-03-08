@@ -10,6 +10,8 @@ entries:
   - name: _sub_PokepicManager_BufferCharData_0
 
   - name: _sub_PokepicManager_BufferCharData_1
+  
+  - name: ReadWholeNarcMemberByIdPair
 
   - name: arceus_sprite_details
     bytes: [ 0x72, 0x0, 0x61, 0x0 ]
