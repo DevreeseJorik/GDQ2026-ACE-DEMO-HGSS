@@ -1,0 +1,4 @@
+build/*
+output/*
+images_out/*
+packager/bins/*
