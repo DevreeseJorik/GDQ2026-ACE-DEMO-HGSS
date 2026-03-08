@@ -9,7 +9,7 @@
 #define fp_thumb(address, type, param)                                         \
   ((type(*) param)((uintptr_t)(address) | 1))
 
-#define fp_cardi_readcard fp_arm(0x020dd570, void, (void))
-static inline void CARDi_ReadCard(void) { fp_cardi_readcard(); }
+#define fp_CARDi_ReadCard fp_arm(0x020dd570, void, (void))
+static inline void CARDi_ReadCard(void) { fp_CARDi_ReadCard(); }
 
 #endif // _FUNCTIONS_H
