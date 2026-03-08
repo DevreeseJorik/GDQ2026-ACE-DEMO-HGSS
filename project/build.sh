@@ -4,7 +4,7 @@ rm -rf build
 mkdir build
 cd build
 cmake -DCMAKE_TOOLCHAIN_FILE=../tools/toolchain.cmake ../
-make
+cmake --build . --parallel
 
 cd ..
 
