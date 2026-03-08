@@ -1,8 +1,8 @@
 #include "libs/util/functions.h"
 #include "libs/util/memory.h"
 
-STRBUF *loadCustomString(const MSGDATA_MANAGER *man, u32 strId) {
-  STRBUF *dest = NULL;
+STRING *loadCustomString(const MSGDATA_MANAGER *man, u32 strId) {
+  STRING *dest = NULL;
 
   for (int i = 0; i < MAX_MSGS; i++) {
     CUSTOM_MSG_HEADER header = customMsgHeaders[i];
@@ -25,7 +25,7 @@ STRBUF *loadCustomString(const MSGDATA_MANAGER *man, u32 strId) {
     }
 
     if (match) {
-      STRCODE *str = Heap_AllocAtEnd(heapId, header.size);
+      u16 *str = Heap_AllocAtEnd(heapId, header.size);
       if (str) {
         memcp((void *)(u8 *)str, ((u8 *)customMsgHeaders) + header.offset,
               header.size);
@@ -41,14 +41,14 @@ STRBUF *loadCustomString(const MSGDATA_MANAGER *man, u32 strId) {
   return dest;
 }
 
-STRBUF *getStringWrapper(const MSGDATA_MANAGER *man, u32 strId) {
+STRING *getStringWrapper(const MSGDATA_MANAGER *man, u32 strId) {
   if (man->dataId == 0x2D9) {
     write_u32((u32 *)0x23DFC20, man->dataId);
     write_u32((u32 *)0x23DFC24, strId);
     write_u32((u32 *)0x23DFC28, man->type);
   }
 
-  STRBUF *dest = loadCustomString(man, strId);
+  STRING *dest = loadCustomString(man, strId);
   if (dest != NULL)
     return dest;
 
@@ -56,16 +56,18 @@ STRBUF *getStringWrapper(const MSGDATA_MANAGER *man, u32 strId) {
   case TYPE_NORMAL:
     return ReadMsgData_ExistingTable_NewString(man->msgData, strId,
                                                man->heapId);
+    return ReadMsgData_ExistingTable_NewString(man->msgData, strId,
+                                               man->heapId);
   case TYPE_ARCHIVE:
-    return ReadMsgData_ExistingNarc_NewString(man->arcHandle, man->dataId,
-                                              strId, man->heapId);
+    return ReadMsgData_ExistingNarc_NewString(man->narc, man->dataId, strId,
+                                              man->heapId);
   }
 
   return NULL;
 }
 
 __attribute__((naked)) __attribute__((section(".text.main")))
-__attribute__((target("thumb"))) STRBUF *
+__attribute__((target("thumb"))) STRING *
 main(void) {
   __asm__ volatile("push {r1-r7}\n");
 
@@ -73,7 +75,7 @@ main(void) {
   register u32 strId asm("r1");
   register u32 heapId asm("r2");
 
-  STRBUF *dest = getStringWrapper(man, strId);
+  STRING *dest = getStringWrapper(man, strId);
 
   __asm__ volatile("mov r0, %0\n"
                    "pop {r1-r7}\n"

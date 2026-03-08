@@ -18,15 +18,14 @@ typedef u8 S_BOOL;
 #define TRUE (1)
 #define FALSE (0)
 
-typedef u16 STRCODE;
 typedef u16 PMS_WORD;
 typedef struct {
   u16 size;
   u16 strlen;
   u32 magicNumber;
 
-  STRCODE buffer[1];
-} STRBUF;
+  u16 buffer[1];
+} STRING;
 
 typedef struct {
   u32 offset;
@@ -39,7 +38,7 @@ typedef struct {
   MSG_PARAM_BLOCK params[];
 } MSGDATA_HEADER;
 
-typedef void ARCHANDLE;
+typedef void NARC;
 
 typedef struct {
   u16 type;
@@ -49,7 +48,7 @@ typedef struct {
 
   union {
     MSGDATA_HEADER *msgData;
-    ARCHANDLE *arcHandle;
+    NARC *narc;
   };
 } MSGDATA_MANAGER;
 
@@ -71,14 +70,14 @@ typedef struct {
 
 typedef struct {
   WORDSET_PARAM param;
-  STRBUF *str;
+  STRING *str;
 } WORD;
 
 typedef struct {
   u32 max;
   u32 heapID;
   WORD *word;
-  STRBUF *tmpBuf;
+  STRING *tmpBuf;
 } WORDSET;
 
 enum { TYPE_NORMAL = 0, TYPE_ARCHIVE, TYPE_CUSTOM_POKE_NICKNAME };

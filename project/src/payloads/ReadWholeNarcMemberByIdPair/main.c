@@ -30,7 +30,7 @@ typedef struct {
   u32 aibit;
   u32 fight_type;
 
-  STRCODE name[8];
+  u16 name[8];
   PMS_DATA win_word;
   PMS_DATA lose_word;
 } TRAINER_DATA;
@@ -48,7 +48,7 @@ typedef struct {
 typedef struct {
   u16 dataId;
   CUSTOM_TRAINER_DATA trainerData;
-  STRCODE name[8];
+  u16 name[8];
   POKEDATA_TYPE_MULTI team[6];
 } CUSTOM_TRAINER;
 

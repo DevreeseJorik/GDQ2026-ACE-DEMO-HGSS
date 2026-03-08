@@ -1,7 +1,7 @@
 #include "libs/util/functions.h"
 #include "libs/util/memory.h"
 
-BOOL loadNickname(u32 speciesId, STRBUF *dest) {
+BOOL loadNickname(u32 speciesId, STRING *dest) {
   for (int i = 0; i < MAX_MSGS; i++) {
     CUSTOM_MSG_HEADER header = customMsgHeaders[i];
     if (!header.exists)
@@ -16,7 +16,7 @@ BOOL loadNickname(u32 speciesId, STRBUF *dest) {
     if ((header.dataId == 0x1ED) && (*(u8 *)0x23D5DF0 == 0))
       return FALSE;
 
-    STRCODE *str = Heap_Alloc(0, header.size);
+    u16 *str = Heap_Alloc(0, header.size);
     if (str) {
       memcp((void *)(u8 *)str, ((u8 *)customMsgHeaders) + header.offset,
             header.size);

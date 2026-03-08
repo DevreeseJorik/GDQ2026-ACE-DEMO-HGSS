@@ -1,7 +1,7 @@
 #include "libs/util/functions.h"
 #include "libs/util/memory.h"
 
-BOOL loadCustomString(const MSGDATA_MANAGER *man, u32 strId, STRBUF *dest) {
+BOOL loadCustomString(const MSGDATA_MANAGER *man, u32 strId, STRING *dest) {
   for (int i = 0; i < MAX_MSGS; i++) {
     CUSTOM_MSG_HEADER header = customMsgHeaders[i];
     if (!header.exists)
@@ -23,7 +23,7 @@ BOOL loadCustomString(const MSGDATA_MANAGER *man, u32 strId, STRBUF *dest) {
     }
 
     if (match) {
-      STRCODE *str = Heap_AllocAtEnd(heapId, header.size);
+      u16 *str = Heap_AllocAtEnd(heapId, header.size);
       if (str) {
         memcp((void *)(u8 *)str, ((u8 *)customMsgHeaders) + header.offset,
               header.size);
@@ -37,7 +37,7 @@ BOOL loadCustomString(const MSGDATA_MANAGER *man, u32 strId, STRBUF *dest) {
   return FALSE;
 }
 
-void getStringWrapper(const MSGDATA_MANAGER *man, u32 strId, STRBUF *dest) {
+void getStringWrapper(const MSGDATA_MANAGER *man, u32 strId, STRING *dest) {
   write_u32((u32 *)0x23DFC10, man->dataId);
   write_u32((u32 *)0x23DFC14, strId);
   write_u32((u32 *)0x23DFC18, man->type);
@@ -58,7 +58,7 @@ void getStringWrapper(const MSGDATA_MANAGER *man, u32 strId, STRBUF *dest) {
     ReadMsgData_ExistingTable_ExistingString(man->msgData, strId, dest);
     break;
   case TYPE_ARCHIVE:
-    ReadMsgData_ExistingNarc_ExistingString(man->arcHandle, man->dataId, strId,
+    ReadMsgData_ExistingNarc_ExistingString(man->narc, man->dataId, strId,
                                             man->heapId, dest);
     break;
   }
@@ -71,7 +71,7 @@ main(void) {
 
   register MSGDATA_MANAGER *man asm("r0");
   register u32 strId asm("r1");
-  register STRBUF *dest asm("r2");
+  register STRING *dest asm("r2");
 
   getStringWrapper(man, strId, dest);
 

@@ -68,7 +68,7 @@ static inline void loadSpriteFromNarc() {
 
 static inline void loadOrInjectSprite() {
   register PIXEL_BUFFER *pixelBuffer asm("r0");
-  register uint32_t gameId asm("r1");
+  register u32 gameId asm("r1");
 
   CUSTOM_POKEMON *customPokemon = getCustomPokemon(&manager->archiveInfo);
   if (customPokemon != NULL) {
