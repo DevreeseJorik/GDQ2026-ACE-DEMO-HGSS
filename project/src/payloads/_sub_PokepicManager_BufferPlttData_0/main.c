@@ -6,8 +6,9 @@ main(void) {
   __asm__ volatile("ldr r1,[r0,#0xc]\n"
                    "ldr r0,[sp,#0x8]\n"
                    "push {r0-r7, lr}\n");
-  CUSTOM_POKEMON *customPokemon = getCustomPokemon();
+  CUSTOM_POKEMON *customPokemon = getCustomPokemon(&manager->archiveInfo);
   if (customPokemon != NULL) {
+    memset(&manager->archiveInfo, 0x0, sizeof(SPRITE_ARCHIVE_INFO));
     __asm__ volatile("mov r1, %0\n"
                      "pop {r0}\n"
                      "add sp, sp, #4\n"
