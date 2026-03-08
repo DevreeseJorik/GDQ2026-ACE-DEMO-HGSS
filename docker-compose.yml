@@ -1,0 +1,10 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ./project:/home/project
+    tty: true
+    working_dir: /home
+    command: /bin/bash
