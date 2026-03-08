@@ -1,0 +1,16 @@
+entries:
+  - name: OSi_DoResetSystem
+
+  - name: MIi_UncompressBackward
+
+  - name: CARDi_ReadCard
+
+  - name: _sub_PokepicManager_BufferPlttData_0
+
+  - name: _sub_PokepicManager_BufferCharData_0
+
+  - name: _sub_PokepicManager_BufferCharData_1
+
+  - name: beta_arceus_image
+    bin_path: output/images/bins/beta_arceus.bin
+    address: 0x23C8800
