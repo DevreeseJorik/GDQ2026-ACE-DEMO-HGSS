@@ -3,7 +3,10 @@ set -e
 rm -rf build
 mkdir build
 cd build
-cmake -DCMAKE_TOOLCHAIN_FILE=../tools/toolchain.cmake ../
+
+game="${1:-${GAME:-POKEMON_SS_IPGE_01}}"
+echo "building for game: ${game}"
+cmake -DCMAKE_TOOLCHAIN_FILE=../tools/toolchain.cmake -DGAME=${game} ../
 cmake --build . --parallel
 
 cd ..

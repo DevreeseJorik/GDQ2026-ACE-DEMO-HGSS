@@ -25,6 +25,7 @@ BOOL loadNickname(u32 speciesId, STRING *dest) {
     }
     return TRUE;
   }
+
   return FALSE;
 }
 

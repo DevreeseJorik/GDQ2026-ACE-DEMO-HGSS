@@ -1,13 +1,10 @@
 #include "libs/util/functions.h"
-#include "libs/util/hooks.hpp"
 #include "libs/util/memory.h"
 #include "preprocessors.hpp"
 
-__attribute__((naked)) __attribute__((section(".text.main")))
-__attribute__((target("arm"))) void
-main_entry(void) {
-  __asm__ volatile("push {r0-r7, lr}\n");
-  CARDi_ReadCard(); // original function call
+__attribute__((section(".text.main"))) __attribute__((target("arm"))) void
+main(CARDRomStat *p) {
+  CARDi_ReadCard(p); // original function call
 
   // custom overlay modifications:
 
@@ -24,6 +21,4 @@ main_entry(void) {
 
   if (*(u32 *)0x02252da6 == 0xfdcdf60c)
     SET_HOOK(GET_VEC_SINJOH_RUINS_UNOWN_CIRCLE);
-
-  __asm__ volatile("pop {r0-r7, pc}\n");
 }

@@ -5,16 +5,6 @@
 #include "functions.h"
 #include "types.h"
 
-#define fp_memcp8 fp_arm(0x020D4A50, void, (void *, void *, u32))
-static inline void memcp(void *dest, void *src, u32 size) {
-  fp_memcp8(src, dest, size);
-}
-
-#define fp_memset fp_arm(0x020D4994, void, (void *, u8, u32))
-static inline void memset(void *dest, u8 value, u32 size) {
-  fp_memset(dest, value, size);
-}
-
 static inline void write_u8(u8 *address, u8 value) { *address = value; }
 static inline void write_u16(u16 *address, u16 value) { *address = value; }
 static inline void write_u32(u32 *address, u32 value) { *address = value; }
