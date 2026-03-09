@@ -12,9 +12,6 @@ set(CMAKE_C_FLAGS "-mcpu=arm946e-s -mtune=arm946e-s -mthumb -march=armv5te -Os -
 set(CMAKE_CXX_FLAGS "${CMAKE_C_FLAGS} -ffreestanding -nostdlib -fno-exceptions -fno-rtti -fno-unwind-tables -fno-asynchronous-unwind-tables -fno-threadsafe-statics")
 set(CMAKE_CXX_STANDARD 20)
 
-set(DEFAULT_LINKING_DIR ${CMAKE_CURRENT_SOURCE_DIR}/linking)
-set(DEFAULT_C_LINKERFILE ${DEFAULT_LINKING_DIR}/c_linker.ld)
-set(DEFAULT_ASM_LINKERFILE ${DEFAULT_LINKING_DIR}/asm_linker.ld)
 set(DEFAULT_SYMBOLFILE ${CMAKE_CURRENT_SOURCE_DIR}/tools/symbols/${GAME}.sym)
 
 set(CMAKE_FIND_ROOT_PATH ${CMAKE_SYSROOT})
