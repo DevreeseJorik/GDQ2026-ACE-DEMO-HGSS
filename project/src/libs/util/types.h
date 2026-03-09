@@ -18,6 +18,15 @@ typedef u8 S_BOOL;
 #define TRUE (1)
 #define FALSE (0)
 
+#define CARD_ROM_PAGE_SIZE 512
+typedef struct CARDRomStat {
+  void (*read_func)(struct CARDRomStat *);
+  u32 ctrl;
+  u8 *cache_page;
+  u32 dummy[5];
+  u8 cache_buf[CARD_ROM_PAGE_SIZE];
+} CARDRomStat;
+
 typedef u16 PMS_WORD;
 typedef struct {
   u16 size;

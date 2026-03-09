@@ -1,0 +1,23 @@
+/* Pokémon SoulSilver English (IPGE-01) ROM Symbols */
+ReadFromNarcMemberByPathAndId = 0x0200732d;
+AllocAndReadFromNarcMemberByPathAndId = 0x0200740d;
+UnscanPokepic = 0x02009d29;
+ReadMsgData_ExistingTable_ExistingString = 0x0200b761;
+ReadMsgData_ExistingTable_NewString = 0x0200b811;
+ReadMsgData_ExistingNarc_ExistingString = 0x0200b8fd;
+ReadMsgData_ExistingNarc_NewString = 0x0200b9f9;
+SetStringAsPlaceholder = 0x0200bdf9;
+Heap_Alloc = 0x0201aa8d;
+Heap_AllocAtEnd = 0x0201aacd;
+Heap_Free = 0x0201ab0d;
+CopyU16ArrayToStringN = 0x02026a05;
+String_New = 0x02026355;
+GetBoxMonData = 0x0206e641;
+NNS_G2dGetUnpackedCharacterData = 0x020b70a8;
+NNS_G2dGetUnpackedPaletteData = 0x020b7140;
+memcp8 = 0x020d4a50;
+memset = 0x020d4994;
+CARDi_ReadCard = 0x020dd570;
+
+__aeabi_idivmod = 0x020edf68;
+__aeabi_uidivmod = 0x020ee174;

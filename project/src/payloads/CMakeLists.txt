@@ -11,6 +11,8 @@ add_custom_command(TARGET make_payloads_dirs PRE_BUILD
     COMMENT "Creating directories for payloads subproject"
 )
 
+set(SYMBOLFILE ${DEFAULT_SYMBOLFILE})
+
 add_custom_target(all_payloads ALL)
 add_dependencies(all_payloads make_payloads_dirs)
 
